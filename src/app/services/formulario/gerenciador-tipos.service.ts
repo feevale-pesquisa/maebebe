@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';import { Storage } from '@ionic/storage';
+import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { API } from '../http/api';
+import * as moment from 'moment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class GerenciadorTiposService {
+
+  public ultimaSincronizacao: moment.Moment = null
 
   private listaTipos = [
     { nome: 'tipo_parto', rota: 'tipo_parto/list/1' },
@@ -41,21 +45,44 @@ export class GerenciadorTiposService {
       retorno.result.atualizacao = new Date()
       this.storage.set('tipos.' + tipo.nome, retorno.result)
 
-      console.log('Tipo ' + tipo.nome + ' atualizado com sucesso')
-
     } catch(error) {
       console.log('Erro ao buscar tipo: ' + tipo.nome)
     }
   }
 
+  private async getDataUltimaSincronizacao() {
+    let data:any = await this.storage.get('ultima_sincronizacao')
+    if(data == null)
+      return
+
+    this.ultimaSincronizacao = moment(data)
+
+    return moment(data)
+  }
+
+  private setDataSincronizacao() {
+    let novaData = moment()
+    this.storage.set('ultima_sincronizacao', novaData.valueOf())
+
+    this.ultimaSincronizacao = novaData
+  }
+
   async sincronizar() {
-    
-    setInterval(() => {
+    setInterval(async () => {
+      let dataSincronizacao = await this.getDataUltimaSincronizacao()
+
+      //Faz menos de 12 horas da última sincronização
+      if(dataSincronizacao && dataSincronizacao.add(12, 'hours').isAfter(moment()) ) {
+        return
+      }
+
       this.listaTipos.forEach(async tipo => {
         await this.atualizarTipo(tipo)
       });
-    }, 100000);
-    
+
+      console.log('Sincronização realizada com sucesso')
+      this.setDataSincronizacao()
+    }, 5000); //Executa a cada 5 segundos
   }
 
   buscarTipo(nome: string) {

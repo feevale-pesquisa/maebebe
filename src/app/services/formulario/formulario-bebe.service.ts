@@ -232,10 +232,8 @@ export class FormularioBebe {
             this.salvando = true
 
             let campos:object = await this.mapearCampos(idMae, idGestacao)
-            let url: string = 'mae/:id_mae/gestacao/:id_gestacao/bebe/new'.replace(":id_mae", idMae)
-                                        .replace(":id_gestacao", idGestacao)
 
-            let resposta: {id: any} = await this.api.salvarFormulario(url, campos);
+            let resposta: {id: any} = await this.api.salvarFormularioBebe(idMae, idGestacao, campos);
 
             this.acoesAposSalvar(idMae, idGestacao, resposta.id)
 
