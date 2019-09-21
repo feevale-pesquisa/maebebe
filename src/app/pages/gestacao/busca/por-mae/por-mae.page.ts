@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { BuscaMaeService } from '../../../../services/busca/busca-mae.service';
-import { Location } from '@angular/common';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -18,7 +17,6 @@ export class PorMaePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private maeServico: BuscaMaeService,
     private toastController: ToastController
   ) { }
@@ -58,19 +56,19 @@ export class PorMaePage implements OnInit {
   }
 
   voltar() {
-    this.location.back()
+    this.router.navigate(["mae", "consulta", "busca"])
   }
 
   abrirCadastroGestacao() {
-    this.router.navigateByUrl("/mae/:id_mae/gestacao/cadastro".replace(":id_mae", this.mae.id))
+    this.router.navigate(["mae", this.mae.id, "gestacao", "cadastro"])
   }
   
   abrirEdicaoGestacao(gestacao: { id: number }) {
-    this.router.navigateByUrl("/gestacao/cadastro")
+    this.router.navigate(["gestacao", "cadastro"])
   }
 
   abrirListagemBebes(gestacao: { id_gestacao: number }) {
-    this.router.navigateByUrl("mae/" + this.mae.id + "/gestacao/" + gestacao.id_gestacao + '/bebe')
+    this.router.navigate(["mae", this.mae.id, "gestacao", gestacao.id_gestacao, 'bebe'])
   }
 
 }

@@ -24,13 +24,13 @@
       <ion-card>
         <ion-item>
           <ion-label>Tipo de Planejamento Gestação:</ion-label>
-          <ion-select multiple="true" formControlName="ref_gestacao_planejamento_gestacao" placeholder="Selecione">
+          <ion-select [(ngModel)]="tiposPlanejamentoGestacao" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoPlanejamentoGestacao()" multiple="true" placeholder="Selecione">
             <ion-select-option *ngFor="let tipo of servico.listaTipoPlanejamentoGestacao" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>
           <ion-label>MAC utilizado antes da gestação:</ion-label>
-          <ion-select multiple="true" formControlName="ref_mac_gestacao" placeholder="Selecione">
+          <ion-select [(ngModel)]="tiposMAC" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoMAC()" multiple="true" placeholder="Selecione">
             <ion-select-option *ngFor="let tipo of servico.listaTipoMAC" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -40,7 +40,7 @@
         </ion-item>
         <ion-item>
           <ion-label>Há quanto tempo?</ion-label>
-          <ion-select multiple="true" formControlName="id_tempo_mac" placeholder="Selecione">
+          <ion-select formControlName="id_tempo_mac" placeholder="Selecione">
             <ion-select-option *ngFor="let tipo of servico.listaTempoMAC" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -50,7 +50,7 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">MAC Observação:</ion-label>
-          <ion-input formControlName="mac_antes_gestacao_obs"></ion-input>
+          <ion-textarea rows="3" formControlName="mac_antes_gestacao_obs"></ion-textarea>
         </ion-item>
       </ion-card>
 

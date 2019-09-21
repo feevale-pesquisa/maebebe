@@ -11,6 +11,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class DadosPartoPage implements OnInit {
 
+  public idMae:Number
+  public idGestacao:Number
   public bebeForm: FormGroup;
   
   constructor(
@@ -22,14 +24,17 @@ export class DadosPartoPage implements OnInit {
     this.bebeForm = servico.getFormAbaDadosParto()
   }
 
+  ionViewDidEnter() {
+    this.idMae = Number(this.route.snapshot.paramMap.get('id_mae'))
+    this.idGestacao = Number(this.route.snapshot.paramMap.get('id_gestacao'))
+  }
+
   voltar() {
-    this.location.back()
+    this.servico.abrirFormAbaDadosBebe(this.idMae, this.idGestacao)
   }
 
   salvar() {
-    let id_mae:number = Number(this.route.snapshot.paramMap.get('id_mae'))
-    let id_gestacao:number = Number(this.route.snapshot.paramMap.get('id_gestacao'))
-    this.servico.abrirFormAbaDadosTestes(id_mae, id_gestacao)
+    this.servico.abrirFormAbaDadosTestes(this.idMae, this.idGestacao)
   }
 
   ngOnInit() {

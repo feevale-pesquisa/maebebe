@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormularioGestacao } from '../../../../services/formulario/formulario-gestacao.service';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dados-gestacao',
@@ -15,7 +14,6 @@ export class DadosGestacaoPage implements OnInit {
 
   constructor(
     private router: Router, 
-    private location: Location,
     private route: ActivatedRoute,
     public servico: FormularioGestacao) { 
     
@@ -24,12 +22,20 @@ export class DadosGestacaoPage implements OnInit {
 
   voltar() {
     let id = this.route.snapshot.paramMap.get('id_mae')
-    this.router.navigateByUrl("mae/:id/gestacao".replace(":id", id))
+    this.router.navigate(["mae", id, "gestacao"])
   }
 
   salvar() {
     let id:number = Number(this.route.snapshot.paramMap.get('id_mae'))
     this.servico.abrirFormAbaDadosPlanejamento(id);
+  }
+
+  definirUsuarioDesfecho() {
+    if(this.gestacaoForm.get("id_tipo_desfecho").value == 1) {
+      this.gestacaoForm.setControl("id_usuario_registro_desfecho", this.servico.idUsuario)
+    } else {
+      this.gestacaoForm.setControl("id_usuario_registro_desfecho", null)
+    }
   }
 
   ngOnInit() {

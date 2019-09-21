@@ -12,7 +12,7 @@
     <ion-card>
       <ion-item>
         <ion-label>Desfecho: </ion-label>
-        <ion-select interface="popover" formControlName="id_tipo_desfecho" placeholder="Selecione">
+        <ion-select interface="popover" formControlName="id_tipo_desfecho" placeholder="Selecione" (ionChange)="definirUsuarioDesfecho()">
           <ion-select-option *ngFor="let tipo of servico.listaTipoDesfecho" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
@@ -26,7 +26,7 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Observações desfecho</ion-label>
-          <ion-input formControlName="desfecho_obs"></ion-input>
+          <ion-textarea rows="2" formControlName="desfecho_obs"></ion-textarea>
         </ion-item>
         <ion-item>
           <ion-label>Data desfecho: </ion-label>

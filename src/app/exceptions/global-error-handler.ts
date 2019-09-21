@@ -2,6 +2,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { RequestException } from './request-exception';
 import { AlertService } from '../services/helpers/alert.service';
 import { ToastService } from '../services/helpers/toast.service';
+import { FormException } from './form-exception';
 
 @Injectable()
 export class GlobalErrorHandler extends ErrorHandler {
@@ -16,9 +17,9 @@ export class GlobalErrorHandler extends ErrorHandler {
 
       error.promise.catch((error) => {
         if(error instanceof RequestException){
-          console.log(error)
           this.alert.ok(error.getMessage(), 'Erro');
-
+        } else if (error instanceof FormException) {
+          this.alert.ok(error.getMessage(), 'Erro ao salvar');
         }
         else if(error.message == 'Timeout has occurred'){
 
@@ -34,6 +35,8 @@ export class GlobalErrorHandler extends ErrorHandler {
       //Add your own exception here
       if(error instanceof RequestException) {
         this.alert.ok(error.getMessage(), 'Erro');
+      } else if (error instanceof FormException) {
+        this.alert.ok(error.getMessage(), 'Erro ao salvar');
       } else {
         super.handleError(error);
       }

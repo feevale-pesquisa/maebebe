@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BuscaBebeService } from '../../../../services/busca/busca-bebe.service';
-import { BuscaGestacaoService } from '../../../../services/busca/busca-gestacao.service';
 import { BuscaMaeService } from '../../../../services/busca/busca-mae.service';
 import { ToastController } from '@ionic/angular';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-por-gestacao',
@@ -13,6 +11,8 @@ import { ToastController } from '@ionic/angular';
 })
 export class PorGestacaoPage implements OnInit {
 
+  public idMae: Number
+  public idGestacao: Number
   public bebes: any = []
   public gestacao: Object = null
   public carregando: boolean = false
@@ -20,14 +20,9 @@ export class PorGestacaoPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private maeServico: BuscaMaeService,
     private toastController: ToastController
   ) { }
-
-  ngOnInit() {
-    
-  }
 
   private async mostrarMensagem(message) {
     const toast = await this.toastController.create({
@@ -38,11 +33,16 @@ export class PorGestacaoPage implements OnInit {
     toast.present();
   }
 
-  ionViewWillEnter() {
-    let id:number = Number(this.route.snapshot.paramMap.get('id_gestacao'))
+  ngOnInit() {
 
-    this.carregarGestacao(id)
-    this.carregarBebes(id)
+  }
+
+  ionViewWillEnter() {
+    this.idMae = Number(this.route.snapshot.paramMap.get('id_mae'))
+    this.idGestacao = Number(this.route.snapshot.paramMap.get('id_gestacao'))
+
+    this.carregarGestacao(this.idGestacao)
+    this.carregarBebes(this.idGestacao)
   }
 
   async carregarGestacao(id) {
@@ -60,18 +60,19 @@ export class PorGestacaoPage implements OnInit {
   }
 
   voltar() {
-    this.location.back()
+    this.router.navigate(["mae", this.idMae, "gestacao"])
   }
 
   abrirCadastroBebe() {
-    let url = "mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro"
-                .replace(":id_mae", this.route.snapshot.paramMap.get('id_mae'))
-                .replace(":id_gestacao", this.route.snapshot.paramMap.get('id_gestacao'))
-    this.router.navigateByUrl(url)
+    this.router.navigate(["mae", this.idMae, "gestacao", this.idGestacao, "bebe", "cadastro"])
   }
 
   abrirEdicaoBebe() {
-    this.router.navigateByUrl("/bebe/cadastro")
+    this.router.navigate(["bebe", "cadastro"])
+  }
+
+  formatarData(data) {
+    return moment(data).isValid() ? moment(data).format('DD/MM/YYYY') : ''
   }
 
 }

@@ -22,7 +22,7 @@
 
       <ion-item>
         <ion-label position="stacked">Tipo de Intercorrências Peri e Neonatais</ion-label>
-        <ion-select multiple="true" formArrayName="ref_bebe_intercorrencia_peri_neonatal" placeholder="Selecione">
+        <ion-select [(ngModel)]="tiposIntercorrenciasNeonatal" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTiposIntercorrenciasNeonatal()" multiple="true" placeholder="Selecione">
           <ion-select-option *ngFor="let tipo of servico.listaIntercorrenciaNeonatal" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
@@ -34,7 +34,7 @@
 
       <ion-item>
         <ion-label position="stacked">Tipo de Intercorrências 1º Ano de Vida</ion-label>
-        <ion-select multiple="true" formArrayName="ref_bebe_intercorrencia_primeiro_ano_vida" placeholder="Selecione">
+        <ion-select [(ngModel)]="tiposIntercorrenciasPrimeiroAno" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTiposIntercorrenciasPrimeiroAno()" multiple="true" placeholder="Selecione">
           <ion-select-option *ngFor="let tipo of servico.listaIntercorrenciaPrimeiroAno" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>

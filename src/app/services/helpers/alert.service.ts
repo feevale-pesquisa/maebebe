@@ -20,7 +20,7 @@ export class AlertService {
     return alert;
   }
 
-  async confirm(message: string, callback, header: string = 'Mensagem') {
+  async confirm(message: string, yes, no, header: string = 'Mensagem') {
     const alert = await this.alertController.create({
       header: header,
       message: message,
@@ -28,13 +28,11 @@ export class AlertService {
         {
           text: 'Não',
           role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
+          handler: no
         },
         {
           text: 'Sim',
-          handler: callback
+          handler: yes
         }
       ]
     });

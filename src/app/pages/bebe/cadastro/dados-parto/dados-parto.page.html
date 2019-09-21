@@ -11,7 +11,7 @@
   <form [formGroup]="bebeForm" (ngSubmit)="salvar()">
     <ion-card>
       <ion-item>
-        <ion-label position="floating">Peso ao nascimento (em gramas)</ion-label>
+        <ion-label class="required" position="floating">Peso ao nascimento (em gramas)</ion-label>
         <ion-input formControlName="peso_nascimento"></ion-input>
       </ion-item>
 
@@ -21,7 +21,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Idade Gestacional(Semanas)</ion-label>
+        <ion-label class="required" position="floating">Idade Gestacional(Semanas)</ion-label>
         <ion-input formControlName="idade_gestacional_semanas_parto"></ion-input>
       </ion-item>
 
@@ -43,7 +43,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Apgar 5º minuto</ion-label>
+        <ion-label class="required" position="floating">Apgar 5º minuto</ion-label>
         <ion-input formControlName="apgar_5_min"></ion-input>
       </ion-item>
 

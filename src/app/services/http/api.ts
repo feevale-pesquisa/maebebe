@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpBackend, HttpParams } from '@angular/common/http';
 import { LoginService } from '../login/login.service';
+import { FormException } from '../../exceptions/form-exception';
 
 @Injectable({
     providedIn: 'root'
@@ -28,14 +29,25 @@ export class API {
     async chamarPOST(url: string, data: any) {
         let body = new HttpParams()
         for (var key in data) {
-            body = body.append(key, data[key])
+            Array.isArray(data[key]) 
+                ? data[key].forEach(value => { body = body.append(key + '[]', value) })
+                : body = body.append(key, data[key])
         }
-        
+
         let usuario = await this.login.getUser()
         let headers = new HttpHeaders({'Authorization' : usuario.token})
 
         return this.http.post(this.urlApi + url, body, {
             headers: headers
         }).toPromise();
+    }
+
+    async salvarFormulario(url: string, data: any) {
+        let resposta:any = await this.chamarPOST(url, data)
+        if(resposta.errors && resposta.errors.length > 0) {
+            throw new FormException(resposta.errors)
+        }
+
+        return resposta
     }
 }

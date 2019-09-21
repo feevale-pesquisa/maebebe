@@ -28,7 +28,7 @@
           <ion-row>
             <ion-col no-padding size="12"><ion-label>CPF: {{ bebe.cpf }}</ion-label></ion-col>
             <ion-col no-padding size="12"><ion-label>RG: {{ bebe.rg }}</ion-label></ion-col>
-            <ion-col no-padding size="12"><ion-label>Nascimento: {{ bebe.dt_nascimento }}</ion-label></ion-col>
+            <ion-col no-padding size="12"><ion-label>Nascimento: {{ formatarData(bebe.dt_nascimento) }}</ion-label></ion-col>
             <ion-col no-padding size="12"><ion-label>Observações: {{ bebe.obs }}</ion-label></ion-col>
           </ion-row>
         </ion-col>

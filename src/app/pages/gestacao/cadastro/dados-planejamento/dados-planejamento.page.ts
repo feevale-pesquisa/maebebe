@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormularioGestacao } from '../../../../services/formulario/formulario-gestacao.service';
 
@@ -10,6 +10,8 @@ import { FormularioGestacao } from '../../../../services/formulario/formulario-g
 })
 export class DadosPlanejamentoPage implements OnInit {
 
+  public tiposPlanejamentoGestacao: Array<any>;
+  public tiposMAC: Array<any>;
   public gestacaoForm: FormGroup;
 
   constructor(
@@ -18,7 +20,6 @@ export class DadosPlanejamentoPage implements OnInit {
     private servico: FormularioGestacao) { 
 
     this.gestacaoForm = servico.getFormAbaDadosPlanejamento()
-
   }
 
   voltar() {
@@ -29,6 +30,20 @@ export class DadosPlanejamentoPage implements OnInit {
   salvar() {
     let id:number = Number(this.route.snapshot.paramMap.get('id_mae'))
     this.servico.abrirFormAbaDadosPreNatal(id);
+  }
+
+  escolherTipoPlanejamentoGestacao() {
+    let selecionados = []
+    this.tiposPlanejamentoGestacao.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.gestacaoForm.setControl("ref_gestacao_planejamento_gestacao", new FormArray(selecionados))
+  }
+
+  escolherTipoMAC() {
+    let selecionados = []
+    this.tiposMAC.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.gestacaoForm.setControl("ref_mac_gestacao", new FormArray(selecionados))
   }
 
   ngOnInit() {

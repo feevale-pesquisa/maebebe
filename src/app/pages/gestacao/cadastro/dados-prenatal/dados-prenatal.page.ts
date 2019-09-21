@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormularioGestacao } from '../../../../services/formulario/formulario-gestacao.service';
 
@@ -10,6 +10,7 @@ import { FormularioGestacao } from '../../../../services/formulario/formulario-g
 })
 export class DadosPrenatalPage implements OnInit {
 
+  public tiposExamePreNatal: Array<any>
   public gestacaoForm: FormGroup;
 
   constructor(
@@ -19,6 +20,13 @@ export class DadosPrenatalPage implements OnInit {
 
     this.gestacaoForm = servico.getFormAbaDadosPreNatal()
 
+  }
+
+  escolherTiposExamePreNatal() {
+    let selecionados = []
+    this.tiposExamePreNatal.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.gestacaoForm.setControl("ref_gestacao_exame_prenatal", new FormArray(selecionados))
   }
 
   voltar() {

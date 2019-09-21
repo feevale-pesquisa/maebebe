@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BuscaMaeService } from '../../../../services/busca/busca-mae.service';
 import { ToastController } from '@ionic/angular';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-busca',
@@ -82,6 +83,10 @@ export class BuscaPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  formatarData(data) {
+    return moment(data).isValid() ? moment(data).format('DD/MM/YYYY') : ''
   }
 
 }

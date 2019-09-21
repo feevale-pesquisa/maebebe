@@ -11,7 +11,9 @@ import { Location } from '@angular/common';
 })
 export class DadosDocumentosPage implements OnInit {
 
-  public bebeForm: FormGroup;
+  public idMae:Number
+  public idGestacao:Number
+  public bebeForm: FormGroup
 
   constructor(
     private router: Router,
@@ -22,12 +24,17 @@ export class DadosDocumentosPage implements OnInit {
     this.bebeForm = servico.getFormAbaDadosDocumentos()
   }
 
+  ionViewDidEnter() {
+    this.idMae = Number(this.route.snapshot.paramMap.get('id_mae'))
+    this.idGestacao = Number(this.route.snapshot.paramMap.get('id_gestacao'))
+  }
+
   voltar() {
-    this.location.back()
+    this.servico.abrirFormAbaDadosIntercorrencias(this.idMae, this.idGestacao)
   }
 
   salvar() {
-    this.servico.salvar()
+    this.servico.salvar(this.idMae, this.idGestacao)
   }
 
   ngOnInit() {

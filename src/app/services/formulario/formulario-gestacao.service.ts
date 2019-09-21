@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators as V } from '@angular/forms';
 import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
 import { API } from '../http/api';
@@ -7,11 +8,17 @@ import { BuscaMaeService } from '../busca/busca-mae.service';
 import { LoginService } from '../login/login.service';
 import { User } from '../login/user';
 import * as moment from 'moment';
+import { FormException } from '../../exceptions/form-exception';
+import { AlertService } from '../helpers/alert.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormularioGestacao {
+
+  public idUsuario:any;
+
+  public salvando: boolean = false;
 
   private mae:any;
 
@@ -48,9 +55,16 @@ export class FormularioGestacao {
     private maeServico: BuscaMaeService,
     private api: API,
     private router: Router,
-    private login: LoginService
+    private login: LoginService,
+    private alert: AlertService
   ) {
-    this.buscarTipos();
+    this.buscarTipos()
+    this.definirUsuario()
+  }
+
+  async definirUsuario() {
+    let usuario:User = await this.login.getUser()
+    this.idUsuario = usuario.id
   }
 
   async buscarTipos() {
@@ -62,6 +76,14 @@ export class FormularioGestacao {
     this.listaTipoExamePreNatal = await this.gerenciadorTipos.buscarTipo('tipo_exame_prenatal')
   }
 
+  private limparFormularios() {
+    try {
+      this.formDadosPreNatal.reset()
+      this.formDadosPlanejamento.reset()
+      this.formDadosGestacao.reset()
+    } catch (error) { }
+  }
+
   getFormAbaDadosGestacao(): FormGroup {
     let builder = new FormBuilder()
 
@@ -71,7 +93,7 @@ export class FormularioGestacao {
       desfecho_obs: new FormControl(''),
       dt_registro_desfecho: new FormControl(''),
       id_usuario_registro_desfecho: new FormControl(''),
-      numero_gestacao: new FormControl('1'),
+      numero_gestacao: new FormControl('1', [ V.maxLength(2) ]),
       id_tipo_parto_planejado: new FormControl(''),
       dt_dum: new FormControl(''),
       dt_dpp: new FormControl(''),
@@ -85,13 +107,13 @@ export class FormularioGestacao {
     let builder = new FormBuilder()
 
     this.formDadosPlanejamento = builder.group({
-      planejada: new FormControl('0'),
+      planejada: new FormControl('1'),
       mac_antes_gestacao: new FormControl(''),
-      ref_gestacao_planejamento_gestacao: new FormControl(''),
+      ref_gestacao_planejamento_gestacao: builder.array([]),
       id_tempo_mac: new FormControl(''),
       mac_antes_gestacao_nome_orientador: new FormControl(''),
       mac_antes_gestacao_obs: new FormControl(''),
-      ref_mac_gestacao: new FormControl(''),
+      ref_mac_gestacao: builder.array([]),
     });
 
     
@@ -102,15 +124,15 @@ export class FormularioGestacao {
     let builder = new FormBuilder()
 
     this.formDadosPreNatal = builder.group({
-      ref_gestacao_exame_prenatal: new FormControl(''),
+      ref_gestacao_exame_prenatal: builder.array([]),
       exame_prenatal_obs: new FormControl(''),
-      ig_inicio_pre_natal: new FormControl(''),
-      peso_pre_gestacional: new FormControl(''),
-      altura_pre_gestacional: new FormControl(''),
-      imc_pre_gestacional: new FormControl(''),
-      ig_inicio_projeto: new FormControl(''),
-      peso_inicio_projeto: new FormControl(''),
-      imc_inicio_projeto: new FormControl(''),
+      ig_inicio_pre_natal: new FormControl('', [ V.maxLength(2) ]),
+      peso_pre_gestacional: new FormControl('', [ V.maxLength(7) ]), //950.222
+      altura_pre_gestacional: new FormControl('', [ V.maxLength(3) ]),
+      imc_pre_gestacional: new FormControl('', [ V.maxLength(5) ]), //99.95
+      ig_inicio_projeto: new FormControl('', [ V.maxLength(2) ]),
+      peso_inicio_projeto: new FormControl('', [ V.maxLength(7) ]), //950.222
+      imc_inicio_projeto: new FormControl('', [ V.maxLength(5) ]), //99.95
     });
 
     
@@ -118,27 +140,28 @@ export class FormularioGestacao {
   }
 
   abrirFormAbaDadosGestacao(id) {
-    this.router.navigateByUrl("mae/:id_mae/gestacao/cadastro/dados-gestacao".replace(":id_mae", id))
+    this.router.navigate(['mae', id, 'gestacao', 'cadastro', 'dados-gestacao'])
   }
 
   abrirFormAbaDadosPlanejamento(id) {
-    this.router.navigateByUrl("mae/:id_mae/gestacao/cadastro/dados-planejamento".replace(":id_mae", id))
+    this.router.navigate(['mae', id, 'gestacao', 'cadastro', 'dados-planejamento'])
   }
 
   abrirFormAbaDadosPreNatal(id) {
-    this.router.navigateByUrl("mae/:id_mae/gestacao/cadastro/dados-prenatal".replace(":id_mae", id))
+    this.router.navigate(['mae', id, 'gestacao', 'cadastro', 'dados-prenatal'])
   }
 
   async mapearCampos(id_mae) {
     let usuario:User = await this.login.getUser()
     
-    let camposPadrao = {
-      id_mae: id_mae
-    }
+    let camposPadrao = { id_mae: id_mae }
     let camposFormDadosGestacao = this.formDadosGestacao.getRawValue();
 
     let dt_dum:moment.Moment = moment(camposFormDadosGestacao.dt_dum)
     if(dt_dum.isValid()) camposFormDadosGestacao.dt_dum = dt_dum.format('DD/MM/YYYY')
+
+    let dt_registro_desfecho:moment.Moment = moment(camposFormDadosGestacao.dt_registro_desfecho)
+    if(dt_registro_desfecho.isValid()) camposFormDadosGestacao.dt_registro_desfecho = dt_registro_desfecho.format('DD/MM/YYYY')
 
     let dt_dpp:moment.Moment = moment(camposFormDadosGestacao.dt_dpp)
     if(dt_dpp.isValid()) camposFormDadosGestacao.dt_dpp = dt_dpp.format('DD/MM/YYYY')
@@ -150,7 +173,7 @@ export class FormularioGestacao {
     let camposFormDadosPreNatal = this.formDadosPreNatal.getRawValue();
 
     let camposUsuario = {
-      dt_registro: '01/09/2019',
+      dt_registro: moment().format('DD/MM/YYYY'),
       id_usuario_registro: usuario.id
     }
 
@@ -166,9 +189,29 @@ export class FormularioGestacao {
   }
 
   async salvar(id) {
-    let campos:object = await this.mapearCampos(id)
-    this.api.chamarPOST('mae/:id/gestacao/new'.replace(":id", id), campos);
+    try {
+      this.salvando = true
 
-    this.router.navigateByUrl("mae/:id/gestacao".replace(":id", id))
+      let campos:object = await this.mapearCampos(id)
+      let resposta: {id: any} = await this.api.salvarFormulario('mae/:id/gestacao/new'.replace(":id", id), campos);
+      this.acoesAposSalvar(id, resposta.id)
+
+      this.salvando = false
+      this.limparFormularios()
+      
+    } catch (error) {
+      this.salvando = false
+      throw error
+    }
+  }
+
+  private acoesAposSalvar(idMae: any, idGestacao: any) {
+    this.alert.confirm("Gestação cadastrada com sucesso, deseja cadastrar um bebê?",
+    () => { //Sim
+      this.router.navigate(["mae", idMae, "gestacao", idGestacao, "bebe", "cadastro"])
+    },
+    () => { //Não
+      this.router.navigate(["mae", idMae, "gestacao"])
+    })
   }
 }
