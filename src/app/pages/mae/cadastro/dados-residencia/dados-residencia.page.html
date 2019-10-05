@@ -16,17 +16,17 @@
           </ion-item>
           <ion-item>
               <ion-label>Estado:</ion-label>
-              <ion-select formControlName="estado" placeholder="Selecione">
+              <ion-select interface="popover" formControlName="id_estado" placeholder="Selecione">
                 <ion-select-option *ngFor="let estado of servico.estados" [value]="estado.id_estado">{{ estado.nome_estado }}</ion-select-option>
               </ion-select>
           </ion-item>
           <ion-item>
               <ion-label position="floating">Cidade:</ion-label> 
-              <ion-input formControlName="cidade"></ion-input>
+              <ion-input formControlName="id_cidade"></ion-input>
           </ion-item>
           <ion-item>
               <ion-label position="floating">Bairro:</ion-label> 
-              <ion-input formControlName="bairro"></ion-input>
+              <ion-input formControlName="id_bairro"></ion-input>
           </ion-item>
           <ion-item>
               <ion-label position="floating">Endereço:</ion-label> 
@@ -42,11 +42,11 @@
           </ion-item>
           <ion-item>
               <ion-label position="floating">Ponto de Referência:</ion-label> 
-              <ion-input formControlName="pontoReferencia"></ion-input>
+              <ion-input formControlName="ponto_referencia"></ion-input>
           </ion-item>
           <ion-item>
               <ion-label>Moradia:</ion-label>
-              <ion-select formControlName="moradia" placeholder="Selecione">
+              <ion-select interface="popover" formControlName="id_moradia" placeholder="Selecione">
                 <ion-select-option *ngFor="let moradia of servico.moradias" [value]="moradia.id">{{ moradia.descricao }}</ion-select-option>
               </ion-select>
           </ion-item>

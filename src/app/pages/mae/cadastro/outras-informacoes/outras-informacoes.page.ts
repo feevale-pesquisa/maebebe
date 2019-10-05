@@ -25,7 +25,7 @@ export class OutrasInformacoesPage implements OnInit {
 
   salvar() {
     console.log(this.maeForm)
-    this.router.navigateByUrl("/inicio")
+    this.servico.salvar();
   }
 
   ngOnInit() {

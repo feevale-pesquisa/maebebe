@@ -230,6 +230,7 @@ export class FormularioBebe {
     }
 
     async salvar(idMae, idGestacao) {
+        console.log('teste');
         try {
             this.salvando = true
 
