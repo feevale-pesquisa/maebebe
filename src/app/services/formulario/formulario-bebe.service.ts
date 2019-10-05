@@ -40,14 +40,16 @@ export class FormularioBebe {
     public listaIntercorrenciaPrimeiroAno = []
     public listaEstados = []
     public listaCidades = [
-        { id: 4137, id_estado: 23, nome: "Novo Hamburgo" }
+        { id: 4137, id_estado: 23, nome: "Novo Hamburgo" },
+        { id: 4005, id_estado: 23, nome: "Estância Velha" },
     ]
     public listaBairros = [
         { "id": 2, "nome": "Canudos", "id_cidade": 4137 },
         { "id": 5, "nome": "Centro", "id_cidade": 4137 },
         { "id": 3, "nome": "Diehl", "id_cidade": 4137 },
         { "id": 1, "nome": "Kephas", "id_cidade": 4137 },
-        { "id": 4, "nome": "São José", "id_cidade": 4137 }
+        { "id": 4, "nome": "São José", "id_cidade": 4137 },
+        { "id": 6, "nome": "Centro", "id_cidade": 4005 },
     ]
 
     constructor(

@@ -38,11 +38,11 @@
 
     <ion-card-content>
       <ion-row>
-        <ion-col no-padding size="12" *ngIf="gestacao.tipo_motivo_desfecho_desc"><ion-label>Motivo: {{ gestacao.tipo_motivo_desfecho_desc }}</ion-label></ion-col>
-        <ion-col no-padding size="12">
+        <ion-col class="ion-no-padding" size="12" *ngIf="gestacao.tipo_motivo_desfecho_desc"><ion-label>Motivo: {{ gestacao.tipo_motivo_desfecho_desc }}</ion-label></ion-col>
+        <ion-col class="ion-no-padding" size="12">
           <ion-label>Bebes: {{ gestacao.qtd_bebes }}</ion-label>
         </ion-col>
-        <ion-col no-padding size="12">
+        <ion-col class="ion-no-padding" size="12">
           <ion-label>Acompanhamentos: {{ gestacao.qtd_acompanhamentos }}</ion-label>
         </ion-col>
       </ion-row>

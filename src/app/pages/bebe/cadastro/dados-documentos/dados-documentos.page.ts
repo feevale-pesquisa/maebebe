@@ -40,4 +40,10 @@ export class DadosDocumentosPage implements OnInit {
   ngOnInit() {
   }
 
+  listarBairrosPorCidade() {
+    return this.servico.listaBairros.filter(bairro => {
+      return bairro.id_cidade == this.bebeForm.get('id_cidade').value
+    })
+  }
+
 }
