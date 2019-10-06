@@ -11,28 +11,28 @@
     <form [formGroup]="maeForm" (ngSubmit)="salvar()">
       <ion-card>
           <ion-item>
-              <ion-label>Inicio no Programa: </ion-label>
-              <ion-input type="date" formControlName="inicioPrograma"></ion-input>
+              <ion-label class="required">Inicio no Programa: </ion-label>
+              <ion-input type="date" formControlName="dt_inicio_projeto_maebebe"></ion-input>
           </ion-item>
           <ion-item> 
-            <ion-label position="floating">Nome completo:</ion-label>
-            <ion-input formControlName="nomeCompleto"></ion-input>
+            <ion-label position="floating" class="required">Nome completo:</ion-label>
+            <ion-input formControlName="nome"></ion-input>
           </ion-item>
         <ion-item>
           <ion-label position="floating">E-mail:</ion-label>
           <ion-input formControlName="email"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">CPF:</ion-label>
+          <ion-label position="floating" class="required">CPF:</ion-label>
           <ion-input formControlName="cpf"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">RG</ion-label>
+          <ion-label position="floating" class="required">RG:</ion-label>
           <ion-input formControlName="rg"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Cartão SUS:</ion-label>
-          <ion-input formControlName="cartaoSUS"></ion-input>
+          <ion-input formControlName="cartao_sus"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Telefone:</ion-label>
@@ -40,8 +40,12 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Telefone Apoio:</ion-label>
-          <ion-input formControlName="telefoneApoio"></ion-input>
+          <ion-input formControlName="telefone_contato"></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-label class="required"> Data de nascimento: </ion-label>
+          <ion-input type="date" formControlName="dt_nascimento"></ion-input>
+      </ion-item>
         <ion-button expand="block" color="primary" type="submit" [disabled]="maeForm.invalid">
           Próximo
         </ion-button>

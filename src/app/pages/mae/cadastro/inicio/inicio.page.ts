@@ -16,12 +16,17 @@ export class InicioPage implements OnInit {
   constructor(private router: Router, private builder: FormBuilder, private location: Location, public servico: FormularioMae) { 
 
     this.maeForm = servico.getFormAbaDadosMae()
-    console.log(this.servico.areas)
+
 
   }
 
+  changeMicroAreas(Area: any) {
+    console.log(Area);
+    this.servico.buscarMicroAreas(Area);
+  }
+
   voltar() {
-    this.location.back()
+    this.router.navigateByUrl("/inicio")
   }
 
   salvar() {

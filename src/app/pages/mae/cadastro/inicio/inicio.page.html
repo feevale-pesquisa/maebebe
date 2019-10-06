@@ -11,16 +11,15 @@
   <form [formGroup]="maeForm" (ngSubmit)="salvar()">
     <ion-card>
       <ion-item>
-          <ion-label>Área</ion-label>
-          <ion-select formControlName="area" placeholder="Selecione">
+          <ion-label class="required">Área:</ion-label>
+          <ion-select interface="popover" (ionChange)="changeMicroAreas($event.target.value);" formControlName="id_area" placeholder="Selecione">
             <ion-select-option *ngFor="let area of servico.areas" [value]="area.id_area">{{ area.area_descricao }}</ion-select-option>
           </ion-select>
       </ion-item>
       <ion-item>
-          <ion-label>Micro Área</ion-label>
-          <ion-select interface="popover"  formControlName="microarea" placeholder="Selecione">
-            <ion-select-option value="1">Micro Area 1</ion-select-option>
-            <ion-select-option value="2">Micro Area 2</ion-select-option>
+          <ion-label >Micro Área: </ion-label>
+          <ion-select interface="popover"  formControlName="id_micro_area" placeholder="Selecione">
+            <ion-select-option *ngFor="let microarea of servico.microAreas" [value]="microarea.id_micro_area">{{ microarea.micro_area_descricao }}</ion-select-option>
           </ion-select>
       </ion-item>
       <ion-button expand="block" color="primary" type="submit" [disabled]="maeForm.invalid">

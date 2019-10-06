@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { API } from '../http/api';
 import * as moment from 'moment'
+import { looseIdentical } from '@angular/core/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,8 @@ export class GerenciadorTiposService {
     { nome: 'tipo_denver', rota: 'tipo_denver/list/1' },
     { nome: 'tipo_intercorrencia_peri_neonatal', rota: 'tipo_intercorrencia_peri_neonatal/list/1' },
     { nome: 'tipo_intercorrencia_primeiro_ano_vida', rota: 'tipo_intercorrencia_primeiro_ano_vida/list/1' },
-    { nome: 'estado', rota: 'estado/list/1' }
+    { nome: 'estado', rota: 'estado/list/1' },
+    { nome: 'micro_area', rota: '/micro_area/list/1' }
   ]
 
   constructor(private api: API, private storage: Storage) { }
@@ -87,5 +89,16 @@ export class GerenciadorTiposService {
 
   buscarTipo(nome: string) {
     return this.storage.get('tipos.' + nome)
+  }
+
+  
+  async buscarMicroArea(nome: string, area: string) {
+    let tipo;
+    let microAreas = [];
+    this.listaTipos.forEach(x => { if(x.nome == nome) tipo = x});
+    await this.api.chamarGET('area/'+ area+tipo.rota ).then((data) => {
+      microAreas = data.result;
+    })
+     return microAreas;
   }
 }
