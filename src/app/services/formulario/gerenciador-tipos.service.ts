@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { API } from '../http/api';
 import * as moment from 'moment'
 import { looseIdentical } from '@angular/core/src/util';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,11 @@ export class GerenciadorTiposService {
     { nome: 'micro_area', rota: '/micro_area/list/1' }
   ]
 
-  constructor(private api: API, private storage: Storage) { }
+  constructor(
+    private api: API, 
+    private storage: Storage,
+    private login: LoginService
+  ) { }
 
   private async atualizarTipo(tipo: { nome: string, rota: string }) {
     try {
@@ -71,6 +76,10 @@ export class GerenciadorTiposService {
 
   async sincronizar() {
     setInterval(async () => {
+      if(!(await this.login.isAuthenticated())){
+        return
+      }
+
       let dataSincronizacao = await this.getDataUltimaSincronizacao()
 
       //Faz menos de 12 horas da última sincronização
@@ -96,7 +105,7 @@ export class GerenciadorTiposService {
     let tipo;
     let microAreas = [];
     this.listaTipos.forEach(x => { if(x.nome == nome) tipo = x});
-    await this.api.chamarGET('area/'+ area+tipo.rota ).then((data) => {
+    await this.api.chamarGET('area/'+ area+tipo.rota ).then((data: any) => {
       microAreas = data.result;
     })
      return microAreas;
