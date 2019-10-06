@@ -89,4 +89,7 @@ export class BuscaPage implements OnInit {
     return moment(data).isValid() ? moment(data).format('DD/MM/YYYY') : ''
   }
 
+  abrirCadastroMae() {
+    this.router.navigateByUrl("/mae/cadastro")
+  }
 }
