@@ -15,7 +15,7 @@ export class LoadingInterceptor implements HttpInterceptor{
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loading.start("Fazendo login...");
+    this.loading.start("Carregando...");
 
     return next.handle(request).pipe(
       tap((event: HttpEvent<any>) => { //When request was completed without error

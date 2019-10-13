@@ -17,13 +17,13 @@ export class LoadingService { //This class is basically a wrapper of angular Loa
 
   }
 
-  start(message: string = "Aguarde...", timeout = 15000) {
+  start(message: string = "Aguarde...") {
     if(this.isLoading) return; //Prevent two loaders at the same time
 
     this.isCreatingLoader = true;
 
     //The creation of a loading is async, so we use a Promise
-    this.loadingPromisse = this.loadingController.create({ message: message, duration: 10000 });
+    this.loadingPromisse = this.loadingController.create({ message: message });
     this.loadingPromisse.then((loader) => { //When loader was created
       this.loader = loader;
       this.loader.present();

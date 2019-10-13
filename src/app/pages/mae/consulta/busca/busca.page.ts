@@ -15,7 +15,7 @@ export class BuscaPage implements OnInit {
   public busca: String = ""
   public maes: any = []
   private infiniteScroll = null
-  private carregando: boolean = false
+  public carregando: boolean = false
 
   constructor(
     private router: Router, 

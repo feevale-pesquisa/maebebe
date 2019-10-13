@@ -17,7 +17,7 @@ export class DadosPlanejamentoPage implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private servico: FormularioGestacao) { 
+    public servico: FormularioGestacao) { 
 
     this.gestacaoForm = servico.getFormAbaDadosPlanejamento()
   }

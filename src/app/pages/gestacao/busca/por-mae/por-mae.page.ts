@@ -11,7 +11,7 @@ import { ToastController } from '@ionic/angular';
 export class PorMaePage implements OnInit {
 
   public gestacoes: any = []
-  private mae: any = null
+  public mae: any = null
   public carregando: boolean = false
 
   constructor(
