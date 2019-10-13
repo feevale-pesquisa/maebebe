@@ -63,14 +63,14 @@ export class FormularioMae {
     let builder = new FormBuilder()
 
     this.formDadosMaeInicial = builder.group({
-      id_area: new FormControl('', [  ]),
+      id_area: new FormControl('', [ V.required ]),
       id_micro_area: new FormControl(''),
-      dt_inicio_projeto_maebebe: new FormControl(moment().format('YYYY-MM-DD'), [  ]),
-      nome: new FormControl('', [  ]),
-      dt_nascimento: new FormControl('', [  ]),
-      id_escolaridade: new FormControl('', [  ]),
-      cpf: new FormControl('', [ V.maxLength(14),  ]),
-      rg: new FormControl('', [  ]),
+      dt_inicio_projeto_maebebe: new FormControl(moment().format('YYYY-MM-DD'), [ V.required ]),
+      nome: new FormControl('', [ V.required ]),
+      dt_nascimento: new FormControl('', [ V.required ]),
+      id_escolaridade: new FormControl('', [ V.required ]),
+      cpf: new FormControl('', [ V.maxLength(14), V.required ]),
+      rg: new FormControl('', [ V.required ]),
     });
 
     return this.formDadosMaeInicial
@@ -175,8 +175,8 @@ export class FormularioMae {
         this.salvando = true
 
         let campos:object = await this.mapearCampos()
-        let resposta: {id: any} =  await this.api.salvarFormularioMae(campos);
-        this.acoesAposSalvar(resposta.id)
+        let resposta: {id_mae: any} =  await this.api.salvarFormularioMae(campos);
+        this.acoesAposSalvar(resposta.id_mae)
 
         this.salvando = false
         this.limparFormularios()
@@ -193,7 +193,7 @@ export class FormularioMae {
           this.router.navigate(["mae", idMae, "gestacao", "cadastro"]);
         },
         () => { //Não
-          this.router.navigate(["mae", idMae]);
+          this.router.navigate(["mae", "consulta", "busca"]);
         }
       )
     }

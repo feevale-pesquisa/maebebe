@@ -73,14 +73,14 @@ export class FormularioBebe {
         let builder = new FormBuilder()
 
         this.formDadosBebe = builder.group({
-            id_tipo_desfecho_bebe: new FormControl(''),//, )V.required),
-            id_genero: new FormControl(''),//, V.required),
-            dt_nascimento: new FormControl(''),//, V.required),
+            id_tipo_desfecho_bebe: new FormControl('', [ V.required ]),
+            id_genero: new FormControl('', [ V.required ]),
+            dt_nascimento: new FormControl('', [ V.required ]),
             local_nascimento: new FormControl(''),
-            nome: new FormControl(''),//, V.required),
+            nome: new FormControl('', [ V.required ]),
             numero: new FormControl(''),
             pediatra: new FormControl(''),
-            id_tipo_parto: new FormControl(''),//, V.required),
+            id_tipo_parto: new FormControl('', [ V.required ]),
             problema_parto: new FormControl(''),
         });
 
@@ -94,13 +94,13 @@ export class FormularioBebe {
         let builder = new FormBuilder()
 
         this.formDadosParto = builder.group({
-            peso_nascimento: new FormControl(''),//, V.required),
+            peso_nascimento: new FormControl('', [ V.required ]),
             comprimento_nascimento: new FormControl(''),
-            idade_gestacional_semanas_parto: new FormControl(''),//, V.required),
+            idade_gestacional_semanas_parto: new FormControl('', [ V.required ]),
             idade_gestacional_dias_parto: new FormControl(''),
             id_escala: new FormControl(''),
             apgar_1_min: new FormControl(''),
-            apgar_5_min: new FormControl(''),//, V.required),
+            apgar_5_min: new FormControl('', [ V.required ]),
             perimetro_cefalico_nascimento: new FormControl(''),
             perimetro_abdominal_nascimento: new FormControl(''),
         })
