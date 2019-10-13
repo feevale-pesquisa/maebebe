@@ -22,6 +22,7 @@ export class FormularioBebe {
     public formDadosTestes: FormGroup
     public formDadosIntercorrencias: FormGroup
     public formDadosDocumentos: FormGroup
+    public imagem = new File([""], "")
     
     public listaTipoDesfecho = [
         {descricao: 'Nativivo', id: '0'},
@@ -219,12 +220,13 @@ export class FormularioBebe {
             ...this.formDadosIntercorrencias.getRawValue(),
             ...this.formDadosDocumentos.getRawValue(),
         }
+
+        campos.image = this.imagem
       
         return campos
     }
 
     async salvar(idMae, idGestacao) {
-        console.log('teste');
         try {
             this.salvando = true
 

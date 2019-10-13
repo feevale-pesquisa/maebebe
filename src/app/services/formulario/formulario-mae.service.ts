@@ -22,7 +22,7 @@ export class FormularioMae {
   private formDadosPessoais: FormGroup;
   private formDadosResidenciais: FormGroup;
   private formDadosOutrasInformacoes: FormGroup;
-
+  public imagem = new File([""], "")
 
   public areas = [];
   public microAreas = [];
@@ -40,8 +40,6 @@ export class FormularioMae {
   public moradias = [];
   public escolaridades = [];
   public rendaFamiliar = [];
-
-
 
   constructor( private gerenciadorTipos: GerenciadorTiposService, 
     private api: API,
@@ -65,14 +63,14 @@ export class FormularioMae {
     let builder = new FormBuilder()
 
     this.formDadosMaeInicial = builder.group({
-      id_area: new FormControl('', [ V.required ]),
+      id_area: new FormControl('', [  ]),
       id_micro_area: new FormControl(''),
-      dt_inicio_projeto_maebebe: new FormControl(moment().format('YYYY-MM-DD'), [ V.required ]),
-      nome: new FormControl('', [ V.required ]),
-      dt_nascimento: new FormControl('', [ V.required ]),
-      id_escolaridade: new FormControl('', [ V.required ]),
-      cpf: new FormControl('', [ V.maxLength(14), V.required ]),
-      rg: new FormControl('', [ V.required ]),
+      dt_inicio_projeto_maebebe: new FormControl(moment().format('YYYY-MM-DD'), [  ]),
+      nome: new FormControl('', [  ]),
+      dt_nascimento: new FormControl('', [  ]),
+      id_escolaridade: new FormControl('', [  ]),
+      cpf: new FormControl('', [ V.maxLength(14),  ]),
+      rg: new FormControl('', [  ]),
     });
 
     return this.formDadosMaeInicial
@@ -121,7 +119,7 @@ export class FormularioMae {
       id_tipo_renda_mensal: new FormControl(''),
       renda_quantidade_moradores: new FormControl(''),
       id_estado_civil: new FormControl(''),
-      obs: new FormControl(''),
+      obs: new FormControl('')
     });
 
     return this.formDadosOutrasInformacoes
@@ -166,6 +164,9 @@ export class FormularioMae {
         ...this.formDadosResidenciais.getRawValue(),
         ...this.formDadosOutrasInformacoes.getRawValue(),
     }
+
+    campos.image = this.imagem
+
     return campos
   }
 
@@ -174,7 +175,7 @@ export class FormularioMae {
         this.salvando = true
 
         let campos:object = await this.mapearCampos()
-        let resposta: {id: any} =  await this.api.salvarFormulario('mae/new', campos);
+        let resposta: {id: any} =  await this.api.salvarFormularioMae(campos);
         this.acoesAposSalvar(resposta.id)
 
         this.salvando = false
@@ -188,11 +189,12 @@ export class FormularioMae {
 
     private acoesAposSalvar(idMae: any) {
       this.alert.confirm("Mãe cadastrada com sucesso, deseja cadastrar uma gestação?",
-      () => { //Sim
-        this.router.navigate(["mae", idMae, "gestacao", "cadastro"]);
-      },
-      () => { //Não
-      this.router.navigate(["mae", idMae]);
-      })
+        () => { //Sim
+          this.router.navigate(["mae", idMae, "gestacao", "cadastro"]);
+        },
+        () => { //Não
+          this.router.navigate(["mae", idMae]);
+        }
+      )
     }
 }

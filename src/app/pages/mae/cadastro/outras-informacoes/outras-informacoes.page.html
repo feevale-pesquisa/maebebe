@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="!servico.salvando">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>Cadastrar Mãe</ion-title>
@@ -8,7 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="maeForm" (ngSubmit)="salvar()">
+  <ion-row *ngIf="servico.salvando" class="ion-text-center ion-padding-top">
+    <ion-col size="12"><ion-spinner name="lines"></ion-spinner></ion-col>
+    <ion-col size="12">Salvando informações...</ion-col>
+  </ion-row>
+
+  <form [formGroup]="maeForm" (ngSubmit)="salvar()" *ngIf="!servico.salvando">
     <ion-card>
       <ion-item>
         <ion-label position="stacked">Trabalha Fora: </ion-label>
@@ -40,11 +45,16 @@
           <ion-select-option *ngFor="let tipo of servico.listaEstadoCivil" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
+      <!-- <ion-item>
+          <ion-label position="stacked">Imagem: </ion-label>
+          <ion-input name="imagem" (change)="selecionarImagem($event)" type="file"></ion-input>
+      </ion-item> -->
       <ion-item>
         <ion-label position="floating">Observação:</ion-label>
         <ion-textarea rows="3" formControlName="obs"></ion-textarea>
       </ion-item>
-      <ion-button expand="block" color="primary" type="submit" [disabled]="maeForm.invalid">
+      <ion-button expand="block" color="success" type="submit" [disabled]="maeForm.invalid">
+        <ion-icon name="checkmark"></ion-icon>
         Salvar
       </ion-button>
     </ion-card>

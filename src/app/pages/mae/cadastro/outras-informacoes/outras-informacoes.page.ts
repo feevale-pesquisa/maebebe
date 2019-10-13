@@ -28,6 +28,13 @@ export class OutrasInformacoesPage implements OnInit {
     this.servico.salvar();
   }
 
+  selecionarImagem(event) {
+    if(event.target.files.length > 0) 
+    {
+      console.log(event.target.files[0]);
+    }
+  }
+
   ngOnInit() {
   }
 
