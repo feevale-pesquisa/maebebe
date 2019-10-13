@@ -12,15 +12,15 @@
     <ion-card>
       <ion-item>
         <ion-label position="stacked" class="required">Área:</ion-label>
-        <ion-select (ionChange)="changeMicroAreas($event.target.value);" formControlName="id_area" placeholder="Selecione">
+        <ion-select (ionChange)="changeMicroAreas();" formControlName="id_area" placeholder="Selecione">
           <ion-select-option *ngFor="let area of servico.areas" [value]="area.id_area">{{ area.area_descricao }} - {{ area.medico }}</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label >Micro Área: </ion-label>
-        <ion-select interface="popover"  formControlName="id_micro_area" placeholder="Selecione">
-          <ion-select-option *ngFor="let microarea of servico.microAreas" [value]="microarea.id_micro_area">{{ microarea.micro_area_descricao }}</ion-select-option>
+        <ion-select interface="popover" formControlName="id_micro_area" placeholder="Selecione">
+          <ion-select-option *ngFor="let microarea of microareas" [value]="microarea.id_micro_area">{{ microarea.micro_area_descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
   

@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 export class InicioPage implements OnInit {
 
   public maeForm: FormGroup;
+  public microareas = []
 
   constructor(private router: Router, private builder: FormBuilder, private location: Location, public servico: FormularioMae) { 
 
@@ -20,9 +21,11 @@ export class InicioPage implements OnInit {
 
   }
 
-  changeMicroAreas(Area: any) {
-    console.log(Area);
-    this.servico.buscarMicroAreas(Area);
+  changeMicroAreas() {
+    this.microareas = []
+    this.maeForm.controls['id_micro_area'].setValue("")
+    let area = this.maeForm.get("id_area").value
+    this.microareas = this.servico.microAreas.filter(microarea => { return microarea.id_area == area }) 
   }
 
   voltar() {

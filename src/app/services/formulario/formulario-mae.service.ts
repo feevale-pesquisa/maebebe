@@ -127,17 +127,13 @@ export class FormularioMae {
 
   async buscarTipos() {
     this.areas = await this.gerenciadorTipos.buscarTipo('area');
+    this.microAreas = await this.gerenciadorTipos.buscarTipo('micro_area');
     this.listaEstados = await this.gerenciadorTipos.buscarTipo('estado');
     this.listaBairros = await this.gerenciadorTipos.buscarTipo('bairro');
     this.listaEstadoCivil = await this.gerenciadorTipos.buscarTipo('estado_civil');
     this.moradias = await this.gerenciadorTipos.buscarTipo('moradia');
     this.escolaridades = await this.gerenciadorTipos.buscarTipo('escolaridade');
     this.rendaFamiliar = await this.gerenciadorTipos.buscarTipo('tipo_renda_mensal');
-  }
-
-  async buscarMicroAreas(area: string){
-    
-    this.microAreas = await this.gerenciadorTipos.buscarMicroArea('micro_area', area);
   }
 
   async mapearCampos() {

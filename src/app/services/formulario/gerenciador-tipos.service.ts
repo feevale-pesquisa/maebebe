@@ -105,14 +105,4 @@ export class GerenciadorTiposService {
     if(dadosTipo)
       return dadosTipo.dados
   }
-
-  async buscarMicroArea(nome: string, area: string) {
-    let tipo;
-    let microAreas = [];
-    this.listaTipos.forEach(x => { if(x.nome == nome) tipo = x});
-    await this.api.chamarGET('area/'+ area+tipo.rota ).then((data: any) => {
-      microAreas = data.result;
-    })
-     return microAreas;
-  }
 }
