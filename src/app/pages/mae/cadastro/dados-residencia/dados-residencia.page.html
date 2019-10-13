@@ -10,46 +10,48 @@
 <ion-content>
   <form [formGroup]="maeForm" (ngSubmit)="salvar()">
     <ion-card>
-        <ion-item>
-            <ion-label position="floating">CEP:</ion-label>
-            <ion-input formControlName="cep"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>Estado:</ion-label>
-              <ion-select interface="popover" formControlName="id_estado" placeholder="Selecione">
-                <ion-select-option *ngFor="let estado of servico.estados" [value]="estado.id_estado">{{ estado.nome_estado }}</ion-select-option>
-              </ion-select>
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Cidade:</ion-label> 
-              <ion-input formControlName="id_cidade"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Bairro:</ion-label> 
-              <ion-input formControlName="id_bairro"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Endereço:</ion-label> 
-              <ion-input formControlName="endereco"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Número:</ion-label> 
-              <ion-input formControlName="numero"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Complemento:</ion-label>
-              <ion-input formControlName="complemento"></ion-input> 
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Ponto de Referência:</ion-label> 
-              <ion-input formControlName="ponto_referencia"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>Moradia:</ion-label>
-              <ion-select interface="popover" formControlName="id_moradia" placeholder="Selecione">
-                <ion-select-option *ngFor="let moradia of servico.moradias" [value]="moradia.id">{{ moradia.descricao }}</ion-select-option>
-              </ion-select>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">CEP:</ion-label>
+        <ion-input formControlName="cep" [brmasker]="{ mask:'00000000', len:8 }"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Estado</ion-label>
+        <ion-select formControlName="id_estado" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaEstados" [value]="tipo.id_estado">{{ tipo.nome_estado }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Cidade</ion-label>
+        <ion-select formControlName="id_cidade" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaCidades" [value]="tipo.id">{{ tipo.nome }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Bairro</ion-label>
+        <ion-select formControlName="id_bairro" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of listarBairrosPorCidade()" [value]="tipo.id_bairro">{{ tipo.nome_bairro }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="floating">Endereço:</ion-label> 
+          <ion-input formControlName="endereco"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Número:</ion-label> 
+          <ion-input formControlName="numero"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Complemento:</ion-label>
+          <ion-input formControlName="complemento"></ion-input> 
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Ponto de Referência:</ion-label> 
+          <ion-input formControlName="ponto_referencia"></ion-input>
+      </ion-item>
       <ion-button expand="block" color="primary" type="submit" [disabled]="maeForm.invalid">
         Próximo
       </ion-button>

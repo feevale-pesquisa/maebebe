@@ -43,14 +43,7 @@ export class FormularioBebe {
         { id: 4137, id_estado: 23, nome: "Novo Hamburgo" },
         { id: 4005, id_estado: 23, nome: "Estância Velha" },
     ]
-    public listaBairros = [
-        { "id": 2, "nome": "Canudos", "id_cidade": 4137 },
-        { "id": 5, "nome": "Centro", "id_cidade": 4137 },
-        { "id": 3, "nome": "Diehl", "id_cidade": 4137 },
-        { "id": 1, "nome": "Kephas", "id_cidade": 4137 },
-        { "id": 4, "nome": "São José", "id_cidade": 4137 },
-        { "id": 6, "nome": "Centro", "id_cidade": 4005 },
-    ]
+    public listaBairros = []
 
     constructor(
         private gerenciadorTipos: GerenciadorTiposService, 
@@ -200,6 +193,7 @@ export class FormularioBebe {
         this.listaIntercorrenciaNeonatal = await this.gerenciadorTipos.buscarTipo('tipo_intercorrencia_peri_neonatal')
         this.listaIntercorrenciaPrimeiroAno = await this.gerenciadorTipos.buscarTipo('tipo_intercorrencia_primeiro_ano_vida')
         this.listaEstados = await this.gerenciadorTipos.buscarTipo('estado')
+        this.listaBairros = await this.gerenciadorTipos.buscarTipo('bairro');
     }
 
     async mapearCampos(idMae: any, idGestacao: any) {

@@ -24,10 +24,19 @@ export class FormularioMae {
   private formDadosOutrasInformacoes: FormGroup;
 
 
-
   public areas = [];
   public microAreas = [];
-  public estados = [];
+  public listaEstados = []
+  public listaCidades = [
+      { id: 4137, id_estado: 23, nome: "Novo Hamburgo" },
+      { id: 4005, id_estado: 23, nome: "Estância Velha" },
+  ]
+  public listaBairros = []
+  public listaTrabalhaFora = [
+    { descricao: 'Sim', id: '1' },
+    { descricao: 'Não', id: '0' },
+  ]
+  public listaEstadoCivil = []
   public moradias = [];
   public escolaridades = [];
   public rendaFamiliar = [];
@@ -56,9 +65,14 @@ export class FormularioMae {
     let builder = new FormBuilder()
 
     this.formDadosMaeInicial = builder.group({
-      id_area: new FormControl(''),
+      id_area: new FormControl('', [ V.required ]),
       id_micro_area: new FormControl(''),
-   
+      dt_inicio_projeto_maebebe: new FormControl(moment().format('YYYY-MM-DD'), [ V.required ]),
+      nome: new FormControl('', [ V.required ]),
+      dt_nascimento: new FormControl('', [ V.required ]),
+      id_escolaridade: new FormControl('', [ V.required ]),
+      cpf: new FormControl('', [ V.maxLength(14), V.required ]),
+      rg: new FormControl('', [ V.required ]),
     });
 
     return this.formDadosMaeInicial
@@ -68,17 +82,13 @@ export class FormularioMae {
     let builder = new FormBuilder()
 
     this.formDadosPessoais = builder.group({
-      dt_inicio_projeto_maebebe: new FormControl(''),
-      nome: new FormControl(''),
       email: new FormControl(''),
-      cpf: new FormControl('', [ V.maxLength(11) ]),
-      rg: new FormControl('', [ V.maxLength(11) ]),
       cartao_sus: new FormControl(''),
       idade: new FormControl(''),
       endereco: new FormControl(''),
       telefone: new FormControl(''),
       telefone_contato: new FormControl(''),
-      dt_nascimento: new FormControl('')
+      id_moradia: new FormControl(''),
     });
 
     return this.formDadosPessoais
@@ -89,15 +99,13 @@ export class FormularioMae {
 
     this.formDadosResidenciais = builder.group({
       cep: new FormControl(''),
-      id_estado: new FormControl(''),
-      id_cidade: new FormControl(''),
+      id_estado: new FormControl(23),
+      id_cidade: new FormControl(4137),
       id_bairro: new FormControl(''),
       endereco: new FormControl(''),
       numero: new FormControl(''),
       complemento: new FormControl(''),
       ponto_referencia: new FormControl(''),
-      id_moradia: new FormControl(''),
-
     });
 
     return this.formDadosResidenciais
@@ -107,14 +115,12 @@ export class FormularioMae {
     let builder = new FormBuilder()
 
     this.formDadosOutrasInformacoes = builder.group({
-      id_escolaridade: new FormControl(''),
       trabalha_fora: new FormControl(''),
       profissao: new FormControl(''),
       quando_retorna_trabalho: new FormControl(''),
       id_tipo_renda_mensal: new FormControl(''),
       renda_quantidade_moradores: new FormControl(''),
       id_estado_civil: new FormControl(''),
-      imagem: new FormControl(''),
       obs: new FormControl(''),
     });
 
@@ -123,7 +129,9 @@ export class FormularioMae {
 
   async buscarTipos() {
     this.areas = await this.gerenciadorTipos.buscarTipo('area');
-    this.estados = await this.gerenciadorTipos.buscarTipo('estado');
+    this.listaEstados = await this.gerenciadorTipos.buscarTipo('estado');
+    this.listaBairros = await this.gerenciadorTipos.buscarTipo('bairro');
+    this.listaEstadoCivil = await this.gerenciadorTipos.buscarTipo('estado_civil');
     this.moradias = await this.gerenciadorTipos.buscarTipo('moradia');
     this.escolaridades = await this.gerenciadorTipos.buscarTipo('escolaridade');
     this.rendaFamiliar = await this.gerenciadorTipos.buscarTipo('tipo_renda_mensal');
@@ -142,7 +150,7 @@ export class FormularioMae {
         id_usuario_registro: usuario.id
     }
 
-    let camposFormDadosMae:any = this.formDadosPessoais.getRawValue()
+    let camposFormDadosMae:any = this.formDadosMaeInicial.getRawValue()
 
 
     let dt_nascimento:moment.Moment = moment(camposFormDadosMae.dt_nascimento)
@@ -154,7 +162,7 @@ export class FormularioMae {
     let campos = { 
         ...camposUsuario,
         ...camposFormDadosMae,
-        ...this.formDadosMaeInicial.getRawValue(),
+        ...this.formDadosPessoais.getRawValue(),
         ...this.formDadosResidenciais.getRawValue(),
         ...this.formDadosOutrasInformacoes.getRawValue(),
     }

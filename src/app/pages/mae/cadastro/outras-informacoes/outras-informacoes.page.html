@@ -10,45 +10,39 @@
 <ion-content>
   <form [formGroup]="maeForm" (ngSubmit)="salvar()">
     <ion-card>
-        <ion-item>
-            <ion-label class="required">Escolaridade:</ion-label>
-            <ion-select interface="popover" formControlName="id_escolaridade" placeholder="Selecione">
-              <ion-select-option *ngFor="let escolaridade of servico.escolaridades" [value]="escolaridade.id">{{ escolaridade.descricao }}</ion-select-option>
-            </ion-select>
-        </ion-item>
       <ion-item>
-        <ion-label position="floating">Trabalha Fora:</ion-label>
-        <ion-input formControlName="trabalha_fora"></ion-input>
+        <ion-label position="stacked">Trabalha Fora: </ion-label>
+        <ion-select interface="popover" formControlName="trabalha_fora" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTrabalhaFora" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Profissão:</ion-label>
         <ion-input formControlName="profissao"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Quando Retorna ao Trabalho:</ion-label>
+        <ion-label position="stacked" position="floating">Quando Retorna ao Trabalho:</ion-label>
         <ion-input formControlName="quando_retorna_trabalho"></ion-input>
       </ion-item>
       <ion-item>
-          <ion-label>Renda Mensal Familiar:</ion-label>
-          <ion-select interface="popover" formControlName="id_tipo_renda_mensal" placeholder="Selecione">
-            <ion-select-option *ngFor="let renda of servico.rendaFamiliar" [value]="renda.id">{{ renda.descricao }}</ion-select-option>
-          </ion-select>
+        <ion-label position="stacked">Renda Mensal Familiar:</ion-label>
+        <ion-select formControlName="id_tipo_renda_mensal" placeholder="Selecione">
+          <ion-select-option *ngFor="let renda of servico.rendaFamiliar" [value]="renda.id">{{ renda.descricao }}</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Número de Moradores da Casa:</ion-label>
         <ion-input formControlName="renda_quantidade_moradores"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Estado Civil:</ion-label>
-        <ion-input formControlName="id_estado_civil"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Imagem:</ion-label>
-        <ion-input formControlName="imagem"></ion-input>
+        <ion-label position="stacked">Estado Civil: </ion-label>
+        <ion-select interface="popover" formControlName="id_estado_civil" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaEstadoCivil" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Observação:</ion-label>
-        <ion-input formControlName="obs"></ion-input>
+        <ion-textarea rows="3" formControlName="obs"></ion-textarea>
       </ion-item>
       <ion-button expand="block" color="primary" type="submit" [disabled]="maeForm.invalid">
         Salvar

@@ -10,42 +10,33 @@
   <ion-content>
     <form [formGroup]="maeForm" (ngSubmit)="salvar()">
       <ion-card>
-          <ion-item>
-              <ion-label class="required">Inicio no Programa: </ion-label>
-              <ion-input type="date" formControlName="dt_inicio_projeto_maebebe"></ion-input>
-          </ion-item>
-          <ion-item> 
-            <ion-label position="floating" class="required">Nome completo:</ion-label>
-            <ion-input formControlName="nome"></ion-input>
-          </ion-item>
         <ion-item>
           <ion-label position="floating">E-mail:</ion-label>
           <ion-input formControlName="email"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-label position="floating" class="required">CPF:</ion-label>
-          <ion-input formControlName="cpf"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating" class="required">RG:</ion-label>
-          <ion-input formControlName="rg"></ion-input>
-        </ion-item>
+
         <ion-item>
           <ion-label position="floating">Cartão SUS:</ion-label>
           <ion-input formControlName="cartao_sus"></ion-input>
         </ion-item>
+
         <ion-item>
           <ion-label position="floating">Telefone:</ion-label>
-          <ion-input formControlName="telefone"></ion-input>
+          <ion-input formControlName="telefone" maxlength="14" [brmasker]="{phone: true}"></ion-input>
         </ion-item>
+
         <ion-item>
           <ion-label position="floating">Telefone Apoio:</ion-label>
-          <ion-input formControlName="telefone_contato"></ion-input>
+          <ion-input formControlName="telefone_contato" maxlength="14" [brmasker]="{phone: true}"></ion-input>
         </ion-item>
+        
         <ion-item>
-          <ion-label class="required"> Data de nascimento: </ion-label>
-          <ion-input type="date" formControlName="dt_nascimento"></ion-input>
-      </ion-item>
+          <ion-label>Moradia:</ion-label>
+          <ion-select formControlName="id_moradia" placeholder="Selecione">
+            <ion-select-option *ngFor="let moradia of servico.moradias" [value]="moradia.id">{{ moradia.descricao }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
         <ion-button expand="block" color="primary" type="submit" [disabled]="maeForm.invalid">
           Próximo
         </ion-button>

@@ -25,17 +25,18 @@ export class GerenciadorTiposService {
     { nome: 'tipo_exame_prenatal', rota: 'tipo_exame_prenatal/list/1' },
     { nome: 'tipo_higiene_bebe', rota: 'tipo_higiene_bebe/list/1' },
     { nome: 'area', rota: 'area/list/1' },
+    { nome: 'micro_area', rota: '/micro_area/list/1' },
     { nome: 'estado', rota: 'estado/list/1' },
+    { nome: 'bairro', rota: 'bairro/list/1' },
     { nome: 'moradia', rota: 'moradia/list/1' },
     { nome: 'escolaridade', rota: 'escolaridade/list/1' },
     { nome: 'genero', rota: 'genero/list/1' },
+    { nome: 'estado_civil', rota: 'estado_civil/list/1' },
     { nome: 'tipo_escala', rota: 'tipo_escala/list/1' },
     { nome: 'tipo_triagem_neonatal', rota: 'tipo_triagem_neonatal/list/1' },
     { nome: 'tipo_denver', rota: 'tipo_denver/list/1' },
     { nome: 'tipo_intercorrencia_peri_neonatal', rota: 'tipo_intercorrencia_peri_neonatal/list/1' },
     { nome: 'tipo_intercorrencia_primeiro_ano_vida', rota: 'tipo_intercorrencia_primeiro_ano_vida/list/1' },
-    { nome: 'estado', rota: 'estado/list/1' },
-    { nome: 'micro_area', rota: '/micro_area/list/1' }
   ]
 
   constructor(
@@ -49,8 +50,11 @@ export class GerenciadorTiposService {
       
       let retorno: any = await this.api.chamarGET(tipo.rota)
 
-      retorno.result.atualizacao = new Date()
-      this.storage.set('tipos.' + tipo.nome, retorno.result)
+      let dadosTipo = {
+        dados: retorno.result,
+        atualizacao: new Date()
+      }
+      this.storage.set('tipos.' + tipo.nome, dadosTipo)
 
     } catch(error) {
       console.log('Erro ao buscar tipo: ' + tipo.nome)
@@ -96,11 +100,12 @@ export class GerenciadorTiposService {
     }, 5000); //Executa a cada 5 segundos
   }
 
-  buscarTipo(nome: string) {
-    return this.storage.get('tipos.' + nome)
+  async buscarTipo(nome: string) {
+    let dadosTipo:any = await this.storage.get('tipos.' + nome)
+    if(dadosTipo)
+      return dadosTipo.dados
   }
 
-  
   async buscarMicroArea(nome: string, area: string) {
     let tipo;
     let microAreas = [];

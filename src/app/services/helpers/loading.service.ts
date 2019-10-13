@@ -17,7 +17,7 @@ export class LoadingService { //This class is basically a wrapper of angular Loa
 
   }
 
-  start(message: string = "Aguarde...", timeout = 10000) {
+  start(message: string = "Aguarde...", timeout = 15000) {
     if(this.isLoading) return; //Prevent two loaders at the same time
 
     this.isCreatingLoader = true;

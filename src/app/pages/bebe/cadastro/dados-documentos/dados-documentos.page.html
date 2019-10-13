@@ -47,7 +47,7 @@
       <ion-item>
         <ion-label position="stacked">Bairro</ion-label>
         <ion-select formControlName="id_bairro" placeholder="Selecione">
-          <ion-select-option *ngFor="let tipo of listarBairrosPorCidade()" [value]="tipo.id">{{ tipo.nome }}</ion-select-option>
+          <ion-select-option *ngFor="let tipo of listarBairrosPorCidade()" [value]="tipo.id_bairro">{{ tipo.nome_bairro }}</ion-select-option>
         </ion-select>
       </ion-item>
 

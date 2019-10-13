@@ -27,6 +27,12 @@ export class DadosResidenciaPage implements OnInit {
     this.router.navigateByUrl("/mae/cadastro/outras-informacoes")
   }
 
+  listarBairrosPorCidade() {
+    return this.servico.listaBairros.filter(bairro => {
+      return bairro.id_cidade == this.maeForm.get('id_cidade').value
+    })
+  }
+
   ngOnInit() {
   }
 
