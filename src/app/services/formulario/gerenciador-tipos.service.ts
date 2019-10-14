@@ -45,6 +45,11 @@ export class GerenciadorTiposService {
     private login: LoginService
   ) { }
 
+  private async atualizarListaTipos()
+  {
+      await this.storage.set('tipos', this.listaTipos.map(tipo => { return tipo.nome }))
+  }
+
   private async atualizarTipo(tipo: { nome: string, rota: string }) {
     try {
       
@@ -87,7 +92,7 @@ export class GerenciadorTiposService {
       let dataSincronizacao = await this.getDataUltimaSincronizacao()
 
       //Faz menos de 12 horas da última sincronização
-      if(dataSincronizacao && dataSincronizacao.add(12, 'hours').isAfter(moment()) ) {
+      if(!(await this.possuiNovosTipos()) && dataSincronizacao && dataSincronizacao.add(12, 'hours').isAfter(moment()) ) {
         return
       }
 
@@ -95,7 +100,8 @@ export class GerenciadorTiposService {
         await this.atualizarTipo(tipo)
       });
 
-      console.log('Sincronização realizada com sucesso')
+      await this.atualizarListaTipos()
+
       this.setDataSincronizacao()
     }, 5000); //Executa a cada 5 segundos
   }
@@ -104,5 +110,10 @@ export class GerenciadorTiposService {
     let dadosTipo:any = await this.storage.get('tipos.' + nome)
     if(dadosTipo)
       return dadosTipo.dados
+  }
+
+  async possuiNovosTipos() {
+    let listaTipos = await this.storage.get('tipos')
+    return JSON.stringify(listaTipos) !== JSON.stringify(this.listaTipos.map(tipo => { return tipo.nome }))
   }
 }
