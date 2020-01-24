@@ -51,7 +51,13 @@ export class BuscaPage implements OnInit {
 
   async buscarMaes() {
     this.carregando = true
-    this.maes = await this.servico.buscar(this.busca)
+
+    try {
+      this.maes = await this.servico.buscar(this.busca)
+    } catch (error) {
+      this.maes = []
+    }
+
     this.carregando = false
 
     if(this.maes.length == 0) {
@@ -69,17 +75,26 @@ export class BuscaPage implements OnInit {
 
     this.pagina++
     this.carregando = true
-    let resultado = await this.servico.buscar(this.busca, this.pagina)
+    
+    let resultado = [];
+
+    try {
+      resultado = await this.servico.buscar(this.busca, this.pagina)
+    } catch (error) {
+      console.log(error)
+      resultado = []
+    }
+
     this.carregando = false
     
     if(resultado.length == 0) {
-      this.infiniteScroll.disabled = true;
+      this.infiniteScroll.disabled = true
       return
     }
 
     this.maes = this.maes.concat(resultado)
     
-    this.infiniteScroll.complete();
+    this.infiniteScroll.complete()
   }
 
   ngOnInit() {
