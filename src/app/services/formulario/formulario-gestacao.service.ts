@@ -139,16 +139,25 @@ export class FormularioGestacao {
     return this.formDadosPreNatal
   }
 
-  abrirFormAbaDadosGestacao(id) {
-    this.router.navigate(['mae', id, 'gestacao', 'cadastro', 'dados-gestacao'])
+  private buscarIdMae(idMae)
+  {
+    if(this.cadastro.ehIdTemporario(idMae) && this.cadastro.foiSalvo(idMae)) {
+      idMae = this.cadastro.buscarIdBancoDeDadosPeloIdTemporario(idMae)
+    }
+
+    return idMae
   }
 
-  abrirFormAbaDadosPlanejamento(id) {
-    this.router.navigate(['mae', id, 'gestacao', 'cadastro', 'dados-planejamento'])
+  abrirFormAbaDadosGestacao(idMae) {
+    this.router.navigate(['mae', this.buscarIdMae(idMae), 'gestacao', 'cadastro', 'dados-gestacao'])
   }
 
-  abrirFormAbaDadosPreNatal(id) {
-    this.router.navigate(['mae', id, 'gestacao', 'cadastro', 'dados-prenatal'])
+  abrirFormAbaDadosPlanejamento(idMae) {
+    this.router.navigate(['mae', this.buscarIdMae(idMae), 'gestacao', 'cadastro', 'dados-planejamento'])
+  }
+
+  abrirFormAbaDadosPreNatal(idMae) {
+    this.router.navigate(['mae', this.buscarIdMae(idMae), 'gestacao', 'cadastro', 'dados-prenatal'])
   }
 
   async mapearCampos(id_mae) {
@@ -190,6 +199,8 @@ export class FormularioGestacao {
 
   async salvar(idMae) {
     try {
+      idMae = this.buscarIdMae(idMae)
+
       this.salvando = true
 
       let campos:object = await this.mapearCampos(idMae)

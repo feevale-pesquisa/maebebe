@@ -165,24 +165,42 @@ export class FormularioBebe {
         return this.formDadosDocumentos
     }
 
+    private buscarIdMae(idMae)
+    {
+        if(this.cadastro.ehIdTemporario(idMae) && this.cadastro.foiSalvo(idMae)) {
+            idMae = this.cadastro.buscarIdBancoDeDadosPeloIdTemporario(idMae)
+        }
+
+        return idMae
+    }
+
+    private buscarIdGestacao(idGestacao)
+    {
+        if(this.cadastro.ehIdTemporario(idGestacao) && this.cadastro.foiSalvo(idGestacao)) {
+            idGestacao = this.cadastro.buscarIdBancoDeDadosPeloIdTemporario(idGestacao)
+        }
+
+        return idGestacao
+    }
+
     abrirFormAbaDadosBebe(id_mae, id_gestacao) {
-        this.router.navigate(['mae', id_mae, 'gestacao', id_gestacao, 'bebe', 'cadastro', 'dados-bebe'])
+        this.router.navigate(['mae', this.buscarIdMae(id_mae), 'gestacao', this.buscarIdGestacao(id_gestacao), 'bebe', 'cadastro', 'dados-bebe'])
     }
 
     abrirFormAbaDadosParto(id_mae, id_gestacao) {
-        this.router.navigate(['mae', id_mae, 'gestacao', id_gestacao, 'bebe', 'cadastro', 'dados-parto'])
+        this.router.navigate(['mae', this.buscarIdMae(id_mae), 'gestacao', this.buscarIdGestacao(id_gestacao), 'bebe', 'cadastro', 'dados-parto'])
     }
 
     abrirFormAbaDadosTestes(id_mae, id_gestacao) {
-        this.router.navigate(['mae', id_mae, 'gestacao', id_gestacao, 'bebe', 'cadastro', 'dados-testes'])
+        this.router.navigate(['mae', this.buscarIdMae(id_mae), 'gestacao', this.buscarIdGestacao(id_gestacao), 'bebe', 'cadastro', 'dados-testes'])
     }
 
     abrirFormAbaDadosIntercorrencias(id_mae, id_gestacao) {
-        this.router.navigate(['mae', id_mae, 'gestacao', id_gestacao, 'bebe', 'cadastro', 'dados-intercorrencias'])
+        this.router.navigate(['mae', this.buscarIdMae(id_mae), 'gestacao', this.buscarIdGestacao(id_gestacao), 'bebe', 'cadastro', 'dados-intercorrencias'])
     }
 
     abrirFormAbaDadosDocumentos(id_mae, id_gestacao) {
-        this.router.navigate(['mae', id_mae, 'gestacao', id_gestacao, 'bebe', 'cadastro', 'dados-documentos'])
+        this.router.navigate(['mae', this.buscarIdMae(id_mae), 'gestacao', this.buscarIdGestacao(id_gestacao), 'bebe', 'cadastro', 'dados-documentos'])
     }
 
     async buscarTipos() {
@@ -201,8 +219,8 @@ export class FormularioBebe {
         let usuario:User = await this.login.getUser()
 
         let camposUsuario = {
-            id_mae: idMae,
-            id_gestacao: idGestacao,
+            id_mae: this.buscarIdMae(idMae),
+            id_gestacao: this.buscarIdGestacao(idGestacao),
             dt_registro: moment().format('DD/MM/YYYY'),
             id_usuario_registro: usuario.id
         }
@@ -228,6 +246,9 @@ export class FormularioBebe {
 
     async salvar(idMae, idGestacao) {
         try {
+            idMae = this.buscarIdMae(idMae)
+            idGestacao = this.buscarIdGestacao(idGestacao)
+
             this.salvando = true
 
             let campos:object = await this.mapearCampos(idMae, idGestacao)

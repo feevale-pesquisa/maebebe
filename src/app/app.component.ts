@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginService } from './services/login/login.service';
 import { CacheService } from './services/helpers/cache.service';
 import { TypeService } from './services/helpers/type.service';
+import { CadastroMaeService } from './services/formulario/cadastro-mae.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private login: LoginService,
     private cacheService: CacheService,
-    private typeService: TypeService
+    private typeService: TypeService,
+    private cadastroMae: CadastroMaeService
   ) {
     this.initializeApp();
   }
@@ -29,6 +31,7 @@ export class AppComponent {
       
       this.cacheService.schedule()
       this.typeService.schedule()
+      this.cadastroMae.agendar()
 
       this.splashScreen.hide()
     });
