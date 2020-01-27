@@ -19,7 +19,7 @@ import { ErrorInterceptor } from './services/http/error-interceptor';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot({ name: 'maebebe', storeName: 'dados' })],
   providers: [
     StatusBar,
     SplashScreen,

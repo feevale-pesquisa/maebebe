@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { AlertService } from '../helpers/alert.service';
@@ -8,6 +7,7 @@ import { User } from '../login/user';
 import { LoginService } from '../login/login.service';
 import { Validators as V } from '@angular/forms';
 import { CadastroMaeService } from './cadastro-mae.service';
+import { TypeService } from '../helpers/type.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class FormularioMae {
   public escolaridades = [];
   public rendaFamiliar = [];
 
-  constructor( private gerenciadorTipos: GerenciadorTiposService,
+  constructor( private typeService: TypeService,
     private router: Router,
     private login: LoginService,
     private cadastro: CadastroMaeService,
@@ -126,14 +126,14 @@ export class FormularioMae {
   }
 
   async buscarTipos() {
-    this.areas = await this.gerenciadorTipos.buscarTipo('area');
-    this.microAreas = await this.gerenciadorTipos.buscarTipo('micro_area');
-    this.listaEstados = await this.gerenciadorTipos.buscarTipo('estado');
-    this.listaBairros = await this.gerenciadorTipos.buscarTipo('bairro');
-    this.listaEstadoCivil = await this.gerenciadorTipos.buscarTipo('estado_civil');
-    this.moradias = await this.gerenciadorTipos.buscarTipo('moradia');
-    this.escolaridades = await this.gerenciadorTipos.buscarTipo('escolaridade');
-    this.rendaFamiliar = await this.gerenciadorTipos.buscarTipo('tipo_renda_mensal');
+    this.areas = await this.typeService.getType('area');
+    this.microAreas = await this.typeService.getType('micro_area');
+    this.listaEstados = await this.typeService.getType('estado');
+    this.listaBairros = await this.typeService.getType('bairro');
+    this.listaEstadoCivil = await this.typeService.getType('estado_civil');
+    this.moradias = await this.typeService.getType('moradia');
+    this.escolaridades = await this.typeService.getType('escolaridade');
+    this.rendaFamiliar = await this.typeService.getType('tipo_renda_mensal');
   }
 
   async mapearCampos() {

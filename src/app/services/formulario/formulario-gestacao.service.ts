@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Validators as V } from '@angular/forms';
-import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
 import { BuscaMaeService } from '../busca/busca-mae.service';
 import { LoginService } from '../login/login.service';
@@ -10,6 +9,7 @@ import * as moment from 'moment';
 import { FormException } from '../../exceptions/form-exception';
 import { AlertService } from '../helpers/alert.service';
 import { CadastroMaeService } from './cadastro-mae.service';
+import { TypeService } from '../helpers/type.service';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,7 @@ export class FormularioGestacao {
   public listaTipoExamePreNatal = []
 
   constructor(
-    private gerenciadorTipos: GerenciadorTiposService, 
+    private typeService: TypeService, 
     private maeServico: BuscaMaeService,
     private router: Router,
     private login: LoginService,
@@ -68,12 +68,12 @@ export class FormularioGestacao {
   }
 
   async buscarTipos() {
-    this.listaMotivoDesfecho = await this.gerenciadorTipos.buscarTipo('tipo_motivo_desfecho')
-    this.listaTipoParto = await this.gerenciadorTipos.buscarTipo('tipo_parto')
-    this.listaTipoPlanejamentoGestacao = await this.gerenciadorTipos.buscarTipo('tipo_planejamento_gestacao')
-    this.listaTipoMAC = await this.gerenciadorTipos.buscarTipo('tipo_mac')
-    this.listaTempoMAC = await this.gerenciadorTipos.buscarTipo('tempo_mac')
-    this.listaTipoExamePreNatal = await this.gerenciadorTipos.buscarTipo('tipo_exame_prenatal')
+    this.listaMotivoDesfecho = await this.typeService.getType('tipo_motivo_desfecho')
+    this.listaTipoParto = await this.typeService.getType('tipo_parto')
+    this.listaTipoPlanejamentoGestacao = await this.typeService.getType('tipo_planejamento_gestacao')
+    this.listaTipoMAC = await this.typeService.getType('tipo_mac')
+    this.listaTempoMAC = await this.typeService.getType('tempo_mac')
+    this.listaTipoExamePreNatal = await this.typeService.getType('tipo_exame_prenatal')
   }
 
   private limparFormularios() {

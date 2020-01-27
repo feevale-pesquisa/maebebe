@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Validators as V } from '@angular/forms';
-import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { AlertService } from '../helpers/alert.service';
 import { User } from '../login/user';
 import { LoginService } from '../login/login.service';
 import { CadastroMaeService } from './cadastro-mae.service';
+import { TypeService } from '../helpers/type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -47,7 +47,7 @@ export class FormularioBebe {
     public listaBairros = []
 
     constructor(
-        private gerenciadorTipos: GerenciadorTiposService,
+        private typeService: TypeService,
         private router: Router,
         private login: LoginService,
         private cadastro: CadastroMaeService,
@@ -186,15 +186,15 @@ export class FormularioBebe {
     }
 
     async buscarTipos() {
-        this.listaTipoGenero = await this.gerenciadorTipos.buscarTipo('genero')
-        this.listaTipoParto = await this.gerenciadorTipos.buscarTipo('tipo_parto')
-        this.listaTipoEscala = await this.gerenciadorTipos.buscarTipo('tipo_escala')
-        this.listaTriagemNeonatal = await this.gerenciadorTipos.buscarTipo('tipo_triagem_neonatal')
-        this.listaTesteDenver = await this.gerenciadorTipos.buscarTipo('tipo_denver')
-        this.listaIntercorrenciaNeonatal = await this.gerenciadorTipos.buscarTipo('tipo_intercorrencia_peri_neonatal')
-        this.listaIntercorrenciaPrimeiroAno = await this.gerenciadorTipos.buscarTipo('tipo_intercorrencia_primeiro_ano_vida')
-        this.listaEstados = await this.gerenciadorTipos.buscarTipo('estado')
-        this.listaBairros = await this.gerenciadorTipos.buscarTipo('bairro');
+        this.listaTipoGenero = await this.typeService.getType('genero')
+        this.listaTipoParto = await this.typeService.getType('tipo_parto')
+        this.listaTipoEscala = await this.typeService.getType('tipo_escala')
+        this.listaTriagemNeonatal = await this.typeService.getType('tipo_triagem_neonatal')
+        this.listaTesteDenver = await this.typeService.getType('tipo_denver')
+        this.listaIntercorrenciaNeonatal = await this.typeService.getType('tipo_intercorrencia_peri_neonatal')
+        this.listaIntercorrenciaPrimeiroAno = await this.typeService.getType('tipo_intercorrencia_primeiro_ano_vida')
+        this.listaEstados = await this.typeService.getType('estado')
+        this.listaBairros = await this.typeService.getType('bairro');
     }
 
     async mapearCampos(idMae: any, idGestacao: any) {
