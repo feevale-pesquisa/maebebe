@@ -35,7 +35,7 @@ export class PorMaePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    let id:number = Number(this.route.snapshot.paramMap.get('id'))
+    let id:string = this.route.snapshot.paramMap.get('id')
 
     this.carregarMae(id)
     this.carregarGestacoes(id)

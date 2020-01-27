@@ -23,12 +23,12 @@ export class DadosPlanejamentoPage implements OnInit {
   }
 
   voltar() {
-    let id:number = Number(this.route.snapshot.paramMap.get('id_mae'))
+    let id:any = this.route.snapshot.paramMap.get('id_mae')
     this.servico.abrirFormAbaDadosGestacao(id);
   }
 
   salvar() {
-    let id:number = Number(this.route.snapshot.paramMap.get('id_mae'))
+    let id:any = this.route.snapshot.paramMap.get('id_mae')
     this.servico.abrirFormAbaDadosPreNatal(id);
   }
 

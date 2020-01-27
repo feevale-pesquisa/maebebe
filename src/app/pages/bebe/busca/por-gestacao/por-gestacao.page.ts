@@ -11,9 +11,10 @@ import * as moment from 'moment';
 })
 export class PorGestacaoPage implements OnInit {
 
-  public idMae: Number
-  public idGestacao: Number
+  public idMae: string
+  public idGestacao: string
   public bebes: any = []
+  public mae: Object = null
   public gestacao: Object = null
   public carregando: boolean = false
 
@@ -38,8 +39,8 @@ export class PorGestacaoPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.idMae = Number(this.route.snapshot.paramMap.get('id_mae'))
-    this.idGestacao = Number(this.route.snapshot.paramMap.get('id_gestacao'))
+    this.idMae = this.route.snapshot.paramMap.get('id_mae')
+    this.idGestacao = this.route.snapshot.paramMap.get('id_gestacao')
 
     this.carregarGestacao(this.idGestacao)
     this.carregarBebes(this.idGestacao)
@@ -47,6 +48,7 @@ export class PorGestacaoPage implements OnInit {
 
   async carregarGestacao(id) {
     this.carregando = true
+    this.mae = await this.maeServico.buscarPorId(this.idMae)
     this.gestacao = await this.maeServico.buscarGestacaoPorId(id)
     this.carregando = false
   }

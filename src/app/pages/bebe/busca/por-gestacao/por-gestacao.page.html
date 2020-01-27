@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-item lines="none" class="ion-text-center" *ngIf="gestacao">
-    <ion-label>Bebês de {{ gestacao.nome_mae }}</ion-label>
+    <ion-label>Bebês de {{ mae.nome }}</ion-label>
   </ion-item>
 
   <ion-row *ngIf="carregando" class="ion-text-center ion-padding-top">
@@ -20,7 +20,7 @@
   <ion-card *ngFor="let bebe of bebes">
 
     <ion-card-header>
-        <ion-card-title>{{ bebe.nome_bebe }}</ion-card-title>
+        <ion-card-title>{{ bebe.nome_bebe || bebe.nome }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-row>

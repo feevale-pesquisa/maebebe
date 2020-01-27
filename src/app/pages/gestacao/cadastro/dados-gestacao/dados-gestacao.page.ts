@@ -26,7 +26,7 @@ export class DadosGestacaoPage implements OnInit {
   }
 
   salvar() {
-    let id:number = Number(this.route.snapshot.paramMap.get('id_mae'))
+    let id:any = this.route.snapshot.paramMap.get('id_mae')
     this.servico.abrirFormAbaDadosPlanejamento(id);
   }
 
