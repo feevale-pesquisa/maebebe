@@ -3,13 +3,13 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Validators as V } from '@angular/forms';
 import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
-import { API } from '../http/api';
 import { BuscaMaeService } from '../busca/busca-mae.service';
 import { LoginService } from '../login/login.service';
 import { User } from '../login/user';
 import * as moment from 'moment';
 import { FormException } from '../../exceptions/form-exception';
 import { AlertService } from '../helpers/alert.service';
+import { CadastroMaeService } from './cadastro-mae.service';
 
 @Injectable({
   providedIn: 'root'
@@ -53,9 +53,9 @@ export class FormularioGestacao {
   constructor(
     private gerenciadorTipos: GerenciadorTiposService, 
     private maeServico: BuscaMaeService,
-    private api: API,
     private router: Router,
     private login: LoginService,
+    private cadastro: CadastroMaeService,
     private alert: AlertService
   ) {
     this.buscarTipos()
@@ -188,13 +188,15 @@ export class FormularioGestacao {
     return campos
   }
 
-  async salvar(id) {
+  async salvar(idMae) {
     try {
       this.salvando = true
 
-      let campos:object = await this.mapearCampos(id)
-      let resposta: {id: any} = await this.api.salvarFormulario('mae/:id/gestacao/new'.replace(":id", id), campos);
-      this.acoesAposSalvar(id, resposta.id)
+      let campos:object = await this.mapearCampos(idMae)
+
+      let id = await this.cadastro.cadastrarGestacao(idMae, campos)
+
+      this.acoesAposSalvar(idMae, id)
 
       this.salvando = false
       this.limparFormularios()

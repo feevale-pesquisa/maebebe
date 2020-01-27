@@ -3,11 +3,11 @@ import { FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Validators as V } from '@angular/forms';
 import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
-import { API } from '../http/api';
 import * as moment from 'moment';
 import { AlertService } from '../helpers/alert.service';
 import { User } from '../login/user';
 import { LoginService } from '../login/login.service';
+import { CadastroMaeService } from './cadastro-mae.service';
 
 @Injectable({
     providedIn: 'root'
@@ -47,10 +47,10 @@ export class FormularioBebe {
     public listaBairros = []
 
     constructor(
-        private gerenciadorTipos: GerenciadorTiposService, 
-        private api: API,
+        private gerenciadorTipos: GerenciadorTiposService,
         private router: Router,
         private login: LoginService,
+        private cadastro: CadastroMaeService,
         private alert: AlertService
     ) {
         this.buscarTipos();
@@ -232,9 +232,9 @@ export class FormularioBebe {
 
             let campos:object = await this.mapearCampos(idMae, idGestacao)
 
-            let resposta: {id: any} = await this.api.salvarFormularioBebe(idMae, idGestacao, campos);
+            let id = await this.cadastro.cadastrarBebe(idMae, idGestacao, campos)
 
-            this.acoesAposSalvar(idMae, idGestacao, resposta.id)
+            this.acoesAposSalvar(idMae, idGestacao, id)
 
             this.salvando = false
             this.limparFormularios()

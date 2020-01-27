@@ -5,12 +5,15 @@ import sha256 from 'crypto-js/sha256';
 
 export enum CacheType {
     OUTRO = 'O',
-    MAE = 'M',
-    BEBE = 'B',
-    GESTACAO = 'G',
-    LISTA_MAE = 'LM',
-    LISTA_BEBE = 'LB',
-    LISTA_GESTACAO = 'LG',
+    MAE = 'mae',
+    BEBE = 'bebe',
+    GESTACAO = 'gestacao',
+    LISTA_MAE = 'lista-mae',
+    LISTA_BEBE = 'lista-bebe',
+    LISTA_GESTACAO = 'lista-gestacao',
+    CADASTRO_MAE = 'cadastro-mae',
+    CADASTRO_BEBE = 'cadastro-bebe',
+    CADASTRO_GESTACAO = 'cadastro-gestacao',
 }
 
 @Injectable({
@@ -89,9 +92,9 @@ export class CacheService {
         return cacheIndex;
     }
     
-    public async add(id: string, item: object, type: CacheType = CacheType.OUTRO, lifetimeInMinutes: number = 1)
+    public async add(id: any, item: object, type: CacheType = CacheType.OUTRO, lifetimeInMinutes: number = 1)
     {
-        let key = sha256(id + type)
+        let key:string = String(type) + '.' + String(id)
 
         let expireIn = moment().add(lifetimeInMinutes, 'minutes')
 
@@ -103,19 +106,21 @@ export class CacheService {
 
         await this.addToIndex(String(key), type, expireIn)
         await this.storage.set('cache.' + key, cache)
+
+        return key
     }
 
-    public async has(id: string, type: CacheType)
+    public async has(id: any, type: CacheType)
     {
-        let key = sha256(id + type)
+        let key = type + '.' + id
         let result = await this.storage.get('cache.' + key)
 
         return result != null
     }
 
-    public async getById(id: string, type: CacheType)
+    public async getById(id: any, type: CacheType)
     {
-        let key = sha256(id + type)
+        let key = type + '.' + id
         let result = await this.storage.get('cache.' + key)
         return result.data
     }

@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { GerenciadorTiposService } from './gerenciador-tipos.service';
 import { Router } from '@angular/router';
-import { API } from '../http/api';
 import * as moment from 'moment';
 import { AlertService } from '../helpers/alert.service';
 import { User } from '../login/user';
 import { LoginService } from '../login/login.service';
 import { Validators as V } from '@angular/forms';
+import { CadastroMaeService } from './cadastro-mae.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,10 +41,10 @@ export class FormularioMae {
   public escolaridades = [];
   public rendaFamiliar = [];
 
-  constructor( private gerenciadorTipos: GerenciadorTiposService, 
-    private api: API,
+  constructor( private gerenciadorTipos: GerenciadorTiposService,
     private router: Router,
     private login: LoginService,
+    private cadastro: CadastroMaeService,
     private alert: AlertService
     ) {
     this.buscarTipos();
@@ -171,8 +171,10 @@ export class FormularioMae {
         this.salvando = true
 
         let campos:object = await this.mapearCampos()
-        let resposta: {id_mae: any} =  await this.api.salvarFormularioMae(campos);
-        this.acoesAposSalvar(resposta.id_mae)
+
+        let id = await this.cadastro.cadastrarMae(campos)
+
+        this.acoesAposSalvar(id)
 
         this.salvando = false
         this.limparFormularios()
