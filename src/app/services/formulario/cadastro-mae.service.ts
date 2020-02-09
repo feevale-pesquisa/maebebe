@@ -13,12 +13,23 @@ export class CadastroMaeService {
     
     private possuiInternet:boolean = false
     private idsSalvos = []
+    private bloquearAgendamento = false
 
     public constructor(
         private api: API,
         private cache: CacheService)
     {
         
+    }
+
+    public bloquear()
+    {
+        this.bloquearAgendamento = true
+    }
+
+    public desbloquear()
+    {
+        this.bloquearAgendamento = false
     }
 
     public ehIdTemporario(id: any)
@@ -40,6 +51,8 @@ export class CadastroMaeService {
 
     public async cadastrarMae(dados: any)
     {
+        console.debug('[cadastro-mae.service.ts] - Cadastrando mãe ' + dados.nome)
+
         if(this.possuiInternet) {
             let resposta: {id_mae: any} = await this.api.salvarFormularioMae(dados);
 
@@ -57,6 +70,8 @@ export class CadastroMaeService {
 
     public async cadastrarGestacao(idMae, dados:any)
     {
+        console.debug('[cadastro-mae.service.ts] - Cadastrando gestação de ' + dados.nome_mae)
+
         if(this.possuiInternet) {
             let resposta: {id: any} = await this.api.salvarFormularioGestacao(idMae, dados)
 
@@ -74,6 +89,8 @@ export class CadastroMaeService {
 
     public async cadastrarBebe(idMae, idGestacao, dados:any)
     {
+        console.debug('[cadastro-mae.service.ts] - Cadastrando bebe ' + dados.nome)
+
         if(this.possuiInternet) {
             let resposta: {id: any} = await this.api.salvarFormularioBebe(idMae, idGestacao, dados);
 
@@ -97,7 +114,7 @@ export class CadastroMaeService {
 
         for (const mae of maes) {
             try {
-                if(mae.possuiErro || mae.id == undefined) {
+                if(mae.possuiErro || mae.id == undefined || this.bloquearAgendamento) {
                     continue
                 }
 
@@ -144,7 +161,7 @@ export class CadastroMaeService {
 
         for (const gestacao of gestacoes) {
             try {
-                if(gestacao.possuiErro || gestacao.id_gestacao == undefined) {
+                if(gestacao.possuiErro || gestacao.id_gestacao == undefined || this.bloquearAgendamento) {
                     continue
                 }
                 
@@ -190,7 +207,7 @@ export class CadastroMaeService {
         for (const bebe of bebes) {
             try {
                 
-                if(bebe.possuiErro || bebe.id_bebe == undefined) {
+                if(bebe.possuiErro || bebe.id_bebe == undefined || this.bloquearAgendamento) {
                     continue
                 }
 
@@ -228,12 +245,11 @@ export class CadastroMaeService {
         await this.salvarBebes()
     }
 
-    public async agendar()
+    public async agendar(numero = 1)
     {
-        // await this.sincronizar()
-
-        setInterval(async () => {
+        setTimeout(async () => {
             await this.sincronizar()
+            this.agendar(numero + 1)
         }, 20000)
     }
   

@@ -50,6 +50,13 @@ export class FormularioMae {
     this.buscarTipos();
   }
 
+  private iniciarFormularios() {
+    this.getFormAbaDadosMae()
+    this.getFormAbaDadosPessoais()
+    this.getFormAbaDadosResidenciais()
+    this.getFormAbaDadosOutrasInformacoes()
+  }
+
   private limparFormularios() {
     try {
         this.formDadosMaeInicial.reset()
@@ -59,7 +66,7 @@ export class FormularioMae {
     } catch (error) { }
   }
 
-  getFormAbaDadosMae(): FormGroup {
+  getFormAbaDadosMae(id = null): FormGroup {
     let builder = new FormBuilder()
 
     this.formDadosMaeInicial = builder.group({
@@ -76,7 +83,7 @@ export class FormularioMae {
     return this.formDadosMaeInicial
   }
 
-  getFormAbaDadosPessoais(): FormGroup {
+  getFormAbaDadosPessoais(id = null): FormGroup {
     let builder = new FormBuilder()
 
     this.formDadosPessoais = builder.group({
@@ -91,8 +98,8 @@ export class FormularioMae {
 
     return this.formDadosPessoais
   }
-  
-  getFormAbaDadosResidenciais(): FormGroup {
+
+  getFormAbaDadosResidenciais(id = null): FormGroup {
     let builder = new FormBuilder()
 
     this.formDadosResidenciais = builder.group({
@@ -109,7 +116,7 @@ export class FormularioMae {
     return this.formDadosResidenciais
   }
 
-  getFormAbaDadosOutrasInformacoes(): FormGroup {
+  getFormAbaDadosOutrasInformacoes(id = null): FormGroup {
     let builder = new FormBuilder()
 
     this.formDadosOutrasInformacoes = builder.group({
@@ -123,6 +130,27 @@ export class FormularioMae {
     });
 
     return this.formDadosOutrasInformacoes
+  }
+
+  abrirListagemMae() {
+    this.limparFormularios()
+    this.router.navigateByUrl("/inicio")
+  }
+
+  abrirFormAbaDadosMae() {
+    this.router.navigateByUrl("/mae/cadastro")
+  }
+
+  abrirFormAbaDadosPessoais() {
+    this.router.navigateByUrl("/mae/cadastro/dados-pessoais")
+  }
+  
+  abrirFormAbaDadosResidenciais() {
+    this.router.navigateByUrl("/mae/cadastro/dados-residencia")
+  }
+
+  abrirFormAbaOutrasInformacoes() {
+    this.router.navigateByUrl("/mae/cadastro/outras-informacoes")
   }
 
   async buscarTipos() {

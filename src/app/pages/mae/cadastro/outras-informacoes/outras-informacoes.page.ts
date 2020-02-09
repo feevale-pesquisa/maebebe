@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormularioMae } from '../../../../services/formulario/formulario-mae.service';
 
 
@@ -13,18 +13,16 @@ export class OutrasInformacoesPage implements OnInit {
 
   public maeForm: FormGroup;
 
-  constructor(private router: Router, private builder: FormBuilder, public servico: FormularioMae) { 
-
-    this.maeForm = servico.getFormAbaDadosOutrasInformacoes();
-
+  constructor(private route: ActivatedRoute, private builder: FormBuilder, public servico: FormularioMae) {
+    let id:any = this.route.snapshot.paramMap.get('id')
+    this.maeForm = servico.getFormAbaDadosOutrasInformacoes(id)
   }
 
   voltar() {
-    this.router.navigateByUrl("/mae/cadastro/dados-residencia")
+    this.servico.abrirFormAbaDadosResidenciais()
   }
 
   salvar() {
-    console.log(this.maeForm)
     this.servico.salvar();
   }
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
-import sha256 from 'crypto-js/sha256';
 
 export enum CacheType {
     OUTRO = 'O',
@@ -95,6 +94,7 @@ export class CacheService {
     public async add(id: any, item: object, type: CacheType = CacheType.OUTRO, lifetimeInMinutes: number = 1)
     {
         let key:string = String(type) + '.' + String(id)
+        console.debug('[cache.service.ts] - Adicionando ' + key + ' no cache')
 
         let expireIn = moment().add(lifetimeInMinutes, 'minutes')
 
@@ -154,6 +154,7 @@ export class CacheService {
 
     public async remove(key: string)
     {
+        console.debug('[cache.service.ts] - Removendo ' + key + ' do cache')
         await this.removeFromIndex(String(key))
         await this.storage.remove('cache.' + key)
     }
@@ -171,12 +172,13 @@ export class CacheService {
         }
     }
 
-    public async schedule()
+    public async schedule(number = 1)
     {
         await this.sincronize()
 
-        setInterval(async () => {
+        setTimeout(async () => {
             await this.sincronize()
+            this.schedule(number + 1)
         }, 10000)
     }
 }

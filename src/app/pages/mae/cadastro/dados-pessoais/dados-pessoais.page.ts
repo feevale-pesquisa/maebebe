@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { FormularioMae } from '../../../../services/formulario/formulario-mae.service';
 
@@ -13,19 +13,17 @@ export class DadosPessoaisPage implements OnInit {
 
   public maeForm: FormGroup; // Ver nomenclatura com Jefferson
 
-  constructor(private router: Router, private builder: FormBuilder, public servico: FormularioMae) { 
-
-    this.maeForm = servico.getFormAbaDadosPessoais();
-
+  constructor(private route: ActivatedRoute, private builder: FormBuilder, public servico: FormularioMae) { 
+    let id:any = this.route.snapshot.paramMap.get('id')
+    this.maeForm = servico.getFormAbaDadosPessoais(id)
   }
 
   voltar() {
-    this.router.navigateByUrl("/mae/cadastro")
+    this.servico.abrirFormAbaDadosMae()
   }
 
   salvar() {
-    console.log(this.maeForm)
-    this.router.navigateByUrl("/mae/cadastro/dados-residencia")
+    this.servico.abrirFormAbaDadosResidenciais()
   }
 
   ngOnInit() {

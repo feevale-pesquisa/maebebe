@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { FormularioMae } from '../../../../services/formulario/formulario-mae.service';
 import { Location } from '@angular/common';
@@ -14,11 +14,9 @@ export class InicioPage implements OnInit {
   public maeForm: FormGroup;
   public microareas = []
 
-  constructor(private router: Router, private builder: FormBuilder, private location: Location, public servico: FormularioMae) { 
-
-    this.maeForm = servico.getFormAbaDadosMae()
-
-
+  constructor(private route: ActivatedRoute, private builder: FormBuilder, private location: Location, public servico: FormularioMae) { 
+    let id:any = this.route.snapshot.paramMap.get('id')
+    this.maeForm = servico.getFormAbaDadosMae(id)
   }
 
   changeMicroAreas() {
@@ -29,12 +27,11 @@ export class InicioPage implements OnInit {
   }
 
   voltar() {
-    this.router.navigateByUrl("/inicio")
+    this.servico.abrirListagemMae()
   }
 
   salvar() {
-    console.log(this.maeForm)
-    this.router.navigateByUrl("/mae/cadastro/dados-pessoais")
+    this.servico.abrirFormAbaDadosPessoais()
   }
 
   ngOnInit() {
