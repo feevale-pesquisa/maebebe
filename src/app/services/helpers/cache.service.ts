@@ -167,6 +167,7 @@ export class CacheService {
             let expire:moment.Moment = moment(cacheIndex[key].expire_in)
 
             if(expire.isBefore(moment())) {
+                console.debug('[cache.service.ts] - ' + key + ' está vencido')
                 await this.remove(key)
             }
         }

@@ -76,7 +76,7 @@ export class BuscaMaeService {
     return gestacoes
   }
 
-  async buscarBebePorGestacao(id: number) {
+  async buscarBebePorGestacao(id: any) {
     let bebes = []
 
     let bebesNaoSalvos = await this.cache.getByType(CacheType.CADASTRO_BEBE)
@@ -104,7 +104,7 @@ export class BuscaMaeService {
     return bebes
   }
 
-  async buscarGestacaoPorId(id: number) {
+  async buscarGestacaoPorId(id: any) {
     if(this.cadastroMae.ehIdTemporario(id)) {
       return await this.cache.getById(id, CacheType.CADASTRO_GESTACAO)
     }
@@ -133,6 +133,10 @@ export class BuscaMaeService {
 
     } else {
       resultado = await this.api.chamarGET(apiUrl)
+
+      if(resultado.errors && resultado.errors.length > 0) {
+        throw new Error("Não encontrado")
+      }
 
       await this.cache.add(id, resultado, cacheType)
     }

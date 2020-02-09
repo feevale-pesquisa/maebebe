@@ -42,23 +42,53 @@ export class PorGestacaoPage implements OnInit {
     this.idMae = this.route.snapshot.paramMap.get('id_mae')
     this.idGestacao = this.route.snapshot.paramMap.get('id_gestacao')
 
-    this.carregarGestacao(this.idGestacao)
-    this.carregarBebes(this.idGestacao)
+    this.carregarDados()
   }
 
-  async carregarGestacao(id) {
-    this.carregando = true
-    this.mae = await this.maeServico.buscarPorId(this.idMae)
-    this.gestacao = await this.maeServico.buscarGestacaoPorId(id)
-    this.carregando = false
+  atualizar(event) {
+    this.carregarBebes().then(() => {
+      event.target.complete()
+    })
   }
 
-  async carregarBebes(id) {
+  async carregarDados() {
+    await this.carregarGestacao()
+    if(this.gestacao)
+      await this.carregarBebes()
+  }
+
+  async carregarGestacao() {
     this.carregando = true
-    this.bebes = await this.maeServico.buscarBebePorGestacao(id)
-    this.carregando = false
-    if(this.bebes.length == 0)
-      this.mostrarMensagem("Nenhum bebê cadastrado")
+    try {
+
+      this.mae = await this.maeServico.buscarPorId(this.idMae)
+      this.gestacao = await this.maeServico.buscarGestacaoPorId(this.idGestacao)
+
+      this.carregando = false
+      
+    } catch(error) {
+
+      this.carregando = false
+      this.voltar()
+      
+    }
+  }
+
+  async carregarBebes() {
+    this.carregando = true
+    try {
+      
+      this.bebes = await this.maeServico.buscarBebePorGestacao(this.idGestacao)
+      this.carregando = false
+      if(this.bebes.length == 0)
+        this.mostrarMensagem("Nenhum bebê cadastrado")
+
+    } catch(error) {
+      
+      this.carregando = false
+      this.voltar()
+
+    }
   }
 
   voltar() {

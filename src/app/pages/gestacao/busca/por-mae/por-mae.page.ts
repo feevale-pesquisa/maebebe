@@ -35,24 +35,54 @@ export class PorMaePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.carregarDados()    
+  }
+
+  atualizar(event) {
+    let id:string = this.route.snapshot.paramMap.get('id')
+    this.carregarGestacoes(id).then(() => {
+      event.target.complete()
+    })
+  }
+
+  async carregarDados() {
     let id:string = this.route.snapshot.paramMap.get('id')
 
-    this.carregarMae(id)
-    this.carregarGestacoes(id)
+    await this.carregarMae(id)
+    if(this.mae)
+      await this.carregarGestacoes(id)
   }
 
   async carregarMae(id) {
     this.carregando = true
-    this.mae = await this.maeServico.buscarPorId(id)
-    this.carregando = false
+    try {
+      
+      this.mae = await this.maeServico.buscarPorId(id)
+      this.carregando = false
+
+    } catch(error) {
+
+      this.carregando = false
+      this.voltar()
+      
+    }
   }
 
   async carregarGestacoes(id) {
     this.carregando = true
-    this.gestacoes = await this.maeServico.buscarGestacaoPorMae(id)
-    this.carregando = false
-    if(this.gestacoes.length == 0)
-      this.mostrarMensagem("Nenhuma gestação cadastrada")
+    try {
+      
+      this.gestacoes = await this.maeServico.buscarGestacaoPorMae(id)
+      this.carregando = false
+      if(this.gestacoes.length == 0)
+        this.mostrarMensagem("Nenhuma gestação cadastrada")
+
+    } catch(error) {
+
+      this.carregando = false
+      this.voltar()
+      
+    }
   }
 
   voltar() {

@@ -70,7 +70,7 @@ export class CadastroMaeService {
 
     public async cadastrarGestacao(idMae, dados:any)
     {
-        console.debug('[cadastro-mae.service.ts] - Cadastrando gestação de ' + dados.nome_mae)
+        console.debug('[cadastro-mae.service.ts] - Cadastrando gestação')
 
         if(this.possuiInternet) {
             let resposta: {id: any} = await this.api.salvarFormularioGestacao(idMae, dados)
