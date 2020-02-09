@@ -52,13 +52,18 @@ export class BuscaMaeService {
   }
 
   async buscarGestacaoPorMae(id: number) {
-    if(this.cadastroMae.ehIdTemporario(id)) {
-      let gestacoes = await this.cache.getByType(CacheType.CADASTRO_GESTACAO)
+    let gestacoes = []
 
-      if(!gestacoes) return []
+    let gestacoesNaoSalvas = await this.cache.getByType(CacheType.CADASTRO_GESTACAO)
 
-      return gestacoes.filter(gestacao => { return gestacao.id_mae == id })
+    if(gestacoesNaoSalvas.length > 0) {
+      gestacoes = gestacoes.concat(
+        gestacoesNaoSalvas.filter(gestacao => { return gestacao.id_mae == id })
+      )
     }
+
+    if(this.cadastroMae.ehIdTemporario(id))
+      return gestacoes
 
     let url = 'mae/' + id + '/gestacao'
 
@@ -66,7 +71,37 @@ export class BuscaMaeService {
       CacheType.LISTA_GESTACAO, id, url
     )
 
-    return resultado.result
+    gestacoes = gestacoes.concat(resultado.result)
+
+    return gestacoes
+  }
+
+  async buscarBebePorGestacao(id: number) {
+    let bebes = []
+
+    let bebesNaoSalvos = await this.cache.getByType(CacheType.CADASTRO_BEBE)
+
+    if(bebesNaoSalvos.length > 0) {
+      bebes = bebes.concat(
+        bebesNaoSalvos.filter(bebe => { return bebe.id_gestacao == id })
+      )
+    }
+
+    if(this.cadastroMae.ehIdTemporario(id)) {
+      return bebes
+    }
+
+    let gestacao:any = await this.buscarGestacaoPorId(id)
+
+    let url = 'mae/' + gestacao.id_mae + '/gestacao/' + gestacao.id_gestacao + '/bebe'
+
+    let resultado:any = await this.buscarDoCacheOuApi(
+      CacheType.LISTA_BEBE, gestacao.id_gestacao, url
+    )
+
+    bebes = bebes.concat(resultado.result)
+
+    return bebes
   }
 
   async buscarGestacaoPorId(id: number) {
@@ -81,27 +116,6 @@ export class BuscaMaeService {
     )
 
     return resultado
-  }
-
-  async buscarBebePorGestacao(id: number) {
-    
-    if(this.cadastroMae.ehIdTemporario(id)) {
-      let bebes = await this.cache.getByType(CacheType.CADASTRO_BEBE)
-
-      if(!bebes) return []
-
-      return bebes.filter(bebe => { return bebe.id_gestacao == id })
-    }
-
-    let gestacao:any = await this.buscarGestacaoPorId(id)
-
-    let url = 'mae/' + gestacao.id_mae + '/gestacao/' + gestacao.id_gestacao + '/bebe'
-
-    let resultado:any = await this.buscarDoCacheOuApi(
-      CacheType.LISTA_BEBE, gestacao.id_gestacao, url
-    )
-
-    return resultado.result
   }
 
   private async buscarDoCacheOuApi(cacheType: CacheType, id: any, apiUrl: string) {

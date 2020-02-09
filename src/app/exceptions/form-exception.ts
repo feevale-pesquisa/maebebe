@@ -7,6 +7,11 @@ export class FormException {
         this.errors = errors
     }
 
+    public getErrors()
+    {
+        return this.errors
+    }
+
     public getMessage()
     {
         let errorMessages = [];

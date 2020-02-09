@@ -128,6 +128,7 @@ export class CacheService {
     public async getByKey(key: string)
     {
         let result = await this.storage.get('cache.' + key)
+
         return result.data
     }
 
@@ -144,6 +145,13 @@ export class CacheService {
         return list
     }
 
+    public async removeById(id: string, type: CacheType)
+    {
+        let key = type + '.' + id
+        
+        this.remove(key)
+    }
+
     public async remove(key: string)
     {
         await this.removeFromIndex(String(key))
@@ -158,7 +166,6 @@ export class CacheService {
             let expire:moment.Moment = moment(cacheIndex[key].expire_in)
 
             if(expire.isBefore(moment())) {
-                console.log(key)
                 await this.remove(key)
             }
         }

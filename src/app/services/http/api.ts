@@ -50,6 +50,17 @@ export class API {
         return resposta
     }
 
+    async salvarFormularioGestacao(idMae: any, data:any) {
+        let url:string = 'mae/:id/gestacao/new'.replace(":id", idMae)
+
+        let resposta:any = await this.chamarPOST(url, data)
+        if(resposta.errors && resposta.errors.length > 0) {
+            throw new FormException(resposta.errors)
+        }
+
+        return resposta
+    }
+
     async salvarFormularioBebe(idMae: any, idGestacao: any, data: any) {
         let url: string = 'mae/:id_mae/gestacao/:id_gestacao/bebe/new'
                         .replace(":id_mae", idMae)

@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { API } from '../http/api';
 import { CacheService, CacheType } from '../helpers/cache.service';
 import * as moment from 'moment';
+import { FormException } from '../../exceptions/form-exception';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import * as moment from 'moment';
 
 export class CadastroMaeService {
     
-    private possuiInternet:boolean = true
+    private possuiInternet:boolean = false
     private idsSalvos = []
 
     public constructor(
@@ -40,7 +41,7 @@ export class CadastroMaeService {
     public async cadastrarMae(dados: any)
     {
         if(this.possuiInternet) {
-            let resposta: {id_mae: any} =  await this.api.salvarFormularioMae(dados);
+            let resposta: {id_mae: any} = await this.api.salvarFormularioMae(dados);
 
             return resposta.id_mae
         }
@@ -56,9 +57,8 @@ export class CadastroMaeService {
 
     public async cadastrarGestacao(idMae, dados:any)
     {
-        
         if(this.possuiInternet) {
-            let resposta: {id: any} = await this.api.salvarFormulario('mae/:id/gestacao/new'.replace(":id", idMae), dados);
+            let resposta: {id: any} = await this.api.salvarFormularioGestacao(idMae, dados)
 
             return resposta.id
         }
@@ -80,8 +80,9 @@ export class CadastroMaeService {
             return resposta.id
         }
 
-
         let id = moment().format('HH:mm:ss.SSS')
+
+        dados.id_bebe = id
 
         await this.cache.add(id, dados, CacheType.CADASTRO_BEBE, 100000)
 
@@ -95,24 +96,44 @@ export class CadastroMaeService {
         let bebes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_BEBE)
 
         for (const mae of maes) {
-            let id = 481
+            try {
+                if(mae.possuiErro || mae.id == undefined) {
+                    continue
+                }
 
-            this.idsSalvos[mae.id] = id
+                let resposta: {id_mae: any} = await this.api.salvarFormularioMae(mae);
 
-            let gestacoesPorMae = gestacoes.filter(gestacao => { return gestacao.id_mae = mae.id })
-            let bebesPorMae = bebes.filter(bebe => { return bebe.id_mae = mae.id })
+                let id = resposta.id_mae
 
-            for (const gestacao of gestacoesPorMae) {
-                gestacao.id_mae = id
+                this.idsSalvos[mae.id] = id
+
+                let gestacoesPorMae = gestacoes.filter(gestacao => { return gestacao.id_mae = mae.id })
+                let bebesPorMae = bebes.filter(bebe => { return bebe.id_mae = mae.id })
+
+                for (const gestacao of gestacoesPorMae) {
+                    gestacao.id_mae = id
+
+                    await this.cache.add(gestacao.id_gestacao, gestacao, CacheType.CADASTRO_GESTACAO, 100000)
+                }
+
+                for (const bebe of bebesPorMae) {
+                    bebe.id_mae = id
+
+                    await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
+                }
+
+                await this.cache.removeById(mae.id, CacheType.CADASTRO_MAE)
+            } catch (error) {
+                if(error instanceof FormException) {
+                    
+                    mae.possuiErro = true
+                    mae.erros = error.getErrors()
+                    await this.cache.add(mae.id, mae, CacheType.CADASTRO_MAE, 100000)
+
+                } else {
+                    throw error
+                }
             }
-
-            for (const bebe of bebesPorMae) {
-                bebe.id_mae = id
-            }
-
-            mae.id = id
-
-            console.log(mae)
         }
     }
 
@@ -122,22 +143,43 @@ export class CadastroMaeService {
         let bebes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_BEBE)
 
         for (const gestacao of gestacoes) {
-            if(this.ehIdTemporario(gestacao.id_mae))
-                continue
+            try {
+                if(gestacao.possuiErro || gestacao.id_gestacao == undefined) {
+                    continue
+                }
+                
+                if(this.ehIdTemporario(gestacao.id_mae))
+                    continue
+    
+                let resposta: {id: any} = await this.api.salvarFormularioGestacao(gestacao.id_mae, gestacao)
+                let id = resposta.id
+    
+                this.idsSalvos[gestacao.id_gestacao] = id
+    
+                let bebesPorMae = bebes.filter(bebe => { return bebe.id_gestacao = gestacao.id_gestacao })
+    
+                for (const bebe of bebesPorMae) {
+                    bebe.id_gestacao = id
+    
+                    await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
+                }
+    
+                await this.cache.removeById(gestacao.id_gestacao, CacheType.CADASTRO_GESTACAO)
+                await this.cache.removeById(gestacao.id_mae, CacheType.LISTA_GESTACAO)
+                
+            } catch (error) {
+                
+                if(error instanceof FormException) {
+                    
+                    gestacao.possuiErro = true
+                    gestacao.erros = error.getErrors()
+                    await this.cache.add(gestacao.id_gestacao, gestacao, CacheType.CADASTRO_GESTACAO, 100000)
 
-            let id = 150
+                } else {
+                    throw error
+                }
 
-            this.idsSalvos[gestacao.id_gestacao] = id
-
-            let bebesPorMae = bebes.filter(bebe => { return bebe.id_gestacao = gestacao.id_gestacao })
-
-            for (const bebe of bebesPorMae) {
-                bebe.id_gestacao = id
             }
-
-            gestacao.id = id
-
-            console.log(gestacao)
         }
     }
 
@@ -146,15 +188,36 @@ export class CadastroMaeService {
         let bebes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_BEBE)
 
         for (const bebe of bebes) {
-            if(this.ehIdTemporario(bebe.id_mae) || this.ehIdTemporario(bebe.id_gestacao))
-                continue
+            try {
+                
+                if(bebe.possuiErro || bebe.id_bebe == undefined) {
+                    continue
+                }
 
-            let id = 150
-            
-            this.idsSalvos[bebe.id_bebe] = 155
-            bebe.id = 155
+                if(this.ehIdTemporario(bebe.id_mae) || this.ehIdTemporario(bebe.id_gestacao))
+                    continue
 
-            console.log(bebe)
+                let resposta: {id: any} = await this.api.salvarFormularioBebe(bebe.id_mae, bebe.id_gestacao, bebe)
+                let id = resposta.id
+                
+                this.idsSalvos[bebe.id_bebe] = id
+
+                await this.cache.removeById(bebe.id_bebe, CacheType.CADASTRO_BEBE)
+                await this.cache.removeById(bebe.id_gestacao, CacheType.LISTA_BEBE)
+
+            } catch (error) {
+                
+                if(error instanceof FormException) {
+                    
+                    bebe.possuiErro = true
+                    bebe.erros = error.getErrors()
+                    await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
+
+                } else {
+                    throw error
+                }
+
+            }
         }
     }
 
@@ -169,9 +232,9 @@ export class CadastroMaeService {
     {
         // await this.sincronizar()
 
-        // setInterval(async () => {
-        //     await this.sincronizar()
-        // }, 20000)
+        setInterval(async () => {
+            await this.sincronizar()
+        }, 20000)
     }
   
 }
