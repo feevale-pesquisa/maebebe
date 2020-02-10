@@ -31,13 +31,14 @@ export class CacheService {
         return new Promise(resolve => setTimeout(resolve, ms))
     }
 
-    private async tryAgain(callback: Function, numberOfAttempts = 3, attempt = 1)
+    private async tryAgain(callback: Function, numberOfAttempts = 50, attempt = 1)
     {
         if(attempt > numberOfAttempts) //Caso exceda o número de tentativas encerra o método
             return;
 
         if(this.locked) {
-            await this.sleep(50 * attempt) //Aguarda x ms
+            console.log("Tentando novamente")
+            await this.sleep(30 * attempt) //Aguarda x ms
             await this.tryAgain(callback, attempt + 1) //Chamada recursiva para tentar novamente 'callback'
         } else {
             await callback(); //Executa a chamada propriamente dita, adicionando ou removendo do index
@@ -85,6 +86,7 @@ export class CacheService {
     private async getCacheIndex()
     {
         let cacheIndex:any = await this.storage.get('cache.index')
+
         if(!cacheIndex)
             cacheIndex = []
 

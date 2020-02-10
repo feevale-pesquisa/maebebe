@@ -51,12 +51,16 @@ export class BuscaPage implements OnInit {
 
   async buscarMaes() {
     this.carregando = true
+    this.maes = []
 
     try {
-      this.maes = await this.servico.buscar(this.busca)
+      this.maes = this.maes.concat(await this.servico.buscarMaesNaoSalvas(this.busca))
+      this.maes = this.maes.concat(await this.servico.buscar(this.busca))
     } catch (error) {
-      this.maes = []
+      this.maes = this.maes.concat(await this.servico.buscarMaesSalvasOffline(this.busca))
     }
+
+    console.log(this.maes)
 
     this.carregando = false
 
@@ -81,7 +85,6 @@ export class BuscaPage implements OnInit {
     try {
       resultado = await this.servico.buscar(this.busca, this.pagina)
     } catch (error) {
-      console.log(error)
       resultado = []
     }
 

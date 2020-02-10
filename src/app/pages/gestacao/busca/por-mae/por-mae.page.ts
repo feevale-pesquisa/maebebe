@@ -10,7 +10,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class PorMaePage implements OnInit {
 
-  public gestacoes: any = []
+  public gestacoes: Array<any> = []
   public mae: any = null
   public carregando: boolean = false
 
@@ -73,15 +73,15 @@ export class PorMaePage implements OnInit {
     try {
       
       this.gestacoes = await this.maeServico.buscarGestacaoPorMae(id)
+      
       this.carregando = false
       if(this.gestacoes.length == 0)
         this.mostrarMensagem("Nenhuma gestação cadastrada")
 
     } catch(error) {
-
+      console.log(error)
       this.carregando = false
-      this.voltar()
-      
+      await this.mostrarMensagem("Não foi possível buscar gestações cadastradas")
     }
   }
 

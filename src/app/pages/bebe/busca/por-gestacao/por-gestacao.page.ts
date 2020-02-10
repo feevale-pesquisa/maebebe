@@ -29,7 +29,7 @@ export class PorGestacaoPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      position: 'top'
+      position: 'middle'
     });
     toast.present();
   }
@@ -67,7 +67,6 @@ export class PorGestacaoPage implements OnInit {
       this.carregando = false
       
     } catch(error) {
-
       this.carregando = false
       this.voltar()
       
@@ -84,10 +83,8 @@ export class PorGestacaoPage implements OnInit {
         this.mostrarMensagem("Nenhum bebê cadastrado")
 
     } catch(error) {
-      
       this.carregando = false
-      this.voltar()
-
+      this.mostrarMensagem("Não foi possível buscar os bebês cadastrados")
     }
   }
 

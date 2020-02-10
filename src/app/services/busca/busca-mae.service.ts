@@ -13,28 +13,42 @@ export class BuscaMaeService {
 
   }
 
-  async buscar(busca: String, pagina = 1) {
-    let filtroGet = (busca) ? '?search=' + busca : ''
-
-    let resultado: any = await this.api.chamarGET('mae/list/' + pagina + filtroGet)
-
-    let maes = []
-
+  async buscarMaesNaoSalvas(busca: String) {
     let maesNaoSalvas = await this.cache.getByType(CacheType.CADASTRO_MAE)
-    maesNaoSalvas.filter(mae => { return mae.nome.includes(busca) || busca.trim() == "" })
+    maesNaoSalvas = maesNaoSalvas.filter(mae => { 
+      return mae.nome.includes(busca) || busca.trim() == "" || mae.cpf.includes(busca)
+    })
 
-    maes = maes.concat(maesNaoSalvas)
+    return maesNaoSalvas
+  }
+
+  async buscarMaesSalvasOffline(busca: String) {
+    let maesSalvasOffline = await this.cache.getByType(CacheType.MAE)
+
+    maesSalvasOffline = maesSalvasOffline.filter(mae => { 
+      return mae.nome.includes(busca) || busca.trim() == "" || mae.cpf.includes(busca)
+    })
+
+    return maesSalvasOffline
+  }
+
+  async buscar(busca: String, pagina = 1) {
+    let maes = []
+    
+    let filtroGet = (busca) ? '?search=' + busca : ''
+    let resultado: any = await this.api.chamarGET('mae/list/' + pagina + filtroGet)
 
     if(resultado.result.length > 0) {
       pagina++
 
       maes = maes.concat(resultado.result)
     }
-    
+
     return maes
   }
 
   async buscarPorId(id: string) {
+    id = this.cadastroMae.verificarId(id)
 
     if(this.cadastroMae.ehIdTemporario(id)) {
       return await this.cache.getById(id, CacheType.CADASTRO_MAE)
@@ -52,6 +66,8 @@ export class BuscaMaeService {
   }
 
   async buscarGestacaoPorMae(id: number) {
+    id = this.cadastroMae.verificarId(id)
+
     let gestacoes = []
 
     let gestacoesNaoSalvas = await this.cache.getByType(CacheType.CADASTRO_GESTACAO)
@@ -71,12 +87,23 @@ export class BuscaMaeService {
       CacheType.LISTA_GESTACAO, id, url
     )
 
+    if(resultado.result) {
+      resultado.result.forEach(gestacao => {
+        this.cache.has(gestacao.id_gestacao, CacheType.GESTACAO).then(possuiCache => {
+          if(!possuiCache)
+            this.cache.add(gestacao.id_gestacao, gestacao, CacheType.GESTACAO, 50000)
+        })
+      })
+    }
+
     gestacoes = gestacoes.concat(resultado.result)
 
     return gestacoes
   }
 
   async buscarBebePorGestacao(id: any) {
+    id = this.cadastroMae.verificarId(id)
+
     let bebes = []
 
     let bebesNaoSalvos = await this.cache.getByType(CacheType.CADASTRO_BEBE)
@@ -105,6 +132,8 @@ export class BuscaMaeService {
   }
 
   async buscarGestacaoPorId(id: any) {
+    id = this.cadastroMae.verificarId(id)
+
     if(this.cadastroMae.ehIdTemporario(id)) {
       return await this.cache.getById(id, CacheType.CADASTRO_GESTACAO)
     }
@@ -128,7 +157,10 @@ export class BuscaMaeService {
       resultado = await this.cache.getById(id, cacheType)
 
       this.api.chamarGET(apiUrl).then(retorno => {
-        this.cache.add(id, retorno, cacheType)
+        Object.assign(resultado, retorno)
+        this.cache.add(id, retorno, cacheType, 50000)
+      }).catch(erro => {
+        console.debug('[busca-mae.service.ts] - Erro na requisição: ' + apiUrl)
       })
 
     } else {
@@ -138,7 +170,7 @@ export class BuscaMaeService {
         throw new Error("Não encontrado")
       }
 
-      await this.cache.add(id, resultado, cacheType)
+      await this.cache.add(id, resultado, cacheType, 50000)
     }
 
     return resultado;

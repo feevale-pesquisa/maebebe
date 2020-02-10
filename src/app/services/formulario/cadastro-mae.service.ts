@@ -4,6 +4,7 @@ import { API } from '../http/api';
 import { CacheService, CacheType } from '../helpers/cache.service';
 import * as moment from 'moment';
 import { FormException } from '../../exceptions/form-exception';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { FormException } from '../../exceptions/form-exception';
 
 export class CadastroMaeService {
     
-    private possuiInternet:boolean = false
+    private possuiInternet:boolean = true
     private idsSalvos = []
     private bloquearAgendamento = false
 
@@ -42,6 +43,14 @@ export class CadastroMaeService {
         return this.buscarIdBancoDeDadosPeloIdTemporario(id) != null
     }
 
+    public verificarId(id:any) {
+        if(this.ehIdTemporario(id) && this.foiSalvo(id)) {
+          id = this.buscarIdBancoDeDadosPeloIdTemporario(id)
+        }
+    
+        return id
+    }
+
     public buscarIdBancoDeDadosPeloIdTemporario(id: any)
     {
         let idBanco:any = this.idsSalvos[id]
@@ -54,9 +63,15 @@ export class CadastroMaeService {
         console.debug('[cadastro-mae.service.ts] - Cadastrando mãe ' + dados.nome)
 
         if(this.possuiInternet) {
-            let resposta: {id_mae: any} = await this.api.salvarFormularioMae(dados);
-
-            return resposta.id_mae
+            try {
+                let resposta: {id_mae: any} = await this.api.salvarFormularioMae(dados);
+                return resposta.id_mae
+            } catch(error) {
+                if(error instanceof HttpErrorResponse)
+                    console.debug('[cadastro-mae.service.ts] - Erro ao salvar mãe ' + dados.nome + ', salvando em cache')
+                else
+                    throw error
+            }
         }
 
         let id = moment().format('HH:mm:ss.SSS')
@@ -70,12 +85,20 @@ export class CadastroMaeService {
 
     public async cadastrarGestacao(idMae, dados:any)
     {
+        idMae = this.verificarId(idMae)
+
         console.debug('[cadastro-mae.service.ts] - Cadastrando gestação')
 
-        if(this.possuiInternet) {
-            let resposta: {id: any} = await this.api.salvarFormularioGestacao(idMae, dados)
-
-            return resposta.id
+        if(this.possuiInternet && !this.ehIdTemporario(idMae)) {
+            try {
+                let resposta: {id: any} = await this.api.salvarFormularioGestacao(idMae, dados)
+                return resposta.id
+            } catch (error) {
+                if(error instanceof HttpErrorResponse)
+                    console.debug('[cadastro-mae.service.ts] - Erro ao salvar mãe ' + dados.nome + ', salvando em cache')
+                else
+                    throw error
+            }
         }
 
         let id = moment().format('HH:mm:ss.SSS')
@@ -89,12 +112,21 @@ export class CadastroMaeService {
 
     public async cadastrarBebe(idMae, idGestacao, dados:any)
     {
+        idMae = this.verificarId(idMae)
+        idGestacao = this.verificarId(idGestacao)
+
         console.debug('[cadastro-mae.service.ts] - Cadastrando bebe ' + dados.nome)
 
-        if(this.possuiInternet) {
-            let resposta: {id: any} = await this.api.salvarFormularioBebe(idMae, idGestacao, dados);
-
-            return resposta.id
+        if(this.possuiInternet && !this.ehIdTemporario(idMae) && !this.ehIdTemporario(idGestacao)) {
+            try {
+                let resposta: {id: any} = await this.api.salvarFormularioBebe(idMae, idGestacao, dados)
+                return resposta.id
+            } catch (error) {
+                if(error instanceof HttpErrorResponse)
+                    console.debug('[cadastro-mae.service.ts] - Erro ao salvar mãe ' + dados.nome + ', salvando em cache')
+                else
+                    throw error
+            }
         }
 
         let id = moment().format('HH:mm:ss.SSS')
@@ -119,6 +151,7 @@ export class CadastroMaeService {
                 }
 
                 let resposta: {id_mae: any} = await this.api.salvarFormularioMae(mae);
+                await this.cache.removeById(mae.id, CacheType.CADASTRO_MAE)
 
                 let id = resposta.id_mae
 
@@ -138,8 +171,6 @@ export class CadastroMaeService {
 
                     await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
                 }
-
-                await this.cache.removeById(mae.id, CacheType.CADASTRO_MAE)
             } catch (error) {
                 if(error instanceof FormException) {
                     
@@ -169,6 +200,7 @@ export class CadastroMaeService {
                     continue
     
                 let resposta: {id: any} = await this.api.salvarFormularioGestacao(gestacao.id_mae, gestacao)
+                await this.cache.removeById(gestacao.id_gestacao, CacheType.CADASTRO_GESTACAO)
                 let id = resposta.id
     
                 this.idsSalvos[gestacao.id_gestacao] = id
@@ -180,8 +212,7 @@ export class CadastroMaeService {
     
                     await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
                 }
-    
-                await this.cache.removeById(gestacao.id_gestacao, CacheType.CADASTRO_GESTACAO)
+
                 await this.cache.removeById(gestacao.id_mae, CacheType.LISTA_GESTACAO)
                 
             } catch (error) {
@@ -245,12 +276,21 @@ export class CadastroMaeService {
         await this.salvarBebes()
     }
 
-    public async agendar(numero = 1)
+    public async agendar(numero = 1, tempo = 10000)
     {
+        if(tempo > 320000) //Máximo, aproximadamente 5 minutos
+            tempo = 320000
+
         setTimeout(async () => {
-            await this.sincronizar()
-            this.agendar(numero + 1)
-        }, 20000)
+            try {
+                console.debug("Salvando cadastros [" + numero + "]")
+                await this.sincronizar()
+                this.agendar(numero + 1)
+            } catch (error) {
+                console.debug("Erro ao salvar cadastros, tentando em " + tempo * 2 / 1000 + " segundos")
+                this.agendar(numero + 1, tempo * 2)
+            }
+        }, tempo)
     }
   
 }
