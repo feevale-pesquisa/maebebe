@@ -144,7 +144,7 @@ export class CadastroMaeService {
         let gestacoes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_GESTACAO)
         let bebes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_BEBE)
 
-        for (const mae of maes) {
+        for (let mae of maes) {
             try {
                 if(mae.possuiErro || mae.id == undefined || this.bloquearAgendamento) {
                     continue
@@ -160,13 +160,13 @@ export class CadastroMaeService {
                 let gestacoesPorMae = gestacoes.filter(gestacao => { return gestacao.id_mae = mae.id })
                 let bebesPorMae = bebes.filter(bebe => { return bebe.id_mae = mae.id })
 
-                for (const gestacao of gestacoesPorMae) {
+                for (let gestacao of gestacoesPorMae) {
                     gestacao.id_mae = id
 
                     await this.cache.add(gestacao.id_gestacao, gestacao, CacheType.CADASTRO_GESTACAO, 100000)
                 }
 
-                for (const bebe of bebesPorMae) {
+                for (let bebe of bebesPorMae) {
                     bebe.id_mae = id
 
                     await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
@@ -190,7 +190,7 @@ export class CadastroMaeService {
         let gestacoes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_GESTACAO)
         let bebes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_BEBE)
 
-        for (const gestacao of gestacoes) {
+        for (let gestacao of gestacoes) {
             try {
                 if(gestacao.possuiErro || gestacao.id_gestacao == undefined || this.bloquearAgendamento) {
                     continue
@@ -207,7 +207,7 @@ export class CadastroMaeService {
     
                 let bebesPorMae = bebes.filter(bebe => { return bebe.id_gestacao = gestacao.id_gestacao })
     
-                for (const bebe of bebesPorMae) {
+                for (let bebe of bebesPorMae) {
                     bebe.id_gestacao = id
     
                     await this.cache.add(bebe.id_bebe, bebe, CacheType.CADASTRO_BEBE, 100000)
@@ -235,7 +235,7 @@ export class CadastroMaeService {
     {
         let bebes:Array<any> = await this.cache.getByType(CacheType.CADASTRO_BEBE)
 
-        for (const bebe of bebes) {
+        for (let bebe of bebes) {
             try {
                 
                 if(bebe.possuiErro || bebe.id_bebe == undefined || this.bloquearAgendamento) {

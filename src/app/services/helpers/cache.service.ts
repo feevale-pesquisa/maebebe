@@ -131,7 +131,8 @@ export class CacheService {
     {
         let result = await this.storage.get('cache.' + key)
 
-        return result.data
+        if(result)
+            return result.data
     }
 
     public async getByType(type: CacheType)
@@ -139,9 +140,14 @@ export class CacheService {
         let list = []
         let cacheIndex:any = await this.getCacheIndex()
 
-        for (const key in cacheIndex) {
-            if(cacheIndex[key].type == type.valueOf())
-                list.push(await this.getByKey(key))
+        for (let key in cacheIndex) {
+            if(cacheIndex[key].type == type.valueOf()) {
+                let item = await this.getByKey(key)
+
+                if(item)
+                    list.push(item)
+            }
+
         }
 
         return list
@@ -165,7 +171,7 @@ export class CacheService {
     {
         let cacheIndex:any = await this.getCacheIndex()
 
-        for (const key in cacheIndex) {
+        for (let key in cacheIndex) {
             let expire:moment.Moment = moment(cacheIndex[key].expire_in)
 
             if(expire.isBefore(moment())) {
