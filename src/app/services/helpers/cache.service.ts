@@ -27,70 +27,22 @@ export class CacheService {
         
     }
 
-    private sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
-    private async tryAgain(callback: Function, numberOfAttempts = 50, attempt = 1)
-    {
-        if(attempt > numberOfAttempts) //Caso exceda o número de tentativas encerra o método
-            return;
-
-        if(this.locked) {
-            console.log("Tentando novamente")
-            await this.sleep(30 * attempt) //Aguarda x ms
-            await this.tryAgain(callback, attempt + 1) //Chamada recursiva para tentar novamente 'callback'
-        } else {
-            await callback(); //Executa a chamada propriamente dita, adicionando ou removendo do index
-        }
-    }
-
-    private async addToIndex(key: string, type: CacheType = CacheType.OUTRO, expireIn: moment.Moment)
-    {
-        //Caso alguém também esteja chamando esse método, para não ocorrer problemas de concorrência
-        if(this.locked) { 
-            //Tenta novamente algumas vezes até que não esteja mais bloqueado
-            this.tryAgain(() => { this.addToIndex(key, type, expireIn) })
-            return
-        }
-
-        this.locked = true
-
-        let cacheIndex:any = await this.getCacheIndex()
-
-        cacheIndex[key] = { type: type, expire_in: expireIn.valueOf() }
-
-        await this.storage.set('cache.index', cacheIndex)
-
-        this.locked = false
-    }
-
-    private async removeFromIndex(key: string)
-    {
-        if(this.locked) {
-            this.tryAgain(() => { this.removeFromIndex(key) })
-            return
-        }
-
-        this.locked = true
-
-        let cacheIndex:any = await this.getCacheIndex()
-
-        delete cacheIndex[key];
-
-        await this.storage.set('cache.index', cacheIndex)
-
-        this.locked = false
-    }
-
     private async getCacheIndex()
     {
         let cacheIndex:any = await this.storage.get('cache.index')
 
-        if(!cacheIndex)
-            cacheIndex = []
+        let index = (await this.storage.keys())
+                        .filter(key => { return key.includes("cache.") })
+                        .map(key => { return key.replace("cache.", "") })
+        
+        let cache = []
 
-        return cacheIndex;
+        for (const item of index) {
+            cache[item] = {
+                type : item.split(".", 1)[0]
+            }
+        }
+        return cache
     }
     
     public async add(id: any, item: object, type: CacheType = CacheType.OUTRO, lifetimeInMinutes: number = 1)
@@ -103,10 +55,10 @@ export class CacheService {
         let cache = {
             id: id,
             data: item,
-            type: type
+            type: type,
+            expireIn: expireIn.valueOf()
         }
 
-        await this.addToIndex(String(key), type, expireIn)
         await this.storage.set('cache.' + key, cache)
 
         return key
@@ -129,7 +81,7 @@ export class CacheService {
 
     public async getByKey(key: string)
     {
-        let result = await this.storage.get('cache.' + key)
+        let result = await this.storage.get('cache.' + String(key))
 
         if(result)
             return result.data
@@ -141,6 +93,7 @@ export class CacheService {
         let cacheIndex:any = await this.getCacheIndex()
 
         for (let key in cacheIndex) {
+            
             if(cacheIndex[key].type == type.valueOf()) {
                 let item = await this.getByKey(key)
 
@@ -163,7 +116,7 @@ export class CacheService {
     public async remove(key: string)
     {
         console.debug('[cache.service.ts] - Removendo ' + key + ' do cache')
-        await this.removeFromIndex(String(key))
+
         await this.storage.remove('cache.' + key)
     }
 
@@ -172,10 +125,19 @@ export class CacheService {
         let cacheIndex:any = await this.getCacheIndex()
 
         for (let key in cacheIndex) {
-            let expire:moment.Moment = moment(cacheIndex[key].expire_in)
+            let item = await this.storage.get(key)
+
+            if(!item || typeof item != 'object')
+                continue
+
+            if(item.expireIn == undefined) {
+                await this.remove(key)
+                continue
+            }
+
+            let expire:moment.Moment = moment(item.expireIn)
 
             if(expire.isBefore(moment())) {
-                console.debug('[cache.service.ts] - ' + key + ' está vencido')
                 await this.remove(key)
             }
         }
@@ -183,8 +145,6 @@ export class CacheService {
 
     public async schedule(number = 1)
     {
-        await this.sincronize()
-
         setTimeout(async () => {
             await this.sincronize()
             this.schedule(number + 1)
