@@ -66,6 +66,8 @@ export class API {
                         .replace(":id_mae", idMae)
                         .replace(":id_gestacao", idGestacao)
 
+        data.image = new File([""], "")
+
         let body = new FormData()
         
         for (var key in data) {
@@ -90,6 +92,9 @@ export class API {
 
     async salvarFormularioMae(data: any) {
         let url: string = 'mae/new'
+
+        data.image = new File([""], "")
+
         let body = new FormData()
         
         for (var key in data) {
