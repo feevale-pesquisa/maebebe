@@ -4,11 +4,15 @@ import { LoginService } from '../login/login.service'
 import * as moment from 'moment'
 import { HttpService } from '../http/http.service'
 import { API } from '../http/api'
+import { LoadingService } from './loading.service';
+import { LoadingController } from '@ionic/angular'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TypeService {
+
+  private isRunning = false
 
   private typesList = [
     { name: 'tipo_parto', route: 'tipo_parto/list/1' },
@@ -42,7 +46,8 @@ export class TypeService {
       private storage: Storage,
       private api: API, 
       private login: LoginService, 
-      private http: HttpService) { 
+      private http: HttpService,
+      private loading: LoadingController) { 
 
     }
 
@@ -51,11 +56,24 @@ export class TypeService {
 
     setInterval(async () => {
       this.sincronize()
-    }, 15000) //Executa a cada 15 segundos
+    }, 10000) //Executa a cada 15 segundos
+  }
+
+  public async firstSincronize() {
+    let loader = await this.loading.create({ message: "Sincronizando dados..." })
+    await loader.present()
+    await this.sincronize()
+    await loader.dismiss()
   }
 
   public async sincronize() {
+    if(this.isRunning == true)
+      return
+
+    this.isRunning = true
+
     if(!(await this.login.isAuthenticated())){
+      this.isRunning = false
       return
     }
 
@@ -67,6 +85,7 @@ export class TypeService {
     //Não possui novos tipos (para compatibilidade de código em mudanças na 'typesList') e
     //Já sincronizou alguma vez e faz menos de 12 horas da última sincronização
     if(!hasTypesWithError && !hasNewTypes && lastSyncDate && lastSyncDate.add(12, 'hours').isAfter(moment()) ) {
+      this.isRunning = false
       return
     }
 
@@ -92,6 +111,8 @@ export class TypeService {
 
     if(typesWithError.length == 0)
       await this.setLastSyncDate()
+
+    this.isRunning = false
   }
 
   public async getType(name: string) {
