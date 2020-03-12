@@ -15,6 +15,7 @@ import { GlobalErrorHandler } from './exceptions/global-error-handler';
 import { TimeoutInterceptor } from './services/http/timeout-interceptor';
 import { LoadingInterceptor } from './services/http/loading-interceptor';
 import { ErrorInterceptor } from './services/http/error-interceptor';
+import { Network } from '@ionic-native/network/ngx'
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { ErrorInterceptor } from './services/http/error-interceptor';
   providers: [
     StatusBar,
     SplashScreen,
+    Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },

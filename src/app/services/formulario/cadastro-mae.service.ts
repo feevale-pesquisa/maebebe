@@ -5,6 +5,7 @@ import { CacheService, CacheType } from '../helpers/cache.service';
 import * as moment from 'moment';
 import { FormException } from '../../exceptions/form-exception';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NetworkService } from '../helpers/network.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class CadastroMaeService {
     
-    private possuiInternet:boolean = true
+    private possuiInternet:boolean 
     private idsSalvos = []
     private bloquearAgendamento = false
 
     public constructor(
         private api: API,
-        private cache: CacheService)
+        private cache: CacheService,
+        private network: NetworkService)
     {
-        
+        console.log(network.possuiInternet())
+        this.possuiInternet = network.possuiInternet();
     }
 
     public bloquear()
@@ -61,7 +64,7 @@ export class CadastroMaeService {
     public async cadastrarMae(dados: any)
     {
         console.debug('[cadastro-mae.service.ts] - Cadastrando mãe ' + dados.nome)
-
+        console.log('TESTANDO A NET AQUI' + this.possuiInternet)
         if(this.possuiInternet) {
             try {
                 let resposta: {id_mae: any} = await this.api.salvarFormularioMae(dados);

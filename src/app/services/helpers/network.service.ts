@@ -11,35 +11,38 @@ export enum ConnectionStatus {
 @Injectable({
   providedIn: 'root'
 })
+
 export class NetworkService {
  
-  private status: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Offline);
+  private status: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Online);
  
   constructor(private network: Network, private toastController: ToastController, private plt: Platform) {
     this.plt.ready().then(() => {
       this.initializeNetworkEvents();
-      let status =  this.network.type !== 'none' ? ConnectionStatus.Online : ConnectionStatus.Offline;
+      let status = (this.network.type !== 'none' ? ConnectionStatus.Online : ConnectionStatus.Offline); 
+       // Aqui no browser ta vindo unknown, então inicialmente ta errado. Por isso, queria ver mobile
       this.status.next(status);
+
     });
   }
+  
 
   public possuiInternet()
   {
-    return true;
+
+    return this.getCurrentNetworkStatus() === ConnectionStatus.Online;
   }
- 
+
   public initializeNetworkEvents() {
  
     this.network.onDisconnect().subscribe(() => {
       if (this.status.getValue() === ConnectionStatus.Online) {
-        console.log('WE ARE OFFLINE');
         this.updateNetworkStatus(ConnectionStatus.Offline);
       }
     });
  
     this.network.onConnect().subscribe(() => {
       if (this.status.getValue() === ConnectionStatus.Offline) {
-        console.log('WE ARE ONLINE');
         this.updateNetworkStatus(ConnectionStatus.Online);
       }
     });
@@ -50,7 +53,7 @@ export class NetworkService {
  
     let connection = status == ConnectionStatus.Offline ? 'Offline' : 'Online';
     let toast = this.toastController.create({
-      message: `You are now ${connection}`,
+      message: `Você está ${connection}`,
       duration: 3000,
       position: 'bottom'
     });
@@ -64,4 +67,5 @@ export class NetworkService {
   public getCurrentNetworkStatus(): ConnectionStatus {
     return this.status.getValue();
   }
+
 }
