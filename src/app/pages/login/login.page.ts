@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login/login.service';
+import { TypeService } from '../../services/helpers/type.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginPage {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    public toast: ToastController
+    public toast: ToastController,
+    private typeService: TypeService
   ) { }
 
   ionViewWillEnter() {
@@ -24,16 +26,16 @@ export class LoginPage {
     }
   }
 
-  login() {
-    this.loginService.login(this.username, this.password).then((user) => {
-      
-      this.router.navigateByUrl('inicio')
+  async login() {
+    try {
 
-    }).catch((error) => {
-      
+      await this.loginService.login(this.username, this.password)
+      await this.router.navigateByUrl('inicio')
+      await this.typeService.firstSincronize()
+
+    } catch (error) {
       this.toast.create({ message: 'Ocorreu um erro no login.', duration: 2000 })
                 .then((toast) => toast.present());
-                
-    })
+    }
   }
 }
