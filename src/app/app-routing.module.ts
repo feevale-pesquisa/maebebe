@@ -35,10 +35,16 @@ const routes: Routes = [
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-parto', loadChildren: './pages/bebe/cadastro/dados-parto/dados-parto.module#DadosPartoPageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-testes', loadChildren: './pages/bebe/cadastro/dados-testes/dados-testes.module#DadosTestesPageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-intercorrencias', loadChildren: './pages/bebe/cadastro/dados-intercorrencias/dados-intercorrencias.module#DadosIntercorrenciasPageModule', canActivate: [AuthGuard] },
-  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-documentos', loadChildren: './pages/bebe/cadastro/dados-documentos/dados-documentos.module#DadosDocumentosPageModule' },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-documentos', loadChildren: './pages/bebe/cadastro/dados-documentos/dados-documentos.module#DadosDocumentosPageModule', canActivate: [AuthGuard] },
 
-
-
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento', loadChildren: './pages/bebe/acompanhamento/lista-acompanhamento/lista-acompanhamento.module#ListaAcompanhamentoPageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-amamentacao1', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-amamentacao1', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-amamentacao1/dados-amamentacao1.module#DadosAmamentacao1PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-amamentacao2', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-amamentacao2/dados-amamentacao2.module#DadosAmamentacao2PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido1', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido1/dados-recem-nascido1.module#DadosRecemNascido1PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido2', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido2/dados-recem-nascido2.module#DadosRecemNascido2PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido3', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido3/dados-recem-nascido3.module#DadosRecemNascido3PageModule', canActivate: [AuthGuard] },
+  
   
 ];
 

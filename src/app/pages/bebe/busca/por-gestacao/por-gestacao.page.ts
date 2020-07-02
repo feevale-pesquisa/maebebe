@@ -100,6 +100,14 @@ export class PorGestacaoPage implements OnInit {
     this.router.navigate(["bebe", "cadastro"])
   }
 
+  abrirAcompanhamento(bebe) {
+    this.router.navigate([
+      "mae", this.idMae, 
+      "gestacao", this.idGestacao, 
+      "bebe", bebe.id_bebe, "acompanhamento"
+    ])
+  }
+
   formatarData(data) {
     return moment(data).isValid() ? moment(data).format('DD/MM/YYYY') : ''
   }
