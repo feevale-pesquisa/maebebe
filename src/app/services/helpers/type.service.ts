@@ -4,7 +4,6 @@ import { LoginService } from '../login/login.service'
 import * as moment from 'moment'
 import { HttpService } from '../http/http.service'
 import { API } from '../http/api'
-import { LoadingService } from './loading.service';
 import { LoadingController } from '@ionic/angular'
 
 @Injectable({
@@ -39,6 +38,22 @@ export class TypeService {
     { name: 'tipo_denver', route: 'tipo_denver/list/1' },
     { name: 'tipo_intercorrencia_peri_neonatal', route: 'tipo_intercorrencia_peri_neonatal/list/1' },
     { name: 'tipo_intercorrencia_primeiro_ano_vida', route: 'tipo_intercorrencia_primeiro_ano_vida/list/1' },
+    { name: 'tipo_mamilo', route: 'tipo_mamilo/list/1' },
+    { name: 'tipo_bebe_alimentacao', route: 'tipo_bebe_alimentacao/list/1' },
+    { name: 'tipo_desmame_precoce', route: 'tipo_desmame_precoce/list/1' },
+    { name: 'tipo_orientacao_amamentacao', route: 'tipo_orientacao_amamentacao/list/1' },
+    { name: 'tipo_bebe_mamada', route: 'tipo_bebe_mamada/list/1' },
+    { name: 'tipo_pele', route: 'tipo_pele/list/1' },
+    { name: 'tipo_cavidade_oral', route: 'tipo_cavidade_oral/list/1' },
+    { name: 'tipo_torax', route: 'tipo_torax/list/1' },
+    { name: 'estado_abdomen', route: 'estado_abdomen/list/1' },
+    { name: 'estado_coto_umbilical', route: 'estado_coto_umbilical/list/1' },
+    { name: 'tipo_higiene_bebe', route: 'tipo_higiene_bebe/list/1' },
+    { name: 'estado_perineo', route: 'estado_perineo/list/1' },
+    { name: 'percepcao_sentido', route: 'percepcao_sentido/list/1' },
+    { name: 'tipo_regulacao_neurologica', route: 'tipo_regulacao_neurologica/list/1' },
+    { name: 'tipo_choro', route: 'tipo_choro/list/1' },
+    { name: 'avaliacao', route: 'avaliacao/list/1' },
     //Novos tipos devem ser adicionados aqui (sendo 'name' o nome e 'route' a rota referente a url dentro da api)
   ]
 
