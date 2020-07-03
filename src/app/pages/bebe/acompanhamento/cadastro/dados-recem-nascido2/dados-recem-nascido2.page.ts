@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormularioAcompanhamentoBebe } from 'src/app/services/formulario/formulario-acompanhamento-bebe.service';
 
@@ -15,6 +15,10 @@ export class DadosRecemNascido2Page implements OnInit {
   public idBebe:any
   public acompanhamentoForm: FormGroup
 
+  public tipoPele: Array<any> = []
+  public tipoCavidadeOral: Array<any> = []
+  public tipoTorax: Array<any> = []
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -29,8 +33,29 @@ export class DadosRecemNascido2Page implements OnInit {
     this.idBebe = this.route.snapshot.paramMap.get('id_bebe')
   }
 
+  escolherTipoPele() {
+    let selecionados = []
+    this.tipoPele.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_pele", new FormArray(selecionados))
+  }
+
+  escolherTipoCavidadeOral() {
+    let selecionados = []
+    this.tipoCavidadeOral.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_cavidade_oral", new FormArray(selecionados))
+  }
+
+  escolherTipoTorax() {
+    let selecionados = []
+    this.tipoTorax.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_torax", new FormArray(selecionados))
+}
+
   voltar() {
-    this.router.navigate(["mae", this.idMae ,"gestacao", this.idGestacao, "bebe", this.idBebe, "acompanhamento"])
+    this.servico.abrirFormAbaDadosRecemNascido1(this.idMae, this.idGestacao, this.idBebe)
   }
 
   salvar() {

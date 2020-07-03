@@ -44,6 +44,7 @@ const routes: Routes = [
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido1', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido1/dados-recem-nascido1.module#DadosRecemNascido1PageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido2', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido2/dados-recem-nascido2.module#DadosRecemNascido2PageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido3', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido3/dados-recem-nascido3.module#DadosRecemNascido3PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-recem-nascido4', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-recem-nascido4/dados-recem-nascido4.module#DadosRecemNascido4PageModule', canActivate: [AuthGuard] },
   
   
 ];

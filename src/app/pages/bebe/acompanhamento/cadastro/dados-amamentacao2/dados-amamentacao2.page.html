@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Acompanhamento - Amamentação</ion-title>
+    <ion-title>Amamentação</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +11,58 @@
   <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
     <ion-card>
       <ion-item>
-        <ion-label position="floating">Data Acompanhamento:</ion-label>
-        <ion-input formControlName="dt_acompanhamento"></ion-input>
+        <ion-label position="stacked">Você está amamentando outro filho junto?</ion-label>
+        <ion-select formControlName="amamenta_outro_filho_junto" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaEstaAmamentandoOutroFilho" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Qual a idade do outro filho? (Em meses)</ion-label>
+        <ion-input formControlName="amamenta_outro_filho_junto_idade"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Você teve orientações sobre a amamentação?</ion-label>
+        <ion-select formControlName="recebeu_orientacoes_amamentacao" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaTeveOrientacoesAmamentacao" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Quem Orientou?</ion-label>
+        <ion-select [(ngModel)]="tipoOrientacaoAmamentacao" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoOrientacaoAmamentacao()" multiple="true" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoOrientacaoAmamentacao" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Outros, Quem?</ion-label>
+        <ion-textarea rows="1" formControlName="recebeu_orientacoes_amamentacao_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">O bebê apresenta durante a mamada</ion-label>
+        <ion-select [(ngModel)]="tipoBebeMamada" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoBebeMamada()" multiple="true" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoBebeMamada" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Outros</ion-label>
+        <ion-textarea rows="1" formControlName="bebe_mamada_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">O bebê vomita?</ion-label>
+        <ion-select formControlName="bebe_vomita" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaBebeVomita" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Vomita com que frequência?</ion-label>
+        <ion-textarea rows="1" formControlName="bebe_vomita_obs"></ion-textarea>
       </ion-item>
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">

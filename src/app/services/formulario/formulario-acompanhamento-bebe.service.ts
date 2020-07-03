@@ -22,6 +22,7 @@ export class FormularioAcompanhamentoBebe {
     public formDadosRecemNascido1: FormGroup
     public formDadosRecemNascido2: FormGroup
     public formDadosRecemNascido3: FormGroup
+    public formDadosRecemNascido4: FormGroup
     
     public listaTipoMamilo = []
     public listaMamasIngurgitadas = [
@@ -69,7 +70,7 @@ export class FormularioAcompanhamentoBebe {
     public listaTipoCavidadeOral = []
     public listaTipoTorax = []
     public listaEstadoAbdomen = []
-    public listaEstadoCoto1bilical = []
+    public listaEstadoCotoUmbilical = []
     public listaTipoHigieneBebe = []
     public listaEstadoPerineo = []
     public listaPercepcaoSentido = []
@@ -115,7 +116,7 @@ export class FormularioAcompanhamentoBebe {
 
         this.formDadosAmamentacao1 = builder.group({
             dt_acompanhamento: new FormControl('', [ V.required ]),
-            ref_bebe_acomp_tipo_mamilo : new FormControl(),
+            ref_bebe_acomp_tipo_mamilo : builder.array([]),
             mamilo_obs : new FormControl(),
             mamas_ingurgitadas : new FormControl(),
             id_tipo_alimentacao : new FormControl(),
@@ -150,6 +151,7 @@ export class FormularioAcompanhamentoBebe {
     }
 
     getFormAbaDadosRecemNascido1(): FormGroup {
+
         if(this.formDadosRecemNascido1 instanceof FormGroup)
             return this.formDadosRecemNascido1
 
@@ -164,16 +166,7 @@ export class FormularioAcompanhamentoBebe {
             diurese_caracteristicas: new FormControl(),
             permeabilidade_nasal: new FormControl(),
             esforco_respiratorio: new FormControl(),
-            perfusao_aquecimento_extremidades: new FormControl(),
-            ref_bebe_acomp_tipo_pele: builder.array([]),
-            estado_pele_obs: new FormControl(),
-            ref_bebe_acomp_tipo_cavidade_oral: builder.array([]),
-            cavidade_oral_obs: new FormControl(),
-            ref_bebe_acomp_tipo_torax: builder.array([]),
-            torax_obs: new FormControl(),
-            torax_presenca_retracoes_obs: builder.array([]),
-            id_estado_abdomen: new FormControl(),
-            id_estado_coto_umbilical: new FormControl()
+            perfusao_aquecimento_extremidades: new FormControl()
         })
         
         return this.formDadosRecemNascido1
@@ -186,24 +179,15 @@ export class FormularioAcompanhamentoBebe {
         let builder = new FormBuilder()
         
         this.formDadosRecemNascido2 = builder.group({
-            id_higiene_bebe: new FormControl(),
-            higiene_bebe_obs: new FormControl(),
-            id_estado_perineo: new FormControl(),
-            estado_perineo_obs: new FormControl(),
-            id_percepcao_sentido: new FormControl(),
-            ref_bebe_acomp_tipo_regulacao_neurologica: builder.array([]),
-            alteracao_neurologica: new FormControl(),
-            id_tipo_choro: new FormControl(),
-            emagracido: new FormControl(),
-            ma_formacoes_obs: new FormControl(),
-            mae_adota_praticas_adequadas: new FormControl(),
-            mae_adota_praticas_adequadas_obs: new FormControl(),
-            id_avaliacao_conhecimento_bebe: new FormControl(),
-            problemas_obs: new FormControl(),
-            intervencoes_obs: new FormControl(),
-            plano_proxima_visita: new FormControl(),
-            evolucao_anterior: new FormControl(),
-            evolucao: new FormControl(),
+            ref_bebe_acomp_tipo_pele: builder.array([]),
+            estado_pele_obs: new FormControl(),
+            ref_bebe_acomp_tipo_cavidade_oral: builder.array([]),
+            cavidade_oral_obs: new FormControl(),
+            ref_bebe_acomp_tipo_torax: builder.array([]),
+            torax_obs: new FormControl(),
+            torax_presenca_retracoes_obs: new FormControl(),
+            id_estado_abdomen: new FormControl(),
+            id_estado_coto_umbilical: new FormControl()
         })
         
         return this.formDadosRecemNascido2
@@ -215,9 +199,40 @@ export class FormularioAcompanhamentoBebe {
 
         let builder = new FormBuilder()
         
-        this.formDadosRecemNascido3 = builder.group({})
+        this.formDadosRecemNascido3 = builder.group({
+            id_higiene_bebe: new FormControl(),
+            higiene_bebe_obs: new FormControl(),
+            id_estado_perineo: new FormControl(),
+            estado_perineo_obs: new FormControl(),
+            id_percepcao_sentido: new FormControl(),
+            ref_bebe_acomp_tipo_regulacao_neurologica: builder.array([]),
+            alteracao_neurologica: new FormControl(),
+            id_tipo_choro: new FormControl(),
+            emagracido: new FormControl(),
+            ma_formacoes_obs: new FormControl()
+        })
 
         return this.formDadosRecemNascido3
+    }
+
+    getFormAbaDadosRecemNascido4(): FormGroup {
+        if(this.formDadosRecemNascido4 instanceof FormGroup)
+            return this.formDadosRecemNascido4
+
+        let builder = new FormBuilder()
+        
+        this.formDadosRecemNascido4 = builder.group({
+            mae_adota_praticas_adequadas: new FormControl(),
+            mae_adota_praticas_adequadas_obs: new FormControl(),
+            id_avaliacao_conhecimento_bebe: new FormControl(),
+            problemas_obs: new FormControl(),
+            intervencoes_obs: new FormControl(),
+            plano_proxima_visita: new FormControl(),
+            evolucao_anterior: new FormControl(),
+            evolucao: new FormControl(),
+        })
+
+        return this.formDadosRecemNascido4
     }
 
     abrirFormAbaDadosAmamentacao1(id_mae, id_gestacao, id_bebe) {
@@ -265,6 +280,15 @@ export class FormularioAcompanhamentoBebe {
         ])
     }
 
+    abrirFormAbaDadosRecemNascido4(id_mae, id_gestacao, id_bebe) {
+        this.router.navigate([
+            'mae', id_mae, 
+            'gestacao', id_gestacao, 
+            'bebe', id_bebe, 
+            'acompanhamento', 'cadastro', 'dados-recem-nascido4'
+        ])
+    }
+
     async buscarTipos() {
         this.listaTipoMamilo = await this.typeService.getType('tipo_mamilo')
         this.listaTipoBebeAlimentacao = await this.typeService.getType('tipo_bebe_alimentacao')
@@ -275,7 +299,7 @@ export class FormularioAcompanhamentoBebe {
         this.listaTipoCavidadeOral = await this.typeService.getType('tipo_cavidade_oral')
         this.listaTipoTorax = await this.typeService.getType('tipo_torax')
         this.listaEstadoAbdomen = await this.typeService.getType('estado_abdomen')
-        this.listaEstadoCoto1bilical = await this.typeService.getType('estado_coto_umbilical')
+        this.listaEstadoCotoUmbilical = await this.typeService.getType('estado_coto_umbilical')
         this.listaTipoHigieneBebe = await this.typeService.getType('tipo_higiene_bebe')
         this.listaEstadoPerineo = await this.typeService.getType('estado_perineo')
         this.listaPercepcaoSentido = await this.typeService.getType('percepcao_sentido')
@@ -296,7 +320,12 @@ export class FormularioAcompanhamentoBebe {
 
         let campos = { 
             ...camposUsuario,
-            //...this.formDadosParto.getRawValue(),
+            ...this.formDadosAmamentacao1.getRawValue(),
+            ...this.formDadosAmamentacao2.getRawValue(),
+            ...this.formDadosRecemNascido1.getRawValue(),
+            ...this.formDadosRecemNascido2.getRawValue(),
+            ...this.formDadosRecemNascido3.getRawValue(),
+            ...this.formDadosRecemNascido4.getRawValue()
         }
       
         return campos
@@ -307,14 +336,15 @@ export class FormularioAcompanhamentoBebe {
             this.salvando = true
 
             let campos:object = await this.mapearCampos(idMae, idGestacao)
-
+            alert('Aqui')
+            console.log(campos)
             //TODO Cadastrar acompanhamento
             //let id = await this.cadastro.cadastrarBebe(idMae, idGestacao, campos)
 
             //this.acoesAposSalvar(idMae, idGestacao, id)
 
             this.salvando = false
-            this.limparFormularios()
+            //this.limparFormularios()
           
         } catch (error) {
             this.salvando = false

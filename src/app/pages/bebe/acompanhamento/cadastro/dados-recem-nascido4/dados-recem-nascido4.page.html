@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Recém Nascido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
+    <ion-card>
+      <ion-item>
+        <ion-label position="stacked">A mãe adota práticas adequadas com RN?</ion-label>
+        <ion-select formControlName="mae_adota_praticas_adequadas" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaMaeAdotaPraticasAdequadas" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Quais inadequadas?</ion-label>
+        <ion-textarea rows="1" formControlName="mae_adota_praticas_adequadas_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Conhecimento sobre o bebê</ion-label>
+        <ion-select formControlName="id_avaliacao_conhecimento_bebe" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaAvaliacao" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Lista de problemas</ion-label>
+        <ion-textarea rows="2" formControlName="problemas_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Intervenções</ion-label>
+        <ion-textarea rows="2" formControlName="intervencoes_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Plano para a próxima visita</ion-label>
+        <ion-textarea rows="2" formControlName="plano_proxima_visita"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Evolução</ion-label>
+        <ion-textarea rows="2" formControlName="evolucao"></ion-textarea>
+      </ion-item>
+
+      <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
+        Próximo
+      </ion-button>
+    </ion-card>
+  </form>
+</ion-content>

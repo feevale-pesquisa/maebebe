@@ -4,11 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormularioAcompanhamentoBebe } from 'src/app/services/formulario/formulario-acompanhamento-bebe.service';
 
 @Component({
-  selector: 'app-dados-recem-nascido3',
-  templateUrl: './dados-recem-nascido3.page.html',
-  styleUrls: ['./dados-recem-nascido3.page.scss'],
+  selector: 'app-dados-recem-nascido4',
+  templateUrl: './dados-recem-nascido4.page.html',
+  styleUrls: ['./dados-recem-nascido4.page.scss'],
 })
-export class DadosRecemNascido3Page implements OnInit {
+export class DadosRecemNascido4Page implements OnInit {
 
   public idMae:any
   public idGestacao:any
@@ -22,7 +22,7 @@ export class DadosRecemNascido3Page implements OnInit {
     private route: ActivatedRoute,
     public servico: FormularioAcompanhamentoBebe
   ) { 
-    this.acompanhamentoForm = servico.getFormAbaDadosRecemNascido3()
+    this.acompanhamentoForm = servico.getFormAbaDadosRecemNascido4()
   }
 
   ionViewDidEnter() {
@@ -39,11 +39,11 @@ export class DadosRecemNascido3Page implements OnInit {
   }
 
   voltar() {
-    this.servico.abrirFormAbaDadosRecemNascido2(this.idMae, this.idGestacao, this.idBebe)
+    this.servico.abrirFormAbaDadosRecemNascido3(this.idMae, this.idGestacao, this.idBebe)
   }
 
   salvar() {
-    this.servico.abrirFormAbaDadosRecemNascido4(this.idMae, this.idGestacao, this.idBebe)
+    this.servico.salvar(this.idMae, this.idGestacao, this.idBebe)
   }
 
   ngOnInit() {

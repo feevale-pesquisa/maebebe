@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Acompanhamento - Recém Nascido</ion-title>
+    <ion-title>Recém Nascido</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +11,60 @@
   <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
     <ion-card>
       <ion-item>
-        <ion-label position="floating">Data Acompanhamento:</ion-label>
-        <ion-input formControlName="dt_acompanhamento"></ion-input>
+        <ion-label position="stacked">Comportamento</ion-label>
+        <ion-select formControlName="id_tipo_comportamento" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoComportamento" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="floating">Observações comportamento</ion-label>
+        <ion-textarea rows="1" formControlName="comportamento_bebe_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Fezes</ion-label>
+        <ion-select formControlName="fezes" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaFezes" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Características</ion-label>
+        <ion-textarea rows="1" formControlName="fezes_caracteristicas"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Diurese</ion-label>
+        <ion-select formControlName="diurese" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaDiurese" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Características</ion-label>
+        <ion-textarea rows="1" formControlName="diurese_caracteristicas"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Permeabilidade nasal</ion-label>
+        <ion-select formControlName="permeabilidade_nasal" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaPermeabilidadeNasal" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Esforço respiratório</ion-label>
+        <ion-select formControlName="esforco_respiratorio" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaEsforcoRespiratorio" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Perfusão e aquecimento das extremidades</ion-label>
+        <ion-select formControlName="perfusao_aquecimento_extremidades" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaPerfusaoAquecimento" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">

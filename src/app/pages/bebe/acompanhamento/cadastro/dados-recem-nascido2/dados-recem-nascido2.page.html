@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Acompanhamento - Recém Nascido</ion-title>
+    <ion-title>Recém Nascido</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +11,58 @@
   <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
     <ion-card>
       <ion-item>
-        <ion-label position="floating">Data Acompanhamento:</ion-label>
-        <ion-input formControlName="dt_acompanhamento"></ion-input>
+        <ion-label position="floating">Pele</ion-label>
+        <ion-select [(ngModel)]="tipoPele" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoPele()" multiple="true" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoPele" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Outras alterações na pele</ion-label>
+        <ion-textarea rows="1" formControlName="estado_pele_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Cavidade Oral</ion-label>
+        <ion-select [(ngModel)]="tipoCavidadeOral" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoCavidadeOral()" multiple="true" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoCavidadeOral" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Outras</ion-label>
+        <ion-textarea rows="1" formControlName="cavidade_oral_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Tórax</ion-label>
+        <ion-select [(ngModel)]="tipoTorax" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoTorax()" multiple="true" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoTorax" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Torax Observações</ion-label>
+        <ion-textarea rows="1" formControlName="torax_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Quais outras retrações?</ion-label>
+        <ion-textarea rows="1" formControlName="torax_presenca_retracoes_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Abdômen</ion-label>
+        <ion-select formControlName="id_estado_abdomen" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaEstadoAbdomen" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Coto Umbilical</ion-label>
+        <ion-select formControlName="id_estado_coto_umbilical" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaEstadoCotoUmbilical" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">

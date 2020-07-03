@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormularioAcompanhamentoBebe } from 'src/app/services/formulario/formulario-acompanhamento-bebe.service';
 
@@ -14,6 +14,9 @@ export class DadosAmamentacao1Page implements OnInit {
   public idGestacao:any
   public idBebe:any
   public acompanhamentoForm: FormGroup
+
+  public tipoMamilo: Array<any> = []
+  public tipoDesmamePrecoce: Array<any> = []
 
   constructor(
     private router: Router,
@@ -35,6 +38,20 @@ export class DadosAmamentacao1Page implements OnInit {
 
   salvar() {
     this.servico.abrirFormAbaDadosAmamentacao2(this.idMae, this.idGestacao, this.idBebe)
+  }
+
+  escolherTipoMamilo() {
+    let selecionados = []
+    this.tipoMamilo.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_mamilo", new FormArray(selecionados))
+  }
+
+  escolherTipoDesmamePrecoce() {
+    let selecionados = []
+    this.tipoDesmamePrecoce.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_desmame_precoce", new FormArray(selecionados))
   }
 
   ngOnInit() {

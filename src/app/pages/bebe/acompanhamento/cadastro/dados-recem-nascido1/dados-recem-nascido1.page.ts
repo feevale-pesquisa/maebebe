@@ -30,7 +30,7 @@ export class DadosRecemNascido1Page implements OnInit {
   }
 
   voltar() {
-    this.router.navigate(["mae", this.idMae ,"gestacao", this.idGestacao, "bebe", this.idBebe, "acompanhamento"])
+    this.servico.abrirFormAbaDadosAmamentacao2(this.idMae, this.idGestacao, this.idBebe)
   }
 
   salvar() {

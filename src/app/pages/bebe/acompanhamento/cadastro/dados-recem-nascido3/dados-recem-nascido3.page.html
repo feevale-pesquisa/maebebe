@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Acompanhamento - Recém Nascido</ion-title>
+    <ion-title>Recém Nascido</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +11,65 @@
   <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
     <ion-card>
       <ion-item>
-        <ion-label position="floating">Data Acompanhamento:</ion-label>
-        <ion-input formControlName="dt_acompanhamento"></ion-input>
+        <ion-label position="stacked">Higiene do bebê</ion-label>
+        <ion-select formControlName="id_higiene_bebe" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoHigieneBebe" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="floating">Observações sobre a higiene do bebê</ion-label>
+        <ion-textarea rows="1" formControlName="higiene_bebe_obs"></ion-textarea>
+      </ion-item> -->
+
+      <ion-item>
+        <ion-label position="stacked">Períneo</ion-label>
+        <ion-select formControlName="id_estado_perineo" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaEstadoPerineo" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Observações sobre o períneo</ion-label>
+        <ion-textarea rows="1" formControlName="estado_perineo_obs"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Percepção dos órgão dos sentidos</ion-label>
+        <ion-select formControlName="id_percepcao_sentido" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaPercepcaoSentido" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="floating">Regulação neurológica</ion-label>
+        <ion-select [(ngModel)]="tipoRegulacaoNeurologica" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoRegulacaoNeurologica()" multiple="true" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoRegulacaoNeurologica" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Alteração neurológica</ion-label>
+        <ion-textarea rows="1" formControlName="alteracao_neurologica"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Choro</ion-label>
+        <ion-select formControlName="id_tipo_choro" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoChoro" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Emagrecido</ion-label>
+        <ion-select formControlName="emagracido" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaEmagrecido" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Má formações</ion-label>
+        <ion-textarea rows="1" formControlName="ma_formacoes_obs"></ion-textarea>
       </ion-item>
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
