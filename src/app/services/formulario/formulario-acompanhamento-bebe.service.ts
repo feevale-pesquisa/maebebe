@@ -115,15 +115,15 @@ export class FormularioAcompanhamentoBebe {
         let builder = new FormBuilder()
 
         this.formDadosAmamentacao1 = builder.group({
-            dt_acompanhamento: new FormControl('', [ V.required ]),
+            dt_acompanhamento: new FormControl(moment().format('YYYY-MM-DD'), [ V.required ]),
             ref_bebe_acomp_tipo_mamilo : builder.array([]),
-            mamilo_obs : new FormControl(),
-            mamas_ingurgitadas : new FormControl(),
-            id_tipo_alimentacao : new FormControl(),
-            alimentacao_bebe_obs : new FormControl(),
-            motivo_aleitamento_misto : new FormControl(),
+            mamilo_obs : new FormControl(""),
+            mamas_ingurgitadas : new FormControl(""),
+            id_tipo_alimentacao : new FormControl(""),
+            alimentacao_bebe_obs : new FormControl(""),
+            motivo_aleitamento_misto : new FormControl(""),
             ref_bebe_acomp_tipo_desmame_precoce : builder.array([]),
-            motivo_desmame_precoce : new FormControl()
+            motivo_desmame_precoce : new FormControl("")
         });
 
         return this.formDadosAmamentacao1
@@ -136,15 +136,15 @@ export class FormularioAcompanhamentoBebe {
         let builder = new FormBuilder()
 
         this.formDadosAmamentacao2 = builder.group({
-            amamenta_outro_filho_junto: new FormControl(),
-            amamenta_outro_filho_junto_idade: new FormControl(),
-            recebeu_orientacoes_amamentacao: new FormControl(),
+            amamenta_outro_filho_junto: new FormControl(""),
+            amamenta_outro_filho_junto_idade: new FormControl(""),
+            recebeu_orientacoes_amamentacao: new FormControl(""),
             ref_bebe_acomp_tipo_orientacao_amamentacao: builder.array([]),
-            recebeu_orientacoes_amamentacao_obs: new FormControl(),
+            recebeu_orientacoes_amamentacao_obs: new FormControl(""),
             ref_bebe_acomp_tipo_bebe_mamada: builder.array([]),
-            bebe_mamada_obs: new FormControl(),
-            bebe_vomita: new FormControl(),
-            bebe_vomita_obs: new FormControl(),
+            bebe_mamada_obs: new FormControl(""),
+            bebe_vomita: new FormControl(""),
+            bebe_vomita_obs: new FormControl(""),
         })
         
         return this.formDadosAmamentacao2
@@ -158,15 +158,15 @@ export class FormularioAcompanhamentoBebe {
         let builder = new FormBuilder()
 
         this.formDadosRecemNascido1 = builder.group({
-            id_tipo_comportamento: new FormControl(),
-            comportamento_bebe_obs: new FormControl(),
-            fezes: new FormControl(),
-            fezes_caracteristicas: new FormControl(),
-            diurese: new FormControl(),
-            diurese_caracteristicas: new FormControl(),
-            permeabilidade_nasal: new FormControl(),
-            esforco_respiratorio: new FormControl(),
-            perfusao_aquecimento_extremidades: new FormControl()
+            id_tipo_comportamento: new FormControl(""),
+            comportamento_bebe_obs: new FormControl(""),
+            fezes: new FormControl(""),
+            fezes_caracteristicas: new FormControl(""),
+            diurese: new FormControl(""),
+            diurese_caracteristicas: new FormControl(""),
+            permeabilidade_nasal: new FormControl(""),
+            esforco_respiratorio: new FormControl(""),
+            perfusao_aquecimento_extremidades: new FormControl("")
         })
         
         return this.formDadosRecemNascido1
@@ -180,14 +180,14 @@ export class FormularioAcompanhamentoBebe {
         
         this.formDadosRecemNascido2 = builder.group({
             ref_bebe_acomp_tipo_pele: builder.array([]),
-            estado_pele_obs: new FormControl(),
+            estado_pele_obs: new FormControl(""),
             ref_bebe_acomp_tipo_cavidade_oral: builder.array([]),
-            cavidade_oral_obs: new FormControl(),
+            cavidade_oral_obs: new FormControl(""),
             ref_bebe_acomp_tipo_torax: builder.array([]),
-            torax_obs: new FormControl(),
-            torax_presenca_retracoes_obs: new FormControl(),
-            id_estado_abdomen: new FormControl(),
-            id_estado_coto_umbilical: new FormControl()
+            torax_obs: new FormControl(""),
+            torax_presenca_retracoes_obs: new FormControl(""),
+            id_estado_abdomen: new FormControl(""),
+            id_estado_coto_umbilical: new FormControl("")
         })
         
         return this.formDadosRecemNascido2
@@ -200,16 +200,16 @@ export class FormularioAcompanhamentoBebe {
         let builder = new FormBuilder()
         
         this.formDadosRecemNascido3 = builder.group({
-            id_higiene_bebe: new FormControl(),
-            higiene_bebe_obs: new FormControl(),
-            id_estado_perineo: new FormControl(),
-            estado_perineo_obs: new FormControl(),
-            id_percepcao_sentido: new FormControl(),
+            id_higiene_bebe: new FormControl(""),
+            higiene_bebe_obs: new FormControl(""),
+            id_estado_perineo: new FormControl(""),
+            estado_perineo_obs: new FormControl(""),
+            id_percepcao_sentido: new FormControl(""),
             ref_bebe_acomp_tipo_regulacao_neurologica: builder.array([]),
-            alteracao_neurologica: new FormControl(),
-            id_tipo_choro: new FormControl(),
-            emagracido: new FormControl(),
-            ma_formacoes_obs: new FormControl()
+            alteracao_neurologica: new FormControl(""),
+            id_tipo_choro: new FormControl(""),
+            emagracido: new FormControl(""),
+            ma_formacoes_obs: new FormControl("")
         })
 
         return this.formDadosRecemNascido3
@@ -222,14 +222,14 @@ export class FormularioAcompanhamentoBebe {
         let builder = new FormBuilder()
         
         this.formDadosRecemNascido4 = builder.group({
-            mae_adota_praticas_adequadas: new FormControl(),
-            mae_adota_praticas_adequadas_obs: new FormControl(),
-            id_avaliacao_conhecimento_bebe: new FormControl(),
-            problemas_obs: new FormControl(),
-            intervencoes_obs: new FormControl(),
-            plano_proxima_visita: new FormControl(),
-            evolucao_anterior: new FormControl(),
-            evolucao: new FormControl(),
+            mae_adota_praticas_adequadas: new FormControl(""),
+            mae_adota_praticas_adequadas_obs: new FormControl(""),
+            id_avaliacao_conhecimento_bebe: new FormControl(""),
+            problemas_obs: new FormControl(""),
+            intervencoes_obs: new FormControl(""),
+            plano_proxima_visita: new FormControl(""),
+            evolucao_anterior: new FormControl(""),
+            evolucao: new FormControl(""),
         })
 
         return this.formDadosRecemNascido4
@@ -295,6 +295,7 @@ export class FormularioAcompanhamentoBebe {
         this.listaTipoDesmamePrecoce = await this.typeService.getType('tipo_desmame_precoce')
         this.listaTipoOrientacaoAmamentacao = await this.typeService.getType('tipo_orientacao_amamentacao')
         this.listaTipoBebeMamada = await this.typeService.getType('tipo_bebe_mamada')
+        this.listaTipoComportamento = await this.typeService.getType('tipo_comportamento')
         this.listaTipoPele = await this.typeService.getType('tipo_pele')
         this.listaTipoCavidadeOral = await this.typeService.getType('tipo_cavidade_oral')
         this.listaTipoTorax = await this.typeService.getType('tipo_torax')
@@ -308,12 +309,13 @@ export class FormularioAcompanhamentoBebe {
         this.listaAvaliacao = await this.typeService.getType('avaliacao')
     }
 
-    async mapearCampos(idMae: any, idGestacao: any) {
+    async mapearCampos(idMae: any, idGestacao: any, idBebe: any) {
         let usuario:User = await this.login.getUser()
 
         let camposUsuario = {
             id_mae: idMae,
             id_gestacao: idGestacao,
+            id_bebe: idBebe,
             dt_registro: moment().format('DD/MM/YYYY'),
             id_usuario_registro: usuario.id
         }
@@ -327,6 +329,8 @@ export class FormularioAcompanhamentoBebe {
             ...this.formDadosRecemNascido3.getRawValue(),
             ...this.formDadosRecemNascido4.getRawValue()
         }
+
+        campos.dt_acompanhamento = moment(campos.dt_acompanhamento).format('DD/MM/YYYY')
       
         return campos
     }
@@ -335,16 +339,13 @@ export class FormularioAcompanhamentoBebe {
         try {
             this.salvando = true
 
-            let campos:object = await this.mapearCampos(idMae, idGestacao)
-            alert('Aqui')
-            console.log(campos)
-            //TODO Cadastrar acompanhamento
-            //let id = await this.cadastro.cadastrarBebe(idMae, idGestacao, campos)
+            let campos:object = await this.mapearCampos(idMae, idGestacao, idBebe)
+            let id = await this.cadastro.cadastrarAcompanhamentoBebe(idMae, idGestacao, idBebe, campos)
 
-            //this.acoesAposSalvar(idMae, idGestacao, id)
+            this.acoesAposSalvar(idMae, idGestacao, idBebe)
 
             this.salvando = false
-            //this.limparFormularios()
+            this.limparFormularios()
           
         } catch (error) {
             this.salvando = false
@@ -354,5 +355,6 @@ export class FormularioAcompanhamentoBebe {
 
     private acoesAposSalvar(idMae: any, idGestacao: any, idBebe: any) {
         this.alert.ok("Acompanhamento do Bebê cadastrado com sucesso")
+        this.router.navigate(["mae", idMae, "gestacao", idGestacao, "bebe", idBebe, "acompanhamento"])
     }
 }
