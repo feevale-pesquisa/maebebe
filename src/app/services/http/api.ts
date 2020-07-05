@@ -53,7 +53,15 @@ export class API {
     async salvarFormularioGestacao(idMae: any, data:any) {
         let url:string = 'mae/:id/gestacao/new'.replace(":id", idMae)
 
-        let resposta:any = await this.chamarPOST(url, data)
+        let body = this.mapearCampos(data)
+
+        let usuario = await this.login.getUser()
+        let headers = new HttpHeaders({'Authorization' : usuario.token})
+
+        let resposta:any = await this.http.post(this.urlApi + url, body, {
+            headers: headers
+        }).toPromise()
+        
         if(resposta.errors && resposta.errors.length > 0) {
             throw new FormException(resposta.errors)
         }
@@ -68,17 +76,34 @@ export class API {
 
         data.image = new File([""], "")
 
-        let body = new FormData()
-        
-        for (var key in data) {
-            Array.isArray(data[key]) 
-                ? data[key].forEach(value => { body.set(key + '[]', value) })
-                : body.set(key, data[key])
-        }
+        let body = this.mapearCampos(data)
 
         let usuario = await this.login.getUser()
         let headers = new HttpHeaders({'Authorization' : usuario.token})
 
+        let resposta:any = await this.http.post(this.urlApi + url, body, {
+            headers: headers
+        }).toPromise()
+        
+        if(resposta.errors && resposta.errors.length > 0) {
+            throw new FormException(resposta.errors)
+        }
+
+        return resposta
+    }
+
+    async salvarFormularioAcompanhamentoBebe(idMae: any, idGestacao: any, idBebe: any, data: any) {
+        let url: string = 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/bebe_acompanhamento/new'
+                        .replace(":id_mae", idMae)
+                        .replace(":id_gestacao", idGestacao)
+                        .replace(":id_bebe", idBebe)
+
+
+        let body = this.mapearCampos(data)
+
+        let usuario = await this.login.getUser()
+        let headers = new HttpHeaders({'Authorization' : usuario.token})
+        
         let resposta:any = await this.http.post(this.urlApi + url, body, {
             headers: headers
         }).toPromise()
@@ -95,13 +120,7 @@ export class API {
 
         data.image = new File([""], "")
 
-        let body = new FormData()
-        
-        for (var key in data) {
-            Array.isArray(data[key]) 
-                ? data[key].forEach(value => { body.set(key + '[]', value) })
-                : body.set(key, data[key])
-        }
+        let body = this.mapearCampos(data)
 
         let usuario = await this.login.getUser()
         let headers = new HttpHeaders({'Authorization' : usuario.token})
@@ -115,5 +134,21 @@ export class API {
         }
 
         return resposta
+    }
+
+    private mapearCampos(data: any) {
+        let body = new FormData()
+        
+        for (var key in data) {
+            if(Array.isArray(data[key])) {
+                for (let i = 0; i < data[key].length; i++) {
+                    body.set(key + '[' + i + ']', data[key][i])
+                }
+            } else {
+                body.set(key, data[key])
+            }
+        }
+
+        return body
     }
 }
