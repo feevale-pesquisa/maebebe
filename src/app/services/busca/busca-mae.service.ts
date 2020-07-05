@@ -147,6 +147,55 @@ export class BuscaMaeService {
     return resultado
   }
 
+  async buscarBebePorId(id: any) {
+    id = this.cadastroMae.verificarId(id)
+    
+    if(this.cadastroMae.ehIdTemporario(id)) {
+      return await this.cache.getById(id, CacheType.CADASTRO_BEBE)
+    }
+
+    let url = 'bebe/' + id
+
+    let resultado = await this.buscarDoCacheOuApi(
+      CacheType.BEBE, id, url
+    )
+
+    return resultado
+  }
+
+  async buscarAcompanhamentoPorBebe(id: any) {
+    id = this.cadastroMae.verificarId(id)
+
+    let acompanhamentos = []
+
+    let acompanhamentosNaoSalvos = await this.cache.getByType(CacheType.CADASTRO_ACOMPANHAMENTO_BEBE)
+    
+    if(acompanhamentosNaoSalvos.length > 0) {
+      acompanhamentos = acompanhamentos.concat(acompanhamentosNaoSalvos.filter(acompanhamento => { return acompanhamento.id_bebe == id }))
+    }
+
+    if(this.cadastroMae.ehIdTemporario(id))
+      return acompanhamentos
+
+    let bebe:any = await this.buscarBebePorId(id)
+    let url = 'mae/' + bebe.id_mae + '/gestacao/' + bebe.id_gestacao + '/bebe/' + id + '/bebe_acompanhamento'
+
+    let resultado = await this.buscarDoCacheOuApi(CacheType.LISTA_ACOMPANHAMENTO_BEBE, id, url)
+
+    if(resultado.result) {
+      resultado.result.forEach(acompanhamento => {
+        this.cache.has(acompanhamento.id_bebe_acompanhamento, CacheType.CADASTRO_ACOMPANHAMENTO_BEBE).then(possuiCache => {
+          if(!possuiCache)
+            this.cache.add(acompanhamento.id_bebe_acompanhamento, acompanhamento, CacheType.ACOMPANHAMENTO_BEBE, 50000)
+        })
+      })
+    }
+
+    acompanhamentos = acompanhamentos.concat(resultado.result)
+
+    return acompanhamentos
+  }
+
   private async buscarDoCacheOuApi(cacheType: CacheType, id: any, apiUrl: string) {
     let possuiCache = await this.cache.has(id, cacheType)
 
