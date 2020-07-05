@@ -36,7 +36,7 @@
 
       <ion-item>
         <ion-label position="stacked">Percepção dos órgão dos sentidos</ion-label>
-        <ion-select formControlName="id_percepcao_sentido" placeholder="Selecione" interface="popover">
+        <ion-select formControlName="id_percepcao_sentido" placeholder="Selecione">
           <ion-select-option *ngFor="let tipo of servico.listaPercepcaoSentido" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
