@@ -165,6 +165,32 @@ export class CadastroMaeService {
         return id
     }
 
+    public async cadastrarAcompanhamentoGestacao(idMae, idGestacao, dados:any)
+    {
+        idMae = this.verificarId(idMae)
+        idGestacao = this.verificarId(idGestacao)
+
+        if(this.possuiInternet && !this.ehIdTemporario(idMae) && !this.ehIdTemporario(idGestacao)) {
+            try {
+                let resposta: {id: any} = await this.api.salvarFormularioAcompanhamentoGestacao(idMae, idGestacao, dados)
+                return resposta.id
+            } catch (error) {
+                if(error instanceof HttpErrorResponse)
+                    console.debug('[cadastro-mae.service.ts] - Erro ao salvar acompanhamento, salvando em cache')
+                else
+                    throw error
+            }
+        }
+
+        let id = moment().format('HH:mm:ss.SSS')
+
+        dados.id_gestacao_acompanhamento = id
+
+        await this.cache.add(id, dados, CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO, 100000)
+
+        return id
+    }
+
     private async salvarMaes()
     {
         if(this.bloquearAgendamento) return

@@ -1,0 +1,56 @@
+<ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
+          </ion-buttons>
+          <ion-title>Gestação</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content>
+        <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
+          <ion-card>
+
+            <ion-item>
+              <ion-label position="stacked">Apresenta algum local de dor ou desconforto:</ion-label>
+              <ion-select formControlName="apresenta_dor_desconforto" placeholder="Selecione" interface="popover">
+                <ion-select-option *ngFor="let tipo of servico.listaDorDesconforto" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+      
+            <ion-item>
+                <ion-label position="floating">Relaciona a queixa com alguma atividade do dia-a-dia, como:</ion-label>
+                <ion-select [(ngModel)]="ref_gestacao_queixa_atividade" [ngModelOptions]="{standalone: true}"  multiple="true" placeholder="Selecione">
+                    <ion-select-option *ngFor="let tipo of servico.listaQueixaAtividade" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            
+            <ion-item>
+                <ion-label position="floating">Outras atividades que podem ter provocado a dor ou desconforto:</ion-label>
+                <ion-textarea rows="1" formControlName="queixa_atividade_obs"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Pratica exercício físico? Quais?</ion-label>
+                <ion-select [(ngModel)]="ref_gestacao_exercicio_fisico" [ngModelOptions]="{standalone: true}"  multiple="true" placeholder="Selecione">
+                    <ion-select-option *ngFor="let tipo of servico.listaExercicioFisico" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Frequencia semanal:</ion-label>
+                <ion-input formControlName="exercicio_fisico_freq_semanal"></ion-input>
+            </ion-item>
+           
+            <ion-item>
+                <ion-label position="floating">Outras atividades fisicas realizadas:</ion-label>
+                <ion-textarea rows="1" formControlName="exercicio_fisico_obs"></ion-textarea>
+            </ion-item>
+      
+            <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
+              Próximo
+            </ion-button>
+          </ion-card>
+        </form>
+      </ion-content>
+      

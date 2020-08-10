@@ -1,0 +1,70 @@
+<ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
+          </ion-buttons>
+          <ion-title>Gestação</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content>
+        <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
+          <ion-card>
+      
+            <ion-item>
+              <ion-label position="floating">Expectativas em relação a gravidez, parto e puerpério/maternidade:</ion-label>
+              <ion-textarea rows="1" formControlName="expectativas_gravidez_parto"></ion-textarea>
+            </ion-item>
+      
+            <ion-item>
+              <ion-label position="floating">Planejamento para a vinda do bebê:</ion-label>
+              <ion-textarea rows="2" formControlName="planejamento_bebe"></ion-textarea>
+            </ion-item>
+      
+            <ion-item>
+              <ion-label position="floating">Aspectos emocionais:</ion-label>
+              <ion-textarea rows="2" formControlName="aspectos_emocionais"></ion-textarea>
+            </ion-item>
+      
+            <ion-item>
+              <ion-label position="floating">Relacionamento com parceiro/ apoio familiar:</ion-label>
+              <ion-textarea rows="2" formControlName="apoio_parceiro_familia"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Uso de ácido fólico:</ion-label>
+                <ion-select formControlName="uso_acido_folico" placeholder="Selecione" interface="popover">
+                    <ion-select-option *ngFor="let tipo of servico.listaAcidoFolico" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+                </ion-select>
+            </ion-item>
+                  
+            <ion-item>
+                <ion-label position="stacked">Uso de Sulfato ferroso:</ion-label>
+                <ion-select formControlName="uso_sulfato_ferroso" placeholder="Selecione" interface="popover">
+                    <ion-select-option *ngFor="let tipo of servico.listaSulfatoFerroso" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+                </ion-select>
+            </ion-item>
+      
+            <ion-item>
+                <ion-label position="floating">Plano de acompanhamento:</ion-label>
+                <ion-textarea rows="2" formControlName="plano_acompanhamento"></ion-textarea>
+            </ion-item>
+    
+            <ion-item>
+                <ion-label position="floating">Observação:</ion-label>
+                <ion-textarea rows="2" formControlName="obs"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Evolução</ion-label>
+                <ion-textarea rows="2" formControlName="evolucao"></ion-textarea>
+            </ion-item>
+      
+            <ion-button expand="block" color="success" type="submit" [disabled]="acompanhamentoForm.invalid">
+              <ion-icon name="checkmark"></ion-icon>
+              Salvar
+            </ion-button>
+          </ion-card>
+        </form>
+      </ion-content>
+      

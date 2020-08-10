@@ -100,7 +100,7 @@ export class PorMaePage implements OnInit {
   abrirAcompanhamento(gestacao) {
     this.router.navigate([
       "mae", this.mae.id, 
-      "gestacao", gestacao.id, "acompanhamento"
+      "gestacao", gestacao.id_gestacao, "acompanhamento"
     ])
   }
 
