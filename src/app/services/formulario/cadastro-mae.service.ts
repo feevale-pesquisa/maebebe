@@ -210,6 +210,7 @@ export class CadastroMaeService {
                 this.idsSalvos[mae.id] = id
 
                 this.atualizarIdNoCache(mae.id, id, CacheType.CADASTRO_GESTACAO, 'id_mae', 'id_gestacao')
+                this.atualizarIdNoCache(mae.id, id, CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO, 'id_mae', 'id_gestacao_acompanhamento')
                 this.atualizarIdNoCache(mae.id, id, CacheType.CADASTRO_BEBE, 'id_mae', 'id_bebe')
                 this.atualizarIdNoCache(mae.id, id, CacheType.CADASTRO_ACOMPANHAMENTO_BEBE, 'id_mae', 'id_bebe_acompanhamento')
                 
@@ -248,6 +249,7 @@ export class CadastroMaeService {
                 this.idsSalvos[gestacao.id_gestacao] = id
     
                 this.atualizarIdNoCache(gestacao.id_gestacao, id, CacheType.CADASTRO_BEBE, 'id_gestacao', 'id_bebe')
+                this.atualizarIdNoCache(gestacao.id_gestacao, id, CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO, 'id_gestacao', 'id_gestacao_acompanhamento')
                 this.atualizarIdNoCache(gestacao.id_gestacao, id, CacheType.CADASTRO_ACOMPANHAMENTO_BEBE, 'id_gestacao', 'id_bebe_acompanhamento')
 
                 await this.cache.removeById(gestacao.id_mae, CacheType.LISTA_GESTACAO)
@@ -259,6 +261,47 @@ export class CadastroMaeService {
                     gestacao.possuiErro = true
                     gestacao.erros = error.getErrors()
                     await this.cache.add(gestacao.id_gestacao, gestacao, CacheType.CADASTRO_GESTACAO, 100000)
+
+                } else {
+                    throw error
+                }
+
+            }
+        }
+    }
+
+    private async salvarAcompanhamentosGestacao()
+    {
+        if(this.bloquearAgendamento) return
+        let acompanhamentos:Array<any> = await this.cache.getByType(CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO)
+
+        for (let acompanhamento of acompanhamentos) {
+            try {
+                
+                if(acompanhamento.possuiErro || acompanhamento.id_gestacao_acompanhamento == undefined || this.bloquearAgendamento) {
+                    continue
+                }
+
+                if(this.ehIdTemporario(acompanhamento.id_gestacao))
+                    continue
+
+                let resposta: {id: any} = await this.api.salvarFormularioAcompanhamentoGestacao(
+                    acompanhamento.id_mae, acompanhamento.id_gestacao, acompanhamento
+                )
+                let id = resposta.id
+                
+                this.idsSalvos[acompanhamento.id_gestacao_acompanhamento] = id
+
+                await this.cache.removeById(acompanhamento.id_gestacao_acompanhamento, CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO)
+                await this.cache.removeById(acompanhamento.id_bebe, CacheType.LISTA_ACOMPANHAMENTO_GESTACAO)
+
+            } catch (error) {
+                
+                if(error instanceof FormException) {
+                    
+                    acompanhamento.possuiErro = true
+                    acompanhamento.erros = error.getErrors()
+                    await this.cache.add(acompanhamento.id_gestacao_acompanhamento, acompanhamento, CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO, 100000)
 
                 } else {
                     throw error
@@ -365,6 +408,7 @@ export class CadastroMaeService {
     {
         await this.salvarMaes()
         await this.salvarGestacoes()
+        await this.salvarAcompanhamentosGestacao()
         await this.salvarBebes()
         await this.salvarAcompanhamentosBebes()
     }

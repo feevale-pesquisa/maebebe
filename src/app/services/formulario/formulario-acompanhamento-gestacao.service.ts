@@ -22,26 +22,12 @@ export class FormularioAcompanhamentoGestacao {
     public formDadosGestacao3: FormGroup
     
     public listaIntercorrenciaGestacao = []
+    public listaQueixaAtividade = []
+    public listaExercicioFisico = []
 
     public listaDorDesconforto = [
         {descricao: 'Sim', id: '1'},
         {descricao: 'Não', id: '0'},
-    ]
-
-    public listaQueixaAtividade = [
-        {descricao: 'Trabalho', id: '1'},
-        {descricao: 'Atividades Domésticas', id: '2'},
-        {descricao: 'Exercício Fisico', id: '3'},
-        {descricao: 'Baixa qualidade de sono', id: '4'}
-    ]
-
-    public listaExercicioFisico = [
-        {descricao: 'Caminhadas', id: '1'},
-        {descricao: 'Não realiza', id: '2'},
-        {descricao: 'Academia/Musculação', id: '3'},
-        {descricao: 'Zumba', id: '4'},
-        {descricao: 'Pilates', id: '5'}
-
     ]
 
     public listaAcidoFolico = [
@@ -153,10 +139,8 @@ export class FormularioAcompanhamentoGestacao {
 
     async buscarTipos() {
         this.listaIntercorrenciaGestacao = await this.typeService.getType('tipo_intercorrencia_gestacao')
-        console.log("retorno", this.listaIntercorrenciaGestacao)
-
-        // this.listaQueixaAtividade = await this.typeService.getType('tipo_parto')
-        // this.listaExercicioFisico = await this.typeService.getType('tipo_escala')
+        this.listaQueixaAtividade = await this.typeService.getType('tipo_queixa_atividade')
+        this.listaExercicioFisico = await this.typeService.getType('tipo_exercicio_fisico')
     }
 
 

@@ -55,6 +55,8 @@ export class TypeService {
     { name: 'tipo_regulacao_neurologica', route: 'tipo_regulacao_neurologica/list/1' },
     { name: 'tipo_choro', route: 'tipo_choro/list/1' },
     { name: 'avaliacao', route: 'avaliacao/list/1' },
+    { name: 'tipo_queixa_atividade', route: 'tipo_queixa_atividade/list/1'},
+    {name: 'tipo_exercicio_fisico', route: 'tipo_exercicio_fisico/list/1'}
     //Novos tipos devem ser adicionados aqui (sendo 'name' o nome e 'route' a rota referente a url dentro da api)
   ]
 
