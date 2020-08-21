@@ -39,8 +39,6 @@ const routes: Routes = [
 
   { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento', loadChildren: './pages/gestacao/Acompanhamento/lista-acompanhamento/lista-acompanhamento.module#ListaAcompanhamentoPageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao1', canActivate: [AuthGuard] },
-  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao2', canActivate: [AuthGuard] },
-  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao3', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao1', loadChildren: './pages/gestacao/Acompanhamento/cadastro/dados-gestacao1/dados-gestacao1.module#DadosGestacao1PageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao2', loadChildren: './pages/gestacao/Acompanhamento/cadastro/dados-gestacao2/dados-gestacao2.module#DadosGestacao2PageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao3', loadChildren: './pages/gestacao/Acompanhamento/cadastro/dados-gestacao3/dados-gestacao3.module#DadosGestacao3PageModule', canActivate: [AuthGuard] },
