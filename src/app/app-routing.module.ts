@@ -37,6 +37,14 @@ const routes: Routes = [
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-intercorrencias', loadChildren: './pages/bebe/cadastro/dados-intercorrencias/dados-intercorrencias.module#DadosIntercorrenciasPageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/cadastro/dados-documentos', loadChildren: './pages/bebe/cadastro/dados-documentos/dados-documentos.module#DadosDocumentosPageModule', canActivate: [AuthGuard] },
 
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento', loadChildren: './pages/gestacao/Acompanhamento/lista-acompanhamento/lista-acompanhamento.module#ListaAcompanhamentoPageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao1', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao2', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao3', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao1', loadChildren: './pages/gestacao/Acompanhamento/cadastro/dados-gestacao1/dados-gestacao1.module#DadosGestacao1PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao2', loadChildren: './pages/gestacao/Acompanhamento/cadastro/dados-gestacao2/dados-gestacao2.module#DadosGestacao2PageModule', canActivate: [AuthGuard] },
+  { path: 'mae/:id_mae/gestacao/:id_gestacao/acompanhamento/cadastro/dados-gestacao3', loadChildren: './pages/gestacao/Acompanhamento/cadastro/dados-gestacao3/dados-gestacao3.module#DadosGestacao3PageModule', canActivate: [AuthGuard] },
+  
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento', loadChildren: './pages/bebe/acompanhamento/lista-acompanhamento/lista-acompanhamento.module#ListaAcompanhamentoPageModule', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro', redirectTo: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-amamentacao1', canActivate: [AuthGuard] },
   { path: 'mae/:id_mae/gestacao/:id_gestacao/bebe/:id_bebe/acompanhamento/cadastro/dados-amamentacao1', loadChildren: './pages/bebe/acompanhamento/cadastro/dados-amamentacao1/dados-amamentacao1.module#DadosAmamentacao1PageModule', canActivate: [AuthGuard] },

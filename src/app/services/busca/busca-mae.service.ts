@@ -196,6 +196,39 @@ export class BuscaMaeService {
     return acompanhamentos
   }
 
+  async buscarAcompanhamentoPorGestacao(id: any) {
+    id = this.cadastroMae.verificarId(id)
+
+    let acompanhamentos = []
+
+    let acompanhamentosNaoSalvos = await this.cache.getByType(CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO)
+    
+    if(acompanhamentosNaoSalvos.length > 0) {
+      acompanhamentos = acompanhamentos.concat(acompanhamentosNaoSalvos.filter(acompanhamento => { return acompanhamento.id_gestacao == id }))
+    }
+
+    if(this.cadastroMae.ehIdTemporario(id))
+      return acompanhamentos
+
+    let gestacao:any = await this.buscarGestacaoPorId(id)
+    let url = 'mae/' + gestacao.id_mae + '/gestacao/' + id + '/gestacao_acompanhamento'
+
+    let resultado = await this.buscarDoCacheOuApi(CacheType.LISTA_ACOMPANHAMENTO_GESTACAO, id, url)
+
+    if(resultado.result) {
+      resultado.result.forEach(acompanhamento => {
+        this.cache.has(acompanhamento.id_gestacao_acompanhamento, CacheType.CADASTRO_ACOMPANHAMENTO_GESTACAO).then(possuiCache => {
+          if(!possuiCache)
+            this.cache.add(acompanhamento.id_gestacao_acompanhamento, acompanhamento, CacheType.ACOMPANHAMENTO_GESTACAO, 50000)
+        })
+      })
+    }
+
+    acompanhamentos = acompanhamentos.concat(resultado.result)
+
+    return acompanhamentos
+  }
+
   private async buscarDoCacheOuApi(cacheType: CacheType, id: any, apiUrl: string) {
     let possuiCache = await this.cache.has(id, cacheType)
 

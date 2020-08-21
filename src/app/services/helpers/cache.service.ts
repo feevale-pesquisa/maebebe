@@ -8,14 +8,17 @@ export enum CacheType {
     BEBE = 'bebe',
     GESTACAO = 'gestacao',
     ACOMPANHAMENTO_BEBE = 'acompanhamento-bebe',
+    ACOMPANHAMENTO_GESTACAO = 'acompanhamento-gestacao',
     LISTA_MAE = 'lista-mae',
     LISTA_BEBE = 'lista-bebe',
     LISTA_GESTACAO = 'lista-gestacao',
     LISTA_ACOMPANHAMENTO_BEBE = 'lista-acompanhamento-bebe',
+    LISTA_ACOMPANHAMENTO_GESTACAO = 'lista-acompanhamento-gestacao',
     CADASTRO_MAE = 'cadastro-mae',
     CADASTRO_BEBE = 'cadastro-bebe',
     CADASTRO_GESTACAO = 'cadastro-gestacao',
     CADASTRO_ACOMPANHAMENTO_BEBE = 'cadastro-acompanhamento-bebe',
+    CADASTRO_ACOMPANHAMENTO_GESTACAO = 'cadastro-acompanhamento-gestacao',
 }
 
 @Injectable({

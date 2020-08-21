@@ -38,6 +38,7 @@ export class TypeService {
     { name: 'tipo_denver', route: 'tipo_denver/list/1' },
     { name: 'tipo_intercorrencia_peri_neonatal', route: 'tipo_intercorrencia_peri_neonatal/list/1' },
     { name: 'tipo_intercorrencia_primeiro_ano_vida', route: 'tipo_intercorrencia_primeiro_ano_vida/list/1' },
+    { name: 'tipo_intercorrencia_gestacao', route: 'tipo_intercorrencia_gestacao/list/1' },
     { name: 'tipo_mamilo', route: 'tipo_mamilo/list/1' },
     { name: 'tipo_bebe_alimentacao', route: 'tipo_bebe_alimentacao/list/1' },
     { name: 'tipo_desmame_precoce', route: 'tipo_desmame_precoce/list/1' },
@@ -54,6 +55,8 @@ export class TypeService {
     { name: 'tipo_regulacao_neurologica', route: 'tipo_regulacao_neurologica/list/1' },
     { name: 'tipo_choro', route: 'tipo_choro/list/1' },
     { name: 'avaliacao', route: 'avaliacao/list/1' },
+    { name: 'tipo_queixa_atividade', route: 'tipo_queixa_atividade/list/1'},
+    {name: 'tipo_exercicio_fisico', route: 'tipo_exercicio_fisico/list/1'}
     //Novos tipos devem ser adicionados aqui (sendo 'name' o nome e 'route' a rota referente a url dentro da api)
   ]
 
