@@ -15,6 +15,9 @@ export class DadosGestacao2Page implements OnInit {
   public idGestacao:any
   public acompanhamentoForm: FormGroup
 
+  public tipoGestacaoQueixaAtividade: Array<any> = []
+  public tipoGestacaoExercicioFisico: Array<any> = []
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -26,6 +29,20 @@ export class DadosGestacao2Page implements OnInit {
   ionViewDidEnter() {
     this.idMae = this.route.snapshot.paramMap.get('id_mae')
     this.idGestacao = this.route.snapshot.paramMap.get('id_gestacao')
+  }
+
+  escolherTipoGestacaoQueixaAtividade() {
+    let selecionados = []
+    this.tipoGestacaoQueixaAtividade.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_gestacao_queixa_atividade", new FormArray(selecionados))
+  }
+
+  escolherTipoGestacaoExercicioFisico() {
+    let selecionados = []
+    this.tipoGestacaoExercicioFisico.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_gestacao_exercicio_fisico", new FormArray(selecionados))
   }
 
   voltar() {

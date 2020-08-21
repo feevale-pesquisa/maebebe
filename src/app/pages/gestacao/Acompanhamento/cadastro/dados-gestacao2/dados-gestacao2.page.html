@@ -20,7 +20,7 @@
       
             <ion-item>
                 <ion-label position="floating">Relaciona a queixa com alguma atividade do dia-a-dia, como:</ion-label>
-                <ion-select [(ngModel)]="ref_gestacao_queixa_atividade" [ngModelOptions]="{standalone: true}"  multiple="true" placeholder="Selecione">
+                <ion-select [(ngModel)]="tipoGestacaoQueixaAtividade" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoGestacaoQueixaAtividade()" multiple="true" placeholder="Selecione">
                     <ion-select-option *ngFor="let tipo of servico.listaQueixaAtividade" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
                 </ion-select>
             </ion-item>
@@ -32,7 +32,7 @@
 
             <ion-item>
                 <ion-label position="floating">Pratica exercício físico? Quais?</ion-label>
-                <ion-select [(ngModel)]="ref_gestacao_exercicio_fisico" [ngModelOptions]="{standalone: true}"  multiple="true" placeholder="Selecione">
+                <ion-select [(ngModel)]="tipoGestacaoExercicioFisico" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoGestacaoExercicioFisico()" multiple="true" placeholder="Selecione">
                     <ion-select-option *ngFor="let tipo of servico.listaExercicioFisico" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
                 </ion-select>
             </ion-item>

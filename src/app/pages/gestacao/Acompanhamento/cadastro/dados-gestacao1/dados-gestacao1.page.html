@@ -27,7 +27,7 @@
   
         <ion-item>
           <ion-label position="floating">Tipo de Intercorrências Gestação:</ion-label>
-          <ion-select [(ngModel)]="ref_gestacao_intercorrencia_gestacao" [ngModelOptions]="{standalone: true}" multiple="true" placeholder="Selecione">
+          <ion-select [(ngModel)]="tipoIntercorrencias" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoIntercorrencias()" multiple="true" placeholder="Selecione">
             <ion-select-option *ngFor="let tipo of servico.listaIntercorrenciaGestacao" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
           </ion-select>
         </ion-item>

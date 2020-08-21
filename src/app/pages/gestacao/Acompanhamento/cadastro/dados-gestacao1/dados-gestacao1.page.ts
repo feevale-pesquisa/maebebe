@@ -15,6 +15,8 @@ export class DadosGestacao1Page implements OnInit {
   public idGestacao:any
   public acompanhamentoForm: FormGroup
 
+  public tipoIntercorrencias: Array<any> = []
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -26,6 +28,13 @@ export class DadosGestacao1Page implements OnInit {
   ionViewDidEnter() {
     this.idMae = this.route.snapshot.paramMap.get('id_mae')
     this.idGestacao = this.route.snapshot.paramMap.get('id_gestacao')
+  }
+
+  escolherTipoIntercorrencias() {
+    let selecionados = []
+    this.tipoIntercorrencias.forEach(item => { selecionados.push(new FormControl(item)) })
+
+    this.acompanhamentoForm.setControl("ref_gestacao_intercorrencia_gestacao", new FormArray(selecionados))
   }
 
   voltar() {
