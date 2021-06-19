@@ -22,7 +22,7 @@
         <ion-textarea rows="1" formControlName="comportamento_bebe_obs"></ion-textarea>
       </ion-item>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">Fezes</ion-label>
         <ion-select formControlName="fezes" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaFezes" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -65,7 +65,7 @@
         <ion-select formControlName="perfusao_aquecimento_extremidades" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaPerfusaoAquecimento" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
         Próximo

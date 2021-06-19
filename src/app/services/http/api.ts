@@ -9,7 +9,7 @@ import { FormException } from '../../exceptions/form-exception';
 export class API {
 
     private http: HttpClient;
-    private urlApi = "http://ceted.feevale.br/maebebe/API/index.php/"
+    private urlApi = "https://ceted.feevale.br/maebebe/API/index.php/"
 
     constructor(
         handler : HttpBackend,

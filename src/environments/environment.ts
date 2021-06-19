@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: "http://ceted.feevale.br/maebebe/API/index.php/sign/in"
+  api: "https://ceted.feevale.br/maebebe/API/index.php/sign/in"
 };
 
 /*

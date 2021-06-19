@@ -36,7 +36,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="floating">Outros, Quem?</ion-label>
         <ion-textarea rows="1" formControlName="recebeu_orientacoes_amamentacao_obs"></ion-textarea>
       </ion-item>
@@ -51,9 +51,9 @@
       <ion-item>
         <ion-label position="floating">Outros</ion-label>
         <ion-textarea rows="1" formControlName="bebe_mamada_obs"></ion-textarea>
-      </ion-item>
+      </ion-item> -->
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">O bebê vomita?</ion-label>
         <ion-select formControlName="bebe_vomita" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaBebeVomita" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -63,7 +63,7 @@
       <ion-item>
         <ion-label position="floating">Vomita com que frequência?</ion-label>
         <ion-textarea rows="1" formControlName="bebe_vomita_obs"></ion-textarea>
-      </ion-item>
+      </ion-item> -->
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
         Próximo
