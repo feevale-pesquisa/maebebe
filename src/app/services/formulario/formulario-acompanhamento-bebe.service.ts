@@ -104,7 +104,7 @@ export class FormularioAcompanhamentoBebe {
             this.formDadosAmamentacao1.reset()
             this.formDadosAmamentacao2.reset()
             this.formDadosRecemNascido1.reset()
-            this.formDadosRecemNascido2.reset()
+            //this.formDadosRecemNascido2.reset()
         } catch (error) { }
     }
 
@@ -166,7 +166,10 @@ export class FormularioAcompanhamentoBebe {
             diurese_caracteristicas: new FormControl(""),
             permeabilidade_nasal: new FormControl(""),
             esforco_respiratorio: new FormControl(""),
-            perfusao_aquecimento_extremidades: new FormControl("")
+            perfusao_aquecimento_extremidades: new FormControl(""),
+            id_higiene_bebe: new FormControl(""),
+            higiene_bebe_obs: new FormControl(""),
+            ma_formacoes_obs: new FormControl("")
         })
         
         return this.formDadosRecemNascido1
@@ -325,8 +328,8 @@ export class FormularioAcompanhamentoBebe {
             ...this.formDadosAmamentacao1.getRawValue(),
             ...this.formDadosAmamentacao2.getRawValue(),
             ...this.formDadosRecemNascido1.getRawValue(),
-            ...this.formDadosRecemNascido2.getRawValue(),
-            ...this.formDadosRecemNascido3.getRawValue(),
+            //...this.formDadosRecemNascido2.getRawValue(),
+            //...this.formDadosRecemNascido3.getRawValue(),
             ...this.formDadosRecemNascido4.getRawValue()
         }
 

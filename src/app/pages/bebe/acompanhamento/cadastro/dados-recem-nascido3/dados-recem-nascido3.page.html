@@ -10,19 +10,19 @@
 <ion-content>
   <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
     <ion-card>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">Higiene do bebê</ion-label>
         <ion-select formControlName="id_higiene_bebe" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaTipoHigieneBebe" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
       </ion-item>
 
-      <!-- <ion-item>
+      <ion-item>
         <ion-label position="floating">Observações sobre a higiene do bebê</ion-label>
         <ion-textarea rows="1" formControlName="higiene_bebe_obs"></ion-textarea>
       </ion-item> -->
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">Períneo</ion-label>
         <ion-select formControlName="id_estado_perineo" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaEstadoPerineo" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -65,12 +65,12 @@
         <ion-select formControlName="emagracido" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaEmagrecido" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="floating">Má formações</ion-label>
         <ion-textarea rows="1" formControlName="ma_formacoes_obs"></ion-textarea>
-      </ion-item>
+      </ion-item> -->
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
         Próximo

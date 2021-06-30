@@ -31,7 +31,8 @@ export class DadosPrenatalPage implements OnInit {
 
   voltar() {
     let id:any = this.route.snapshot.paramMap.get('id_mae')
-    this.servico.abrirFormAbaDadosPlanejamento(id);
+    //this.servico.abrirFormAbaDadosPlanejamento(id);
+    this.servico.abrirFormAbaDadosGestacao(id);
   }
 
   salvar() {

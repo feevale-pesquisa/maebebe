@@ -10,8 +10,8 @@
 <ion-content>
   <form [formGroup]="acompanhamentoForm" (ngSubmit)="salvar()">
     <ion-card>
-      <ion-item>
-        <ion-label position="floating">Pele</ion-label>
+      <!-- <ion-item> -->
+        <!-- <ion-label position="floating">Pele</ion-label>
         <ion-select [(ngModel)]="tipoPele" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoPele()" multiple="true" placeholder="Selecione">
           <ion-select-option *ngFor="let tipo of servico.listaTipoPele" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
@@ -63,7 +63,7 @@
         <ion-select formControlName="id_estado_coto_umbilical" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaEstadoCotoUmbilical" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
         Próximo

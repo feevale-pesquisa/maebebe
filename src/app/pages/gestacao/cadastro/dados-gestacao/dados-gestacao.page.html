@@ -57,6 +57,18 @@
         <ion-input type="date" formControlName="dt_dpp_eco"></ion-input>
       </ion-item> -->
 
+      <ion-item>
+        <ion-label>Gestação Planejada: </ion-label>
+        <ion-select interface="popover" formControlName="planejada" placeholder="Selecione">
+          <ion-select-option *ngFor="let tipo of servico.listaGestacaoPlanejada" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- TODO: Falta formControl aqui -->
+      <ion-item lines="none"> 
+        <ion-label>Se sim, como planejou?</ion-label>
+      </ion-item>
+     
       <ion-button expand="block" color="primary" type="submit" [disabled]="gestacaoForm.invalid">
         Próximo
       </ion-button>
