@@ -34,7 +34,8 @@ export class DadosRecemNascido1Page implements OnInit {
   }
 
   salvar() {
-    this.servico.abrirFormAbaDadosRecemNascido2(this.idMae, this.idGestacao, this.idBebe)
+    //this.servico.abrirFormAbaDadosRecemNascido2(this.idMae, this.idGestacao, this.idBebe)
+    this.servico.abrirFormAbaDadosRecemNascido4(this.idMae, this.idGestacao, this.idBebe)
   }
 
   ngOnInit() {

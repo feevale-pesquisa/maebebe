@@ -10,7 +10,7 @@
 <ion-content>
   <form [formGroup]="gestacaoForm" (ngSubmit)="salvar()">
     <ion-card>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label>Gestação Planejada: </ion-label>
         <ion-select interface="popover" formControlName="planejada" placeholder="Selecione">
           <ion-select-option *ngFor="let tipo of servico.listaGestacaoPlanejada" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -19,9 +19,9 @@
 
       <ion-item lines="none">
         <ion-label>Se sim, como planejou?</ion-label>
-      </ion-item>
+      </ion-item> -->
       
-      <ion-card>
+      <!-- <ion-card>
         <ion-item>
           <ion-label>Tipo de Planejamento Gestação:</ion-label>
           <ion-select [(ngModel)]="tiposPlanejamentoGestacao" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoPlanejamentoGestacao()" multiple="true" placeholder="Selecione">
@@ -52,7 +52,7 @@
           <ion-label position="floating">MAC Observação:</ion-label>
           <ion-textarea rows="3" formControlName="mac_antes_gestacao_obs"></ion-textarea>
         </ion-item>
-      </ion-card>
+      </ion-card> -->
 
       <ion-button expand="block" color="primary" type="submit" [disabled]="gestacaoForm.invalid">
         Próximo

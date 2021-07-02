@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Amamentação</ion-title>
+    <ion-title>Acompanhamento - Amamentação</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +15,7 @@
         <ion-input type="date" formControlName="dt_acompanhamento"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="floating">Mamilo:</ion-label>
         <ion-select [(ngModel)]="tipoMamilo" [ngModelOptions]="{standalone: true}" (ionChange)="escolherTipoMamilo()" multiple="true" placeholder="Selecione">
           <ion-select-option *ngFor="let tipo of servico.listaTipoMamilo" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -32,7 +32,7 @@
         <ion-select formControlName="mamas_ingurgitadas" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaMamasIngurgitadas" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
 
       <ion-item>
         <ion-label position="stacked">Alimentação do Bebê</ion-label>

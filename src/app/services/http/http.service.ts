@@ -33,6 +33,6 @@ export class HttpService {
     form.append("username", username)
     form.append("password", password)
 
-    return this.post("http://ceted.feevale.br/maebebe/API/index.php/sign/in", form)
+    return this.post("https://ceted.feevale.br/maebebe/API/index.php/sign/in", form)
   }
 }

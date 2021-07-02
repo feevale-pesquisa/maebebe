@@ -31,15 +31,17 @@ export class DadosRecemNascido4Page implements OnInit {
     this.idBebe = this.route.snapshot.paramMap.get('id_bebe')
   }
 
-  escolherTipoRegulacaoNeurologica() {
-    let selecionados = []
-    this.tipoRegulacaoNeurologica.forEach(item => { selecionados.push(new FormControl(item)) })
+  //TODO:Rever esse campo
 
-    this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_regulacao_neurologica", new FormArray(selecionados))
-  }
+  // escolherTipoRegulacaoNeurologica() {
+  //   let selecionados = []
+  //   this.tipoRegulacaoNeurologica.forEach(item => { selecionados.push(new FormControl(item)) })
+
+  //   this.acompanhamentoForm.setControl("ref_bebe_acomp_tipo_regulacao_neurologica", new FormArray(selecionados))
+  // }
 
   voltar() {
-    this.servico.abrirFormAbaDadosRecemNascido3(this.idMae, this.idGestacao, this.idBebe)
+    this.servico.abrirFormAbaDadosRecemNascido1(this.idMae, this.idGestacao, this.idBebe)
   }
 
   salvar() {

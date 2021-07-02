@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Recém Nascido</ion-title>
+    <ion-title>Acompanhamento - Recém Nascido</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +22,7 @@
         <ion-textarea rows="1" formControlName="comportamento_bebe_obs"></ion-textarea>
       </ion-item>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">Fezes</ion-label>
         <ion-select formControlName="fezes" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaFezes" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -65,8 +65,23 @@
         <ion-select formControlName="perfusao_aquecimento_extremidades" placeholder="Selecione" interface="popover">
           <ion-select-option *ngFor="let tipo of servico.listaPerfusaoAquecimento" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
         </ion-select>
+      </ion-item> -->
+      <ion-item>
+        <ion-label position="stacked">Higiene do bebê</ion-label>
+        <ion-select formControlName="id_higiene_bebe" placeholder="Selecione" interface="popover">
+          <ion-select-option *ngFor="let tipo of servico.listaTipoHigieneBebe" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
+        </ion-select>
       </ion-item>
 
+      <ion-item>
+        <ion-label position="floating">Observações sobre a higiene do bebê</ion-label>
+        <ion-textarea rows="1" formControlName="higiene_bebe_obs"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Má formações</ion-label>
+        <ion-textarea rows="1" formControlName="ma_formacoes_obs"></ion-textarea>
+      </ion-item>
+      
       <ion-button expand="block" color="primary" type="submit" [disabled]="acompanhamentoForm.invalid">
         Próximo
       </ion-button>

@@ -3,7 +3,7 @@
           <ion-buttons slot="start">
             <ion-button (click)="voltar()"><ion-icon size="large" slot="start" name="arrow-back"></ion-icon></ion-button>
           </ion-buttons>
-          <ion-title>Gestação</ion-title>
+          <ion-title>Acompanhamento da Gestação</ion-title>
         </ion-toolbar>
       </ion-header>
       
@@ -16,10 +16,10 @@
               <ion-textarea rows="1" formControlName="expectativas_gravidez_parto"></ion-textarea>
             </ion-item>
       
-            <ion-item>
+            <!-- <ion-item>
               <ion-label position="floating">Planejamento para a vinda do bebê:</ion-label>
               <ion-textarea rows="2" formControlName="planejamento_bebe"></ion-textarea>
-            </ion-item>
+            </ion-item> -->
       
             <ion-item>
               <ion-label position="floating">Aspectos emocionais:</ion-label>
@@ -31,7 +31,7 @@
               <ion-textarea rows="2" formControlName="apoio_parceiro_familia"></ion-textarea>
             </ion-item>
 
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label position="stacked">Uso de ácido fólico:</ion-label>
                 <ion-select formControlName="uso_acido_folico" placeholder="Selecione" interface="popover">
                     <ion-select-option *ngFor="let tipo of servico.listaAcidoFolico" [value]="tipo.id">{{ tipo.descricao }}</ion-select-option>
@@ -48,7 +48,7 @@
             <ion-item>
                 <ion-label position="floating">Plano de acompanhamento:</ion-label>
                 <ion-textarea rows="2" formControlName="plano_acompanhamento"></ion-textarea>
-            </ion-item>
+            </ion-item> -->
     
             <ion-item>
                 <ion-label position="floating">Observação:</ion-label>

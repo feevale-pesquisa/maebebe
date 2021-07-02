@@ -10,10 +10,10 @@
   <ion-content>
     <form [formGroup]="maeForm" (ngSubmit)="salvar()">
       <ion-card>
-        <ion-item>
+        <!-- <ion-item>
           <ion-label position="floating">E-mail:</ion-label>
           <ion-input formControlName="email"></ion-input>
-        </ion-item>
+        </ion-item> -->
 
         <ion-item>
           <ion-label position="floating">Cartão SUS:</ion-label>
@@ -25,10 +25,10 @@
           <ion-input formControlName="telefone" maxlength="15" [brmasker]="{phone: true}"></ion-input>
         </ion-item>
 
-        <ion-item>
+         <!-- <ion-item>
           <ion-label position="floating">Telefone Apoio:</ion-label>
           <ion-input formControlName="telefone_contato" maxlength="15" [brmasker]="{phone: true}"></ion-input>
-        </ion-item>
+        </ion-item> -->
         
         <ion-item>
           <ion-label>Moradia:</ion-label>
@@ -43,4 +43,4 @@
       </ion-card>
     </form>
   </ion-content>
-  
+    

@@ -27,7 +27,7 @@ export class DadosGestacaoPage implements OnInit {
 
   salvar() {
     let id:any = this.route.snapshot.paramMap.get('id_mae')
-    this.servico.abrirFormAbaDadosPlanejamento(id);
+    this.servico.abrirFormAbaDadosPreNatal(id);
   }
 
   definirUsuarioDesfecho() {

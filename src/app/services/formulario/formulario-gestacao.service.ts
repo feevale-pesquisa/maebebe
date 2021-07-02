@@ -52,7 +52,7 @@ export class FormularioGestacao {
 
   constructor(
     private typeService: TypeService, 
-    private maeServico: BuscaMaeService,
+    //private maeServico: BuscaMaeService,
     private router: Router,
     private login: LoginService,
     private cadastro: CadastroMaeService,
@@ -98,6 +98,7 @@ export class FormularioGestacao {
       dt_dum: new FormControl(''),
       dt_dpp: new FormControl(''),
       dt_dpp_eco: new FormControl(''),
+      planejada: new FormControl('1'),
     });
 
     return this.formDadosGestacao
@@ -107,7 +108,6 @@ export class FormularioGestacao {
     let builder = new FormBuilder()
 
     this.formDadosPlanejamento = builder.group({
-      planejada: new FormControl('1'),
       mac_antes_gestacao: new FormControl(''),
       ref_gestacao_planejamento_gestacao: builder.array([]),
       id_tempo_mac: new FormControl(''),
@@ -169,7 +169,7 @@ export class FormularioGestacao {
     let dt_dpp_eco:moment.Moment = moment(camposFormDadosGestacao.dt_dpp_eco)
     if(dt_dpp_eco.isValid()) camposFormDadosGestacao.dt_dpp_eco = dt_dpp_eco.format('DD/MM/YYYY')
 
-    let camposFormDadosPlanejamento = this.formDadosPlanejamento.getRawValue();
+    //let camposFormDadosPlanejamento = this.formDadosPlanejamento.getRawValue();
     let camposFormDadosPreNatal = this.formDadosPreNatal.getRawValue();
 
     let camposUsuario = {
@@ -180,7 +180,7 @@ export class FormularioGestacao {
     let campos = { 
       ...camposPadrao, 
       ...camposFormDadosGestacao, 
-      ...camposFormDadosPlanejamento, 
+      //...camposFormDadosPlanejamento, 
       ...camposFormDadosPreNatal,
       ...camposUsuario
     }
